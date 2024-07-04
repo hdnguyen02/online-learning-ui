@@ -1,76 +1,85 @@
-import { useEffect, useState } from "react";
-import { useParams, Link, useLocation } from "react-router-dom";
-import { fetchData } from "../global";
+import { useEffect, useState } from "react"
+import { useParams } from "react-router-dom"
+import { fetchData, showToastMessage, showToastError } from "../global"
+import { ToastContainer } from "react-toastify"
+import Empty from './Empty'
 
-export default function MembersAttendanceClass() {
-  const location = useLocation();
+export default function MembersOwnerClass() {
 
-  const [group, setGroup] = useState()
+  const [group, setGroup] = useState() // lấy group về thôi 
+  const [userGroups, setUserGroups] = useState()
 
 
   const params = useParams();
 
   async function getMembers() {
     const subUrl = `/groups/${params.id}`
-
-    // gọi xuống group
-  
-
     try {
-      const response = await fetchData(subUrl, "GET");
-      setGroup(response.data);
-    } catch (error) {
-      console.log(error.message)
+      const { data } = await fetchData(subUrl, "GET")
+      console.log(data)
+      setUserGroups(data.userGroups)
+
+    } catch ({ message }) {
+      showToastError(message)
+    }
+  }
+
+  async function handleDeleteUserGroup(idUserGroup) {
+    const subUrl = `/user-groups/${idUserGroup}`
+    try {
+      const { message } = await fetchData(subUrl, 'DELETE')
+      await getMembers()
+      showToastMessage(message)
+    }
+    catch ({ message }) {
+      showToastError(message)
     }
   }
 
   useEffect(() => {
-    getMembers();
+    getMembers()
   }, []);
 
   return (
-    group && (
+    userGroups && (
       <div>
-        {group.userGroups.length != 0 ? (
-          <table className="w-full text-sm text-left rtl:text-right text-gray-500 pb-8 border-separate border-spacing-0 border-spacing-y-4">
-           
-            <tbody>
-              <tr className="bg-[#F0F6F6]">
-                <td
-                  scope="row"
-                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap rounded-tl-lg rounded-bl-lg"
-                >
-                  {group.owner.email}
-                </td>
-                <td className="px-6 py-4">
-                  <span className="font-bold">Giáo viên</span>
-                  <i className="fa-solid fa-key ml-2"></i>
-                </td>
-              </tr>
+        {userGroups.length != 0 ? (
+          <div className="mb-12 grid grid-cols-2 gap-12">
+            {
+              userGroups.map((userGroup, index) => <div key={index} className="bg-[#F0F6F6] p-6 rounded">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-x-4">
+                    <div className='rounded-full h-10 w-10 overflow-hidden cursor-pointer'>
+                      <img src={userGroup.avatar ? userGroup.avatar : '/user.png'} loading="lazy" className='w-full h-full' alt='' />
+                    </div>
+                    <div className="flex flex-col gap-y-2">
+                      <span className="font-medium">{userGroup.firstName + " " + userGroup.lastName}</span>
 
-              {group.userGroups.map((member, index) => (
-                <tr key={index} className="mt-4 bg-[#EDEFFF]">
-                  <td
-                    scope="row"
-                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap rounded-tl-lg rounded-bl-lg"
-                  >
-                    {member.email}
-                  </td>
-                  <td className="px-6 py-4">
-                    <span className="font-bold">Học sinh</span>
-                    <i className="fa-regular fa-user ml-3"></i>
-                   </td>
-
-                 
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        ) : (
-          <div>
-            <span className="text-sm">Bạn chưa thêm học sinh</span>
+                      <div className="flex items-center gap-x-3">
+                        <span className="font-light text-sm">{userGroup.email}</span>
+                        {
+                          userGroup.roles.map((role, index) => {
+                            return <span key={index}>
+                              <span className="lowercase text-xs bg-gray-300 p-1 rounded-lg">{role}</span>
+                            </span>
+                          })
+                        }
+                      </div>
+                    </div>
+                  </div>
+                  {/* <div className="flex gap-x-2">
+                    <button onClick={() => handleDeleteUserGroup(userGroup.id)} className="flex items-center gap-x-2 h-8 text-red-600 hover:text-white border border-red-500 hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-red-200 font-medium rounded-lg text-sm px-3 text-center">
+                      <i class="fa-solid fa-trash"></i>
+                    </button>
+                  </div> */}
+                </div>
+              </div>)
+            }
           </div>
-        )}  
+        ) : (
+          <Empty />
+        )}
+        <ToastContainer />
       </div>
     )
   );

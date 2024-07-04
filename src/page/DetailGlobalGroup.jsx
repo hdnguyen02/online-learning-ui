@@ -14,7 +14,6 @@ export default function DetailGlobalClass() {
         try {
             const { data } = await fetchData(subUrl, 'GET')
             setGroup(data)
-            console.log(data)
         }
         catch (error) {
             showToastError(error.message)
@@ -58,9 +57,17 @@ export default function DetailGlobalClass() {
                     <span className="text-gray-400 text-xs font-light">Tạo bởi</span>
                     <div className="flex gap-x-2 items-center">
                         <span className="font-medium">{group.owner.firstName + " " + group.owner.lastName}</span>
-                        <span className="text-xs bg-[#EDEFFF] p-1 rounded-lg">Giáo viên</span>
+                        {/* roles */}
+                        { 
+                            group.owner.roles.map((role, index) => { 
+                                return <span className="lowercase text-xs bg-gray-300 p-1 rounded-lg">
+                                    {role}
+                                </span>
+                            })
+                        }
+                        {/* <span className="text-xs bg-[#EDEFFF] p-1 rounded-lg">Giáo viên</span> */}
                     </div>
-                    <span className="text-gray-400 text-xs font-light">Đã tạo {group.created ? group.created : "12 ngày trước"}</span>
+                    <span className="text-gray-400 text-xs font-light">{group.created}</span>
 
                 </div>
                 <div>
@@ -103,13 +110,21 @@ export default function DetailGlobalClass() {
                     </div>
                     <span className="mt-2 text-sm uppercase text-gray-700">Chi tiết lớp học</span>
                     <div className="flex gap-x-3 items-center">
-                        <img src="/book.png" className="w-4 h-4" alt="" />
-                        <span>3 bài tập</span>
+                        <span className="w-4"><i class="fa-solid fa-users"></i></span>
+                        
+                        <span>{group.quantityMembers} thành viên</span>
                     </div>
                     <div className="flex gap-x-3 items-center">
-                        <img src="/group.png" className="w-4 h-4" alt="" />
-                        <span>2 thành viên</span>
+                        <span className="w-4"><i class="fa-solid fa-folder"></i></span>
+                        
+                        <span>{group.quantityCommonDecks} học phần</span>
                     </div>
+                    <div className="flex gap-x-3 items-center">
+                        <span className="w-4 pl-[1px]"><i class="fa-solid fa-file"></i></span>
+                        
+                        <span>{group.quantityAssignments} bài tập</span>
+                    </div>
+                   
                 </div>
             </div>
         </div>

@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { baseUrl, fetchData, showToastMessage } from "../global";
-import { Link, useParams, useLocation, useNavigate} from "react-router-dom";
+import { Link, useParams, useLocation, useNavigate } from "react-router-dom";
 import Modal from "react-modal";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer } from "react-toastify"
+import Empty from "./Empty";
 
 export default function Assignments() {
   const params = useParams();
@@ -61,17 +62,17 @@ export default function Assignments() {
     }
   }
 
-  function getDetailAsm(id) { 
+  function getDetailAsm(id) {
     // chuyển hướng tới .
-    if (location.pathname.includes('owner')) { 
+    if (location.pathname.includes('owner')) {
       navigate(`/teacher/groups/${params.id}/assignments/${id}`)
     }
     else {
-       navigate(`/student/groups/${params.id}/assignments/${id}`)
+      navigate(`/student/groups/${params.id}/assignments/${id}`)
     }
-  } 
+  }
 
-  
+
 
   useEffect(() => {
     getAssignments();
@@ -97,35 +98,42 @@ export default function Assignments() {
       <div>
         <div className="flex justify-end">
           {location.pathname.includes("owner") && (
-            <button
-              onClick={() => setIsOpenCreateAsm(true)}
-              type="submit"
-              className="pb-3"
-            >
-              <img src="/plus.png" className="w-8 h-8" alt="" />
+            <button className="mb-4">
+              <img
+                onClick={() => setIsOpenCreateAsm(true)}
+                src='/plus.png'
+                className='w-9'
+                alt=''
+              />
             </button>
+
           )}
         </div>
 
-        {assignments.map((assignment, index) => {
-          return (
-            <div
-              key={index}
-              onClick={() => getDetailAsm(assignment.id)}
-              className="cursor-pointer mb-8 shadow-md px-8 py-5 bg-gray-100 flex items-center justify-between"
-            >
-              <div className="flex items-center gap-x-3">
-                <i className="fa-solid fa-file text-xl font-light"></i>
-                <span className="opacity-90">{assignment.name}</span>
-                <span>({assignment.quantitySubmit} nộp)</span>
-              </div>
+        {/* kiểm tra độ dài của assignments */}
 
-              <span className="text-xs text-[#6D6E6E]">
-                {assignment.deadline}
-              </span>
-            </div>
-          );
-        })}
+        {
+          assignments.length != 0 ? (assignments.map((assignment, index) => {
+            return (
+              <div
+                key={index}
+                onClick={() => getDetailAsm(assignment.id)}
+                className="cursor-pointer mb-8 shadow-md px-8 py-5 bg-gray-100 flex items-center justify-between"
+              >
+                <div className="flex items-center gap-x-3">
+                  <i className="fa-solid fa-file text-xl font-light"></i>
+                  <span className="opacity-90">{assignment.name}</span>
+                  <span>({assignment.quantitySubmit} nộp)</span>
+                </div>
+
+                <span className="text-xs text-[#6D6E6E]">
+                  {assignment.deadline}
+                </span>
+              </div>
+            );
+          })) : (<Empty />)
+        }
+
 
         <Modal
           isOpen={isOpenCreateAsm}

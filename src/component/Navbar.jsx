@@ -27,7 +27,7 @@ function Navbar() {
 
 
   if (location.pathname !== '/sign-in' && location.pathname !== '/sign-up' && !location.pathname.includes('settings')) {
-    return <nav className='bg-[#F0F6F6] h-16 px-4 md:px-24 flex justify-between items-center fixed left-0 right-0 top-0 z-10'>
+    return <nav className='bg-[#F0F6F6] h-16 px-4 md:px-48 flex justify-between items-center fixed left-0 right-0 top-0 z-10'>
       <div className='flex items-center gap-x-8'>
         <Link to={'/'} className='text-blue-700 text-xl md:text-3xl font-bold'>
           Quezlot

@@ -7,9 +7,9 @@ import { Link } from "react-router-dom"
 export default function GlobalGroups() {
 
 
-    
 
-    
+
+
 
 
     const [globalGroups, setGlobalGroups] = useState()
@@ -21,8 +21,7 @@ export default function GlobalGroups() {
             setGlobalGroups(data)
         }
         catch (error) {
-            // sử lý lỗi >
-
+            showToastError(error.message)
         }
     }
 
@@ -31,20 +30,11 @@ export default function GlobalGroups() {
     }, [])
 
 
-    // truy vấn danh sách => đưa ra giáo viên, mô tả, số thành viên
-
-    
-
-
-
-
     return globalGroups && <>
         <h3 className="uppercase text-sm text-gray-700 mb-8">Nhóm học tập</h3>
 
         {/*  danh sách thành viên */}
         <div className="mb-12 grid grid-cols-2 gap-12">
-
-
             {
                 globalGroups.map((globalGroup, index) => <div key={index} className="bg-[#F0F6F6] p-6 rounded">
                     <div className="flex items-center justify-between">
@@ -55,12 +45,23 @@ export default function GlobalGroups() {
                             <div className="flex flex-col gap-y-2">
                                 <div className="flex gap-x-2 items-center">
                                     <span className="font-bold text-xl">{globalGroup.name}</span>
-                                    <span>({globalGroup.quantity} thành viên)</span>
+                                    <span>({globalGroup.quantityMembers} thành viên)</span>
                                 </div>
 
                                 <div className="flex items-center gap-x-3">
                                     <span className="font-light text-sm">{globalGroup.owner.firstName + " " + globalGroup.owner.lastName}</span>
-                                    <span className="text-xs bg-gray-300 p-1 rounded-lg">Giáo viên</span>
+                                   
+                                    {/* <span className="text-xs bg-gray-300 p-1 rounded-lg">Giáo viên</span> */}
+
+                                    {/* Hiển thị danh sách role của người dùng */}
+                                    { 
+                                        globalGroup.owner.roles.map((role, index) => {
+                                            return <span key={index} className="lowercase text-xs bg-gray-300 p-1 rounded-lg">
+                                                {role}
+                                            </span>
+                                        })
+                                    }
+
                                 </div>
                             </div>
                         </div>
@@ -84,9 +85,7 @@ export default function GlobalGroups() {
 
 
 
-        {/* Modal detail */}
 
-       
 
         <ToastContainer />
     </>

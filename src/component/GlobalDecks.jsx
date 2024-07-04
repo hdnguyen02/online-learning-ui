@@ -20,16 +20,16 @@ export default function GlobalDecks() {
     async function getDeckDetail(idDeck) {
         const subUrl = `/decks/${idDeck}`
         try {
-            const {data} = await fetchData(subUrl, 'GET')
+            const { data } = await fetchData(subUrl, 'GET')
             console.log(data)
             setDetailDeck(data)
             setIsShowDetailDeck(true)
-            
+
         }
-        catch(error) { 
+        catch (error) {
             showToastError(error.message)
         }
-    
+
     }
 
     async function getDecks() {
@@ -45,13 +45,13 @@ export default function GlobalDecks() {
 
     }
 
-    async function handleCloneDeck() { 
-        try { 
+    async function handleCloneDeck() {
+        try {
             const subUrl = `/decks/${detailDeck.id}/clone`
-            const {message} = await fetchData(subUrl, 'POST')
+            const { message } = await fetchData(subUrl, 'POST')
             showToastMessage(message)
         }
-        catch(error) { 
+        catch (error) {
             showToastError(error.message)
         }
     }
@@ -100,7 +100,13 @@ export default function GlobalDecks() {
 
                                 <div className="flex items-center gap-x-3">
                                     <span className="font-light text-sm">{deck.user.firstName + " " + deck.user.lastName}</span>
-                                    <span className="text-xs bg-gray-300 p-1 rounded-lg">Giáo viên</span>
+                                    {
+                                        deck.user.roles.map((role, index) => {
+                                            return <span key={index}>
+                                                <span className="lowercase text-xs bg-gray-300 p-1 rounded-lg">{role}</span>
+                                            </span>
+                                        })
+                                    }
                                 </div>
                                 <div className="mt-2 text-gray-700 text-sm text-ellipsis overflow-hidden whitespace-nowrap">{deck.description}</div>
                             </div>
@@ -144,74 +150,81 @@ export default function GlobalDecks() {
         >
             {detailDeck && <div className="">
 
-            {/* Hiển thị thông tin bộ thẻ */}
+                {/* Hiển thị thông tin bộ thẻ */}
 
-            <div className="flex items-center gap-x-4">
-                            <div className='rounded-full h-10 w-10 overflow-hidden cursor-pointer'>
-                                <img src={detailDeck.user.avatar ? detailDeck.user.avatar : '/user.png'} loading="lazy" className='w-full h-full' alt='' />
-                            </div>
-                            <div className="flex flex-col gap-y-2 flex-1">
-                                <div className="flex gap-x-2 items-center">
-                                    <span className="font-bold text-xl">{detailDeck.name}</span>
-                                    <span>({detailDeck.numberCards} thẻ)</span>
-                                </div>
-
-                                <div className="flex items-center gap-x-3">
-                                    <span className="font-light text-sm">{detailDeck.user.firstName + " " + detailDeck.user.lastName}</span>
-                                    <span className="text-xs bg-gray-300 p-1 rounded-lg">Giáo viên</span>
-                                </div>
-                                <div className="mt-2 text-gray-700 text-sm text-ellipsis overflow-hidden whitespace-nowrap">{detailDeck.description}</div>
-                            </div>
-
-                            <div>
-                            <button onClick={handleCloneDeck} className="flex items-center gap-x-2 h-8 text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-3 text-center">
-                                <span>Clone</span>
-
-                                <i className="fa-solid fa-download"></i>
-                            </button>
-                            </div>
+                <div className="flex items-center gap-x-4">
+                    <div className='rounded-full h-10 w-10 overflow-hidden cursor-pointer'>
+                        <img src={detailDeck.user.avatar ? detailDeck.user.avatar : '/user.png'} loading="lazy" className='w-full h-full' alt='' />
+                    </div>
+                    <div className="flex flex-col gap-y-2 flex-1">
+                        <div className="flex gap-x-2 items-center">
+                            <span className="font-bold text-xl">{detailDeck.name}</span>
+                            <span>({detailDeck.numberCards} thẻ)</span>
                         </div>
 
+                        <div className="flex items-center gap-x-3">
+                            <span className="font-light text-sm">{detailDeck.user.firstName + " " + detailDeck.user.lastName}</span>
+                            {/* <span className="text-xs bg-gray-300 p-1 rounded-lg">Giáo viên</span> */}
+                            {
+                                detailDeck.user.roles.map((role, index) => {
+                                    return <span key={index}>
+                                        <span className="text-xs bg-gray-300 p-1 rounded-lg">{role}</span>
+                                    </span>
+                                })
+                            }
+                        </div>
+                        <div className="mt-2 text-gray-700 text-sm text-ellipsis overflow-hidden whitespace-nowrap">{detailDeck.description}</div>
+                    </div>
 
-                        <hr className="my-4"/>
+                    <div>
+                        <button onClick={handleCloneDeck} className="flex items-center gap-x-2 h-8 text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-3 text-center">
+                            <span>Clone</span>
+
+                            <i className="fa-solid fa-download"></i>
+                        </button>
+                    </div>
+                </div>
 
 
-            <table className="w-full text-sm text-left rtl:text-right text-gray-500 h-[100px] overflow-y-scroll">
-                            <thead className="text-sm text-gray-700 uppercase">
-                                <tr>
-                               
-                                    <th scope="col" className="px-6 py-5">
-                                        Thuật ngữ
-                                    </th>
-                                    <th scope="col" className="px-6 py-5">
-                                        Định nghĩa
-                                    </th>
-                                    <th scope="col" className="px-6 py-5">
-                                        Example
-                                    </th>
-                                   
-                                    
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {detailDeck.cards.map((card, index) => (
-                                    <tr key={index} className="odd:bg-gray-100 even:bg-white">
-                                        
-                                        <td className="px-6 py-5 font-medium">
-                                            {card.term}
-                                        </td>
-                                        <td className="px-6 py-5">
-                                            {card.definition}
-                                        </td>
-                                        <td className="px-6 py-5">
-                                            {card.example ? card.example : 'None'}
-                                        </td>
-                                     
-                                        
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                <hr className="my-4" />
+
+
+                <table className="w-full text-sm text-left rtl:text-right text-gray-500 h-[100px] overflow-y-scroll">
+                    <thead className="text-sm text-gray-700 uppercase">
+                        <tr>
+
+                            <th scope="col" className="px-6 py-5">
+                                Thuật ngữ
+                            </th>
+                            <th scope="col" className="px-6 py-5">
+                                Định nghĩa
+                            </th>
+                            <th scope="col" className="px-6 py-5">
+                                Example
+                            </th>
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {detailDeck.cards.map((card, index) => (
+                            <tr key={index} className="odd:bg-gray-100 even:bg-white">
+
+                                <td className="px-6 py-5 font-medium">
+                                    {card.term}
+                                </td>
+                                <td className="px-6 py-5">
+                                    {card.definition}
+                                </td>
+                                <td className="px-6 py-5">
+                                    {card.example ? card.example : 'None'}
+                                </td>
+
+
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
 
             </div>}
         </Modal>

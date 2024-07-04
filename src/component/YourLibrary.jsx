@@ -1,7 +1,6 @@
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useLocation } from "react-router-dom"
 import useAuth from "../context/AuthContext"
-import { Button } from "@headlessui/react"
 
 
 export default function YourLibrary() {
@@ -9,6 +8,7 @@ export default function YourLibrary() {
     const { auth } = useAuth()
     const [showLiblary, setShowLiblary] = useState(false)
     const navigate = useNavigate()
+    const location = useLocation()
 
     function handleClickLiblary() {
         setShowLiblary(!showLiblary)
@@ -17,16 +17,22 @@ export default function YourLibrary() {
 
 
     return auth && <div className='relative'>
-        <button onClick={handleClickLiblary} className='flex gap-x-3'>
-            <span className='font-medium text-[#282E3E]'>Thư viện của bạn</span>
-            <i className="fa-solid fa-angle-down pt-1"></i>
-        </button>
+        {/*  */}
+
+            <button onClick={handleClickLiblary} className='flex gap-x-3'>
+                <span className='font-medium text-[#282E3E]'>Thư viện của bạn</span>
+                <i className="fa-solid fa-angle-down pt-1"></i>
+                </button>
+      
+            
+      
+        
         {/* show dashboard */}
         {
             showLiblary && <div className='absolute top-12 left-0 rounded-md px-6 py-4 w-56 bg-white shadow-2xl'>
 
                 <div className='flex flex-col text-sm font-medium text-gray-600 gap-y-4'>
-                    <Button onClick={() => {
+                    <button onClick={() => {
                         setShowLiblary(false)
                         navigate('/my-decks')
                     }}
@@ -34,23 +40,23 @@ export default function YourLibrary() {
                         <i className="fa-solid fa-folder"></i>
                         <span>Bộ thẻ</span>
 
-                    </Button>
+                    </button>
                     <hr />
-                    <Button onClick={() => {
+                    <button onClick={() => {
                         setShowLiblary(false)
                         navigate('/my-cards')
                     }} className='flex items-center gap-x-3'>
                         <i className="fa-solid fa-repeat"></i>
                         <span>Thẻ</span>
-                    </Button>
+                    </button>
                     <hr />
-                    <Button onClick={() => {
+                    <button onClick={() => {
                         setShowLiblary(false)
                         navigate('/groups/owner')
                     }} className='flex items-center gap-x-3'>
                        <i className="fa-solid fa-users"></i>
                         <span>Nhóm học tập</span>
-                    </Button>
+                    </button>
         
                 </div>
             </div>}

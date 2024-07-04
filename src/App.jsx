@@ -36,6 +36,10 @@ import GlobalGroups from './page/GlobalGroups.jsx'
 import GlobalDecks from './component/GlobalDecks.jsx'
 import DetailGlobalDeck from './component/DetailGlobalDeck.jsx'
 import GlobalDeck from './page/GlobalDeck.jsx'
+import LearnCommonDeck from './page/LearnCommonDeck.jsx'
+
+import OwnerCommonDecks from './component/OwnerCommonDeck.jsx'
+
 
 function App() {
 
@@ -51,7 +55,7 @@ function App() {
           {/* phần thêm mới */}
 
 
-          <Route path='/decks' element={<GlobalDeck/>}>
+          <Route path='/decks' element={<GlobalDeck />}>
             <Route path='' element={<GlobalDecks />} />
             <Route path=':id' element={<DetailGlobalDeck />}></Route>
           </Route>
@@ -81,6 +85,8 @@ function App() {
             </Route>
 
             <Route path='detail-owner/:id' element={<DetailClass></DetailClass>}>
+              <Route path='decks' element={<OwnerCommonDecks />} />
+
               <Route path='add-member' element={<AddMember />} />
               <Route path='members' element={<MembersOwnerClass />} />
               <Route path='comments' element={<CommentClass />} />
@@ -88,6 +94,7 @@ function App() {
             </Route>
 
             <Route path='detail-attendance/:id' element={<DetailClass></DetailClass>}>
+              <Route path='decks' element={<OwnerCommonDecks />} />
               <Route path='members' element={<MembersAttendanceClass />} />
               <Route path='comments' element={<CommentClass />} />
               <Route path='assignments' element={<Assignments />} />
@@ -95,19 +102,9 @@ function App() {
             <Route path='detail-owner/:id' element={<DetailClass></DetailClass>}></Route>
 
 
-            {/* 
-
-
-                <Route path='add-member' element={<AddMember />} />
-                <Route path='members' element={<MembersClass />} />
-                <Route path='comments' element={<CommentClass />} />
-                <Route path='assignments' element={<Assignments />} />
-
-              </Route> */}
-
           </Route>
 
-
+          <Route path='/common-decks/:id/learn-cards' element={<LearnCommonDeck />}/>
 
           <Route path='/my-decks' element={<Deck />}>
             <Route path='' element={<Decks />} />

@@ -8,7 +8,7 @@ const ModelCreateDeck = React.forwardRef(({}, ref) => {
     const [isShow, setIsShow] = useState(false)
     const [name, setName] = useState('')
     const [decs, setDesc] = useState('')
-    const [isPublic, setIsPublic] = useState(true)
+
 
     const {addDeck} = useYourLiblary()
 

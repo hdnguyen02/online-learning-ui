@@ -13,11 +13,18 @@ export default function YourProfile() {
     function handleSignOut() {
         signOut()
         navigate('/')
-      }
+    }
 
     return auth && <div className='relative'>
-        <div onClick={() => setShowProfile(!showProfile)} className='h-10 w-10 rounded-full overflow-hidden cursor-pointer'>
-            <img src={auth.avatar ? auth.avatar : '/user.png'} loading="lazy" className='w-full h-full' alt='' />
+        <div className="flex items-center gap-x-2">
+
+
+            <div onClick={() => setShowProfile(!showProfile)} className='h-10 w-10 rounded-full overflow-hidden cursor-pointer'>
+                <img src={auth.avatar ? auth.avatar : '/user.png'} loading="lazy" className='w-full h-full' alt='' />
+                {/* <i className="fa-solid fa-angle-down pt-1"></i> */}
+
+            </div>
+            <i className="fa-solid fa-angle-down pt-1"></i>
         </div>
         {/* show dashboard */}
         {

@@ -25,12 +25,38 @@ export default function DetailClass() {
   return (
     detailClass && (
       <div>
-        <div className="flex items-center gap-x-3">
+        {/* <div className="flex items-center gap-x-3">
           <img className="w-12 h-12" src="/group.png" alt="" />
           <span className="text-sm uppercase font-medium">{detailClass.name}</span>
-        </div>
+        </div> */}
 
-        <div className="mt-4">
+        <h3 className="font-medium text-2xl text-[#282E3E]">{detailClass.name}</h3>
+        <div className="flex items-center gap-x-3 mt-8">
+          <div onClick={() => setShowProfile(!showProfile)} className='h-10 w-10 rounded-full overflow-hidden cursor-pointer'>
+            <img src={detailClass.owner.avatar ? detailClass.owner.avatar : '/user.png'} loading="lazy" className='w-full h-full' alt='' />
+          </div>
+          <div>
+            <span className="text-gray-400 text-xs font-light">Tạo bởi</span>
+            <div className="flex gap-x-2 items-center">
+              <span className="font-medium">{detailClass.owner.firstName + " " + detailClass.owner.lastName}</span>
+  
+              {
+                detailClass.owner.roles.map((role, index) => {
+                  return <span key={index}>
+                    <span className="lowercase text-xs bg-gray-300 p-1 rounded-lg">{role}</span>
+                  </span>
+                })
+              }
+
+            </div>
+            <span className="text-gray-400 text-xs font-light">{detailClass.created ? detailClass.created : "12 ngày trước"}</span>
+
+          </div>
+        </div>
+        <p className="text-sm text-[#282E3E]">{detailClass.description}</p>
+
+
+        <div className="mt-8">
           <div className="flex gap-x-24">
 
 
@@ -39,7 +65,7 @@ export default function DetailClass() {
                 to={`/groups/detail-owner/${params.id}/members`}
                 className="font-medium flex gap-x-2"
               >
-                <img src="/group.png" className="w-6 h-6" alt="" />
+                <i className="fa-solid fa-users flex items-center"></i>
                 <span>Thành viên</span>
               </Link>
             ) : (
@@ -47,27 +73,48 @@ export default function DetailClass() {
                 to={`/groups/detail-attendance/${params.id}/members`}
                 className="font-medium flex gap-x-2"
               >
-                <img src="/group.png" className="w-6 h-6" alt="" />
+                <i className="fa-solid fa-users flex items-center"></i>
                 <span>Thành viên</span>
               </Link>
             )}
 
-            {location.pathname.includes("owner") && (
+
+            {location.pathname.includes("owner") ? (
               <Link
-                to={`/groups/detail-owner/${params.id}/add-member`}
+                to={`/groups/detail-owner/${params.id}/decks`}
                 className="font-medium flex gap-x-2"
               >
-                <img src="/plus.png" className="w-6 h-6" alt="" />
-                <span>Thêm học sinh</span>
+                <i className="fa-regular fa-folder flex items-center"></i>
+                <span>Học phần</span>
+              </Link>
+            ) : (
+              <Link
+                to={`/groups/detail-attendance/${params.id}/decks`}
+                className="font-medium flex gap-x-2"
+              >
+                <i className="fa-regular fa-folder flex items-center"></i>
+                <span>Học phần</span>
               </Link>
             )}
+
+
+
+            {/* {location.pathname.includes("owner") && (
+              <Link
+                to={`/groups/detail-owner/${params.id}/add-member`}
+                className="font-medium flex gap-x-2 "
+              >
+                <i className="fa-solid fa-plus flex items-center"></i>
+                <span>Mời tham gia</span>
+              </Link>
+            )} */}
 
             {location.pathname.includes("owner") ? (
               <Link
                 to={`/groups/detail-owner/${params.id}/comments`}
                 className="font-medium flex gap-x-2 "
               >
-                <img src="/chat.png" className="w-6 h-6" alt="" />
+                <i className="fa-regular fa-comment flex items-center"></i>
                 <span>Thảo luận</span>
               </Link>
             ) : (
@@ -75,7 +122,7 @@ export default function DetailClass() {
                 to={`/groups/detail-attendance/${params.id}/comments`}
                 className="font-medium flex gap-x-2"
               >
-                <img src="/chat.png" className="w-6 h-6" />
+                <i className="fa-regular fa-comment flex items-center"></i>
                 <span>Thảo luận</span>
               </Link>
             )}
@@ -85,7 +132,7 @@ export default function DetailClass() {
                 to={`/groups/detail-owner/${params.id}/assignments`}
                 className="font-medium flex gap-x-2"
               >
-                <img src="/paper.png" className="w-6 h-6" alt="" />
+                <i className="fa-regular fa-file flex items-center"></i>
                 <span>Bài tập</span>
               </Link>
             ) : (
@@ -93,35 +140,14 @@ export default function DetailClass() {
                 to={`/groups/detail-attendance/${params.id}/assignments`}
                 className="font-medium flex gap-x-2"
               >
-                <img src="/paper.png" className="w-6 h-6" alt="" />
+                <i className="fa-regular fa-file flex items-center"></i>
                 <span>Bài tập</span>
               </Link>
             )}
           </div>
-          <hr className="mt-8" />
-          <div className="flex gap-x-20 justify-between py-12">
-            <div className="flex-1">
-              <Outlet />
-            </div>
-            <div className="flex flex-col gap-y-3 pr-12 w-96">
-              <span className="font-medium">Liên kết mời</span>
-              <div className="flex gap-x-3 items-center">
-                <span className="text-blue-600 bg-[#F0F6F6] rounded-lg px-2 py-2">
-                  onlinelearning.com/invite/a2g2d
-                </span>
-                <img src="/copy.png" className="w-6 h-6" alt="" />
-              </div>
-              <span className="font-medium">Chi tiết lớp học</span>
-              <div className="flex gap-x-3 items-center">
-                <img src="/book.png" className="w-8 h-8" alt="" />
-                <span>3 bài tập</span>
-              </div>
-              <div className="flex gap-x-3 items-center">
-                <img src="/group.png" className="w-8 h-8" alt="" />
-                <span>2 thành viên</span>
-              </div>
-            </div>
-          </div>
+          <hr className="my-8" />
+
+          <Outlet />
         </div>
       </div>
     )
