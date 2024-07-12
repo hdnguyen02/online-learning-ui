@@ -76,7 +76,7 @@ export default function SignIn() {
   </div>
   {/* Right: Login Form */}
   <div className="lg:p-36 md:p-52 sm:20 p-8 w-full lg:w-1/2">
-    <h1 className="text-2xl font-semibold mb-4">Đăng nhập</h1>
+    <h1 className="text-2xl font-semibold mb-4">Sign in</h1>
     <form onSubmit={handleSignIn}>
       {/* Email Input */}
       <div className="mb-4">
@@ -116,13 +116,13 @@ export default function SignIn() {
           
         />
         <label htmlFor="remember" className="text-gray-600 ml-2">
-          Nhớ tài khoản
+          remember account
         </label>
       </div>
       {/* Forgot Password Link */}
       <div className="mb-6 text-blue-500">
         <Link to={'/forgot-password'} className="hover:underline">
-          Quên mật khẩu
+          Forgot password
         </Link>
       </div>
       {/* Login Button */}
@@ -130,13 +130,13 @@ export default function SignIn() {
         type="submit"
         className="bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md py-2 px-4 w-full"
       >
-        Đăng nhập
+        Submit
       </button>
     </form>
     {/* Sign up  Link */}
     <div className="mt-6 text-blue-500 text-center">
       <Link to={'/sign-up'} className="hover:underline">
-        Đăng ký
+        Sign up
       </Link>
     </div>
   </div>

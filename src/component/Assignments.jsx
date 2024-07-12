@@ -81,7 +81,7 @@ export default function Assignments() {
   const customStyles = {
     content: {
       width: "750px",
-      height: "400px",
+      height: "360px",
       top: "50%",
       left: "50%",
       transform: "translate(-50%, -50%)",
@@ -123,7 +123,7 @@ export default function Assignments() {
                 <div className="flex items-center gap-x-3">
                   <i className="fa-solid fa-file text-xl font-light"></i>
                   <span className="opacity-90">{assignment.name}</span>
-                  <span>({assignment.quantitySubmit} nộp)</span>
+                  <span>({assignment.quantitySubmit} submit)</span>
                 </div>
 
                 <span className="text-xs text-[#6D6E6E]">
@@ -142,17 +142,18 @@ export default function Assignments() {
           style={customStyles}
         >
           <form onSubmit={handleCreateAsm} className="">
-            <div className="flex justify-end">
+            <div className="flex justify-between">
+            <h3 className="text-xl text-gray-800 font-bold">Create assignment</h3>
               <button onClick={() => setIsOpenCreateAsm(false)} type="button">
                 <img src="/close.png" className="w-5 h-5" alt="" />
               </button>
             </div>
-            <h3 className="text-xl text-gray-800 font-bold">Tạo bài tập</h3>
+           
 
             <div className="mt-6 flex gap-x-6 justify-between">
               <div className="flex flex-col gap-y-2 w-full">
                 <label className="text-sm text-gray-600" htmlFor="">
-                  Tên
+                  Name
                 </label>
                 <input
                   onChange={(e) => setName(e.target.value)}
@@ -164,7 +165,7 @@ export default function Assignments() {
 
               <div className="flex flex-col gap-y-2 w-full">
                 <label className="text-sm text-gray-600" htmlFor="">
-                  Mô tả
+                description
                 </label>
                 <input
                   onChange={(e) => setDesc(e.target.value)}
@@ -178,7 +179,7 @@ export default function Assignments() {
             <div className="mt-5 flex gap-x-6 justify-between">
               <div className="flex flex-col gap-y-2 w-full">
                 <label className="text-sm text-gray-600" htmlFor="">
-                  Ngày
+                  Date
                 </label>
                 <input
                   onChange={(e) => setDate(e.target.value)}
@@ -190,7 +191,7 @@ export default function Assignments() {
 
               <div className="flex flex-col gap-y-2 w-full">
                 <label className="text-sm text-gray-600" htmlFor="">
-                  Giờ
+                  Hour
                 </label>
                 <input
                   onChange={(e) => setTime(e.target.value)}
@@ -207,7 +208,7 @@ export default function Assignments() {
                   type="submit"
                   className="h-10 flex items-center gap-x-2 px-8 text-sm text-center text-white font-bold rounded-md bg-primary sm:w-fit hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300"
                 >
-                  Tạo
+                  Submit
                 </button>
               </div>
 

@@ -1,8 +1,9 @@
 import Modal from "react-modal";
-import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { fetchData } from "../global";
-import { useEffect } from "react";
+import { fetchData, showToastMessage, showToastError } from "../global";
+import { ToastContainer } from "react-toastify";
+import { useEffect, useState } from "react";
+import Empty from "./Empty";
 
 export default function CommentClass() {
   const [isOpenReply, setIsOpenReply] = useState(false);
@@ -28,16 +29,16 @@ export default function CommentClass() {
     const subUrl = "/comments";
     const body = {
       groupId: params.id,
-
-      parentId: null, // bình luận cấp 1
+      parentId: null,
       content: contentComment,
     };
 
     try {
       const response = await fetchData(subUrl, "POST", body);
+      
       getComments();
-    } catch (error) {
-      console.log(error.message);
+    } catch ({ message }) {
+      showToastError(message);
     }
   }
 
@@ -52,8 +53,8 @@ export default function CommentClass() {
     try {
       const response = await fetchData(subUrl, "POST", body);
       getComments();
-    } catch (error) {
-      console.log(error.message);
+    } catch ({ message }) {
+      showToastError(message);
     }
     setIsOpenReply(false);
   }
@@ -67,10 +68,11 @@ export default function CommentClass() {
       console.log(error.message);
     }
   }
+  
 
   function showReplyComment(id) {
-    setIdCommentReply(id);
-    setIsOpenReply(true);
+    setIdCommentReply(id)
+    setIsOpenReply(true)
   }
 
   useEffect(() => {
@@ -95,99 +97,145 @@ export default function CommentClass() {
   };
 
   return (
-    <div>
-      <div>
-        <textarea
+    <div className="mb-16">
+      <div className="flex items-center gap-x-8 mb-8">
+        <input
           onChange={handleChangeComment}
-          className="w-full p-4"
-          name=""
-          id=""
-        ></textarea>
-        <div className="flex justify-end mt-2">
+          className="w-full p-4 h-9"
+          placeholder="comment..."
+        ></input>
+        <div className="flex justify-end">
           <button
             onClick={handleCreateComment}
             className="flex items-center gap-x-2 h-9 px-5 text-sm text-center text-white rounded-md bg-green-600 sm:w-fit hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-gray-300"
           >
-            <span className="text-sm">Gửi</span>
+            <span className="text-sm">Submit</span>
           </button>
         </div>
       </div>
 
       {/* show comments */}
-
-      {comments &&
-        comments.map((comment) => (
-          <div key={comment.id} className="flex gap-x-3 mt-4">
-            <div className="dropdown-btn h-9 w-9 rounded-full overflow-hidden cursor-pointer">
-              <img src="/avatar.avif" className="w-full h-full" alt="" />
-            </div>
-
-            <div className="w-full">
-              <div className="flex items-center justify-between">
-                <div>
-                  <span>{comment.user.email}</span>
-                  {/* <span className="ml-2 text-sm rounded-lg bg-[#35B69F] text-white px-2 py-[2px]">
-                    Giáo viên
-                  </span> */}
-                </div>
-                {/* <span className="text-gray-500 text-sm">12h ago</span> */}
-              </div>
-              <div className="mt-1 text-gray-800 font-bold">{comment.content}</div>
-              <button
-                onClick={() => showReplyComment(comment.id)}
-                className="flex gap-x-2 items-center"
-              >
-                <span className="pb-1">Reply</span>
-                <i className="fa-regular fa-message"></i>
-              </button>
-              {/* comment child */}
-              {comment.commentsChild.map((commentChild) => (
-                <div key={commentChild.id} className="flex gap-x-3 mt-4">
-                  <div className="dropdown-btn h-9 w-9 rounded-full overflow-hidden cursor-pointer">
-                    <img src="/avatar.avif" className="w-full h-full" alt="" />
-                  </div>
-
-                  <div className="w-full">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <span>{commentChild.user.email}</span>
-                        {/* <span className="ml-2 text-sm rounded-lg bg-[#35B69F] text-white px-2 py-[2px]">
-                          Giáo viên
-                        </span> */}
+      {comments && (
+        <div>
+          {comments.length != 0 ? (
+            comments.map((comment, index) => {
+              return (
+                <div key={index}>
+                  <div className="flex items-center gap-x-2">
+                    {/* avatar */}
+                    <div className="dropdown-btn h-10 w-10 rounded-full overflow-hidden cursor-pointer">
+                      <img
+                        src={
+                          comment.user.avatar
+                            ? comment.user.avatar
+                            : "/user.png"
+                        }
+                        className="w-full h-full"
+                        alt=""
+                      />
+                    </div>
+                    <div className="flex flex-col gap-y-1">
+                      {/* fullname email */}
+                      <span className="text-sm font-medium">
+                        {comment.user.firstName + " " + comment.user.lastName}
+                      </span>
+                      {/* content */}
+                      <div className="text-gray-800">
+                        {comment.content}
                       </div>
-                      {/* <span className="text-gray-500 text-sm">12h ago</span> */}
-                    </div>
-                    <div className="mt-1 text-gray-600 font-bold">
-                      {commentChild.content}
+                      {/* repply */}
+                      <div className="flex gap-x-5 items-center">
+                        <span className="text-xs font-light">
+                          {comment.created}
+                        </span>
+                        <button
+                          onClick={() => showReplyComment(comment.id)}
+                          className="flex gap-x-2 items-center"
+                        >
+                          <span className="text-sm font-medium">Reply</span>
+                          <i className="fa-regular fa-message text-xs mt-1"></i>
+                        </button>
+                      </div>
                     </div>
                   </div>
+                  {/* Child comment */}
+                  <div className="ml-12">
+                    {comment.commentsChild.map((commentChild, index) => {
+                      return (
+                        <div key={index} className="mt-4">
+                          <div className="flex items-center gap-x-2">
+                            {/* avatar */}
+                            <div className="dropdown-btn h-10 w-10 rounded-full overflow-hidden cursor-pointer">
+                              <img
+                                src={
+                                  commentChild.user.avatar
+                                    ? commentChild.user.avatar
+                                    : "/user.png"
+                                }
+                                className="w-full h-full"
+                                alt=""
+                              />
+                            </div>
+                            <div className="flex flex-col gap-y-1">
+                              {/* fullname email */}
+                              <span className="">
+                                {commentChild.user.firstName +
+                                  " " +
+                                  commentChild.user.lastName}
+                              </span>
+                              {/* content */}
+                              <div className="text-gray-800 font-medium">
+                                {commentChild.content}
+                              </div>
+                              {/* repply */}
+                              <div className="flex gap-x-5 items-center">
+                                <span className="text-sm font-light">
+                                  {commentChild.created}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
-              ))}
-            </div>
-          </div>
-          // comments Child
-        ))}
+              );
+            })
+          ) : (
+            <Empty />
+          )}
+        </div>
+      )}
+
       <Modal
         isOpen={isOpenReply}
         onRequestClose={() => setIsOpenReply(false)}
         contentLabel="Custom Modal"
         style={customStyles}
       >
-        <input
-          onChange={handleChangeContentCommentReply}
-          type="text"
-          className="w-full h-9 px-4"
-        />
-        <div className="flex justify-end mt-3">
-          <button
-            onClick={handleCreateCommentReply}
-            className="flex items-center gap-x-2 h-9 px-5 text-sm text-center text-white rounded-md bg-green-600 sm:w-fit hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-gray-300"
-          >
-            <span className="text-sm">Gửi</span>  
-          </button>
+        <div className="flex flex-col gap-y-2">
+
+        <p>Repply</p>
+        <div className="flex gap-x-4">
+          
+          <input
+            onChange={handleChangeContentCommentReply}
+            type="text"
+            className="w-full h-9 px-4"
+          />
+          <div className="flex justify-end">
+            <button
+              onClick={handleCreateCommentReply}
+              className="flex items-center gap-x-2 h-9 px-5 text-sm text-center text-white rounded-md bg-green-600 sm:w-fit hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-gray-300"
+            >
+              <span className="text-sm">Submit</span>
+            </button>
+          </div>
+        </div>
         </div>
       </Modal>
+      <ToastContainer />
     </div>
   );
 }
-

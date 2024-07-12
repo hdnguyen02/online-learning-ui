@@ -1,10 +1,9 @@
 
 import { useRef, useState, useEffect } from 'react'
 import { fetchData, convertValueFromSelect } from '../global'
-import Success from './Success'
-import Fail from './Fail'
 import ModalCreateCard from './ModalCreateCard'
 import ModelEditCard from './ModelEditCard'
+import Empty from './Empty'
 
 export default function Cards() {
 
@@ -212,8 +211,9 @@ export default function Cards() {
         <div className='flex justify-between mt-10'>
 
             <div className='flex gap-x-8 items-center h-12'>
+            <span className='font-medium uppercase text-sm'>Your card</span>
 
-                <div className='flex items-center gap-x-8'>
+                {/* <div className='flex items-center gap-x-8'>
                     <button onClick={handleDeleteCards}>
                         <img src="delete.png" className='w-9' alt="" />
                     </button>
@@ -221,22 +221,31 @@ export default function Cards() {
                         <img src="plus.png" className='w-9' alt="" />
                     </button>
 
-                </div>
+                </div> */}
 
                 {/* search */}
-                <button className='flex items-center gap-x-2 h-10 px-5 text-sm text-center text-white rounded-md bg-green-600 sm:w-fit hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-gray-300'>
+                {/* <button className='flex items-center gap-x-2 h-10 px-5 text-sm text-center text-white rounded-md bg-green-600 sm:w-fit hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-gray-300'>
                     <span className='text-sm'>Học thẻ</span>
-                </button>
+                </button> */}
 
             </div>
-            <div className='flex items-center gap-x-12'>
-                <div className='filter-dropdown relative'>
+            <div className='flex items-center gap-x-8'>
+                {/* <div className='filter-dropdown relative'>
                     <button type="submit" className="h-10 flex items-center gap-x-2 px-5 text-sm text-center text-white rounded-md bg-primary sm:w-fit hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300">
                         <i className="fa-solid fa-filter"></i>
                         <span className='pb-[0.5px]'>Lọc</span>
                         <i className="fa-solid fa-angle-down pt-[0.5px]"></i>
                     </button>
                     {dropdownFilter()}
+                </div> */}
+                 <div className='flex items-center gap-x-8'>
+                    <button onClick={handleDeleteCards}>
+                        <img src="delete.png" className='w-9' alt="" />
+                    </button>
+                    <button onClick={handleShowModalCreateCard} className=''>
+                        <img src="plus.png" className='w-9' alt="" />
+                    </button>
+
                 </div>
 
                 <div className="max-w-md mx-auto">
@@ -248,12 +257,10 @@ export default function Cards() {
                         </div>
                         <input onChange={(event) => {
                             setSearchContent(event.target.value)
-                        }} type="search" id="decks-search" className="block w-full  px-4 h-10 ps-10 text-sm text-gray-900 border border-gray-300 rounded-md bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Thuật ngữ, Định nghĩa ..." />
+                        }} type="search" id="decks-search" className="block w-full  px-4 h-10 ps-10 text-sm text-gray-900 border border-gray-300 rounded-md bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Term, Definition..." />
                     </div>
                 </div>
             </div>
-
-
         </div>
 
         <hr className='my-8'></hr>
@@ -298,18 +305,18 @@ export default function Cards() {
                                         <input onChange={handleCheckAll} type='checkbox' />
                                     </th>
                                     <th scope="col" className="px-6 py-5">
-                                        Thuật ngữ
+                                        Term
                                     </th>
                                     <th scope="col" className="px-6 py-5">
-                                        Định nghĩa
+                                        Definition
                                     </th>
                                     <th scope="col" className="px-6 py-5">
-                                        Bộ thẻ
+                                        Card set
                                     </th>
                                     <th scope="col" className="px-6 py-5">
-                                        Ngày tạo
+                                        Created
                                     </th>
-                                    <th className='text-center'>Hiệu chỉnh</th>
+                                    <th className='text-center'>Edit</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -346,15 +353,11 @@ export default function Cards() {
                                 ))}
                             </tbody>
                         </table>)
-                        : (<div>
-                            <span className='text-sm'>Không có dữ liệu</span>
-                        </div>)
+                        : (<Empty/>)
                     }
                     {/* <hr className='my-4' /> */}
                 </div>
             </div>
         }
-        <Success ref={refSuccess} />
-        <Fail ref={refFail} />
     </div>
 }

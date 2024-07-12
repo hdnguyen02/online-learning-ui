@@ -43,12 +43,12 @@ export default function YourProfile() {
                 <div className='flex flex-col text-sm font-medium text-gray-600 gap-y-4'>
                     <Link to={'/settings/info'} className='flex items-center gap-x-3'>
                         <i className="fa-solid fa-gear text-lg"></i>
-                        <span>Cài đặt</span>
+                        <span>Setting</span>
                     </Link>
                     <hr />
                     <button onClick={handleSignOut} className='flex items-center gap-x-3'>
                         <i className="fa-solid fa-arrow-right-from-bracket"></i>
-                        <span>Đăng xuất</span>
+                        <span>Log out</span>
                     </button>
                 </div>
 

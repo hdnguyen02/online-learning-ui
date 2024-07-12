@@ -26,8 +26,8 @@ const Classes = () => {
 
   return (
     <div>
-      <div className='profile flex gap-x-3 items-center justify-between font-medium'>
-        <span className='text-sm uppercase'>Nhóm học tập</span>
+      <div className='profile flex gap-x-3 items-center justify-between font-medium h-12'>
+        <span className='text-sm uppercase'>Your study group</span>
         {/* <div className='flex gap-x-8 items-center'>
           <button className=''>
             <img
@@ -39,6 +39,7 @@ const Classes = () => {
           </button>
      
         </div> */}
+        
       </div>
 
       <hr className='my-8'></hr>
@@ -58,7 +59,7 @@ const Classes = () => {
                     }
                     to={'/groups/owner'}
                   >
-                    <span>Nhóm của bạn</span>
+                    <span>Your group</span>
                     {!auth?.roles.includes('TEACHER') && (
                       <i className='fa-solid fa-lock text-black ml-2'></i>
                     )}
@@ -74,13 +75,13 @@ const Classes = () => {
                     }
                     to={'/groups/attendance'}
                   >
-                    <span>Nhóm bạn tham gia</span>
+                    <span>Group you join</span>
 
                   </Link>
                 </li>
               </ul>
 
-              <div className='py-4'>
+              <div className='py-8'>
                 <Outlet />
               </div>
             </div>

@@ -88,7 +88,7 @@ function SignUp() {
     </div>
     {/* Right: Login Form */}
     <div className="lg:p-36 md:p-52 sm:20 p-8 w-full lg:w-1/2">
-      <h1 className="text-2xl font-semibold mb-4">Đăng ký</h1>
+      <h1 className="text-2xl font-semibold mb-4">Sign up</h1>
       <form onSubmit={handleSignUp}>
 
 
@@ -97,7 +97,7 @@ function SignUp() {
           {/* Firstname Input */}
           <div className="mb-4 w-full">
             <label htmlFor="password" className="block text-gray-600 mb-2">
-              Họ
+              Firstname
             </label>
             <div className='relative'>
               <input
@@ -113,7 +113,7 @@ function SignUp() {
           {/* LastName Input */}
           <div className="mb-4 w-full">
             <label htmlFor="password" className="block text-gray-600 mb-2">
-              Tên
+              Lastname
             </label>
             <div className='relative'>
               <input
@@ -140,7 +140,7 @@ function SignUp() {
         {/* Password Input */}
         <div className="mb-4">
           <label htmlFor="password" className="block text-gray-600 mb-2">
-            Mật khẩu
+            Password
           </label>
           <div className='relative'>
             <input
@@ -158,7 +158,7 @@ function SignUp() {
          {/* Confirm Password Input */}
          <div className="mb-4">
           <label htmlFor="password" className="block text-gray-600 mb-2">
-            Xác nhận mật khẩu
+          Confirm password
           </label>
           <div className='relative'>
             <input
@@ -183,13 +183,13 @@ function SignUp() {
 
           />
           <label htmlFor="remember" className="text-gray-600 ml-2">
-            Nhớ tài khoản
+          Remember account
           </label>
         </div>
         {/* Forgot Password Link */}
         <div className="mb-6 text-blue-500">
           <Link to={'/forgot-password'} className="hover:underline">
-            Quên mật khẩu
+          Forgot password
           </Link>
         </div>
         {/* Login Button */}
@@ -197,13 +197,13 @@ function SignUp() {
           type="submit"
           className="bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md py-2 px-4 w-full"
         >
-          Đăng Ký
+          Submit
         </button>
       </form>
       {/* Sign up  Link */}
       <div className="mt-6 text-blue-500 text-center">
         <Link to={'/sign-in'} className="hover:underline">
-          Đăng nhập
+          Sign in
         </Link>
       </div>
     </div>

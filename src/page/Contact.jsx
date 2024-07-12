@@ -1,8 +1,8 @@
 export default function Contact() {
     return <section className="mt-32">
     <div className="px-4 pb-12 mx-auto max-w-screen-md">
-        <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-center text-gray-900">Liên hệ chúng tôi</h2>
-        <p className="mb-8 lg:mb-16 font-light text-center text-gray-500 sm:text-xl">Có một vấn đề kỹ thuật? Bạn muốn gửi phản hồi về tính năng beta? Cần thông tin chi tiết về kế hoạch kinh doanh của chúng tôi? Hãy cho chúng tôi biết.</p>
+        <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-center text-gray-900">Contact us</h2>
+        <p className="mb-8 lg:mb-16 font-light text-center text-gray-500 sm:text-xl">Have a technical problem? Want to send feedback on a beta feature? Need detailed information about our business plan? Let us know.</p>
         <form  className="space-y-8">
             <div>
                 <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">Email</label>

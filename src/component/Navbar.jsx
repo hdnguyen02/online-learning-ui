@@ -1,10 +1,7 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import useAuth from '../context/AuthContext'
-
-import SearchClass from './SearchGroup'
 import YourLibrary from './YourLibrary'
 import YourProfile from './YourProfile'
-import { useEffect, useState } from 'react'
 
 
 
@@ -34,10 +31,12 @@ function Navbar() {
         </Link>
 
         <div className='hidden md:flex gap-x-4 lg:gap-x-8 text-sm'>
-          <Link to={'/'} className='font-medium text-[#282E3E]'>Trang chủ</Link>
+          
+          <Link to={'/'} className='font-medium text-[#282E3E]'>Home</Link>
           <YourLibrary/>
-          <Link to={'/decks'} className='font-medium text-[#282E3E]'>Bộ thẻ chuyên gia</Link>
-          <Link to={'/groups'} className='font-medium text-[#282E3E]'>Nhóm học tập</Link>
+          {auth && <Link to={'/decks'} className='font-medium text-[#282E3E]'>Expert card set</Link>}
+          {auth && <Link to={'/groups'} className='font-medium text-[#282E3E]'>Study group</Link>}
+          <Link to={'/contact'} className='font-medium text-[#282E3E]'>Contact</Link>
         </div>
       </div>
 
@@ -69,10 +68,10 @@ function Navbar() {
         {!auth && (
           <div className='mr-14 md:mr-0 flex gap-x-3'>
             <Link to='sign-in' className='bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded'>
-              Đăng nhập
+              Sign in
             </Link>
             <Link to='sign-up' className='bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow'>
-              Đăng ký
+              Sign up
             </Link>
           </div>
         )}

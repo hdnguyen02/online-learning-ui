@@ -3,6 +3,9 @@ import { Link, Outlet, useParams, useLocation } from "react-router-dom";
 import { fetchData } from "../global";
 
 export default function DetailClass() {
+
+
+
   const params = useParams()
   const location = useLocation()
 
@@ -25,10 +28,6 @@ export default function DetailClass() {
   return (
     detailClass && (
       <div>
-        {/* <div className="flex items-center gap-x-3">
-          <img className="w-12 h-12" src="/group.png" alt="" />
-          <span className="text-sm uppercase font-medium">{detailClass.name}</span>
-        </div> */}
 
         <h3 className="font-medium text-2xl text-[#282E3E]">{detailClass.name}</h3>
         <div className="flex items-center gap-x-3 mt-8">
@@ -36,7 +35,7 @@ export default function DetailClass() {
             <img src={detailClass.owner.avatar ? detailClass.owner.avatar : '/user.png'} loading="lazy" className='w-full h-full' alt='' />
           </div>
           <div>
-            <span className="text-gray-400 text-xs font-light">Tạo bởi</span>
+            <span className="text-gray-400 text-xs font-light">Created by</span>
             <div className="flex gap-x-2 items-center">
               <span className="font-medium">{detailClass.owner.firstName + " " + detailClass.owner.lastName}</span>
   
@@ -57,7 +56,7 @@ export default function DetailClass() {
 
 
         <div className="mt-8">
-          <div className="flex gap-x-24">
+          <div className="flex gap-x-8">
 
 
             {location.pathname.includes("owner") ? (
@@ -66,7 +65,7 @@ export default function DetailClass() {
                 className="font-medium flex gap-x-2"
               >
                 <i className="fa-solid fa-users flex items-center"></i>
-                <span>Thành viên</span>
+                <span>Member</span>
               </Link>
             ) : (
               <Link
@@ -74,7 +73,7 @@ export default function DetailClass() {
                 className="font-medium flex gap-x-2"
               >
                 <i className="fa-solid fa-users flex items-center"></i>
-                <span>Thành viên</span>
+                <span>Member</span>
               </Link>
             )}
 
@@ -85,7 +84,7 @@ export default function DetailClass() {
                 className="font-medium flex gap-x-2"
               >
                 <i className="fa-regular fa-folder flex items-center"></i>
-                <span>Học phần</span>
+                <span>Common card set</span>
               </Link>
             ) : (
               <Link
@@ -93,7 +92,7 @@ export default function DetailClass() {
                 className="font-medium flex gap-x-2"
               >
                 <i className="fa-regular fa-folder flex items-center"></i>
-                <span>Học phần</span>
+                <span>Common card set</span>
               </Link>
             )}
 
@@ -115,7 +114,7 @@ export default function DetailClass() {
                 className="font-medium flex gap-x-2 "
               >
                 <i className="fa-regular fa-comment flex items-center"></i>
-                <span>Thảo luận</span>
+                <span>Comment</span>
               </Link>
             ) : (
               <Link
@@ -123,7 +122,7 @@ export default function DetailClass() {
                 className="font-medium flex gap-x-2"
               >
                 <i className="fa-regular fa-comment flex items-center"></i>
-                <span>Thảo luận</span>
+                <span>Comment</span>
               </Link>
             )}
 
@@ -133,7 +132,7 @@ export default function DetailClass() {
                 className="font-medium flex gap-x-2"
               >
                 <i className="fa-regular fa-file flex items-center"></i>
-                <span>Bài tập</span>
+                <span>assignment</span>
               </Link>
             ) : (
               <Link
@@ -141,7 +140,7 @@ export default function DetailClass() {
                 className="font-medium flex gap-x-2"
               >
                 <i className="fa-regular fa-file flex items-center"></i>
-                <span>Bài tập</span>
+                <span>assignment</span>
               </Link>
             )}
           </div>

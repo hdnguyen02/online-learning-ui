@@ -1,5 +1,5 @@
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import { baseUrl, fetchData, showToastMessage, showToastError } from "../global"
 import { ToastContainer } from "react-toastify"
 import useAuth from "../context/AuthContext"
@@ -67,25 +67,9 @@ export default function InfoUser() {
                 onSubmit={handleChangeInfo}
                 className="w-full max-w-lg"
             >
-                {/* <div className="flex justify-center">
-                    {user.avatar ? (<img
-                        id="avatar"
-                        className="w-20 h-20 object-cover rounded-lg-full"
-                        src={`${baseUrl + '/avatar/'+ user.avatar}`}
-                        alt=""
-                    />):(
-                        <img
-                        id="avatar"
-                        className="w-20 h-20 object-cover rounded-lg-full"
-                        src="/user.png"
-                        alt=""
-                    />
-                    )
-                    }
-                    
-                </div> */}
+              
                 <h2 className="mb-1 text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
-                    Thông tin chung
+                Personal information
                 </h2>
                 <div className="mt-4 flex flex-wrap md:-mx-3 mb-6">
                     <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -93,7 +77,7 @@ export default function InfoUser() {
                             className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                             htmlFor="grid-first-name"
                         >
-                            Tên hiển thị
+                            Fullname
                         </label>
                         <input defaultValue={user.firstName + " " + user.lastName}
                             name="name"
@@ -107,7 +91,7 @@ export default function InfoUser() {
                             className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                             htmlFor="grid-last-name"
                         >
-                            Giới tính
+                            Gender
                         </label>
                         <select defaultValue={user.gender ? user.gender : ''}
                             name="gender"
@@ -144,7 +128,7 @@ export default function InfoUser() {
                             className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                             htmlFor="grid-first-name"
                         >
-                            Tuổi
+                            Address
                         </label>
                         <input defaultValue={user.age ? user.age : ''}
                             name="age"
@@ -162,7 +146,7 @@ export default function InfoUser() {
                             className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                             htmlFor="grid-first-name"
                         >
-                            Số điện thoại
+                            Phone
                         </label>
                         <input
                             defaultValue={user.phone ? user.phone : ''}
@@ -176,7 +160,7 @@ export default function InfoUser() {
                         <label
                             className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                             htmlFor="grid-last-name">
-                            Ngày sinh
+                            Date of birth
                         </label>
                         <input defaultValue={user.dateOfBirth ? user.dateOfBirth : ''}
                             name="dateOfBirth"
@@ -188,7 +172,7 @@ export default function InfoUser() {
                 </div>
                 <div>
                     <label>
-                        <span className="mr-4">Tải lên ảnh đại diện</span>
+                        <span className="mr-4 text-sm font-light">Upload a profile picture</span>
                         <input name="avatar" id="input-avatar" type="file" accept="image/*" className="border-0" />
                     </label>
                 </div>
@@ -198,7 +182,7 @@ export default function InfoUser() {
                         type="submit"
                         className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                     >
-                        Hiệu chỉnh
+                        Submit
                     </button>
                 </div>
             </form>

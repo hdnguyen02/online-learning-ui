@@ -20,7 +20,7 @@ export default function YourLibrary() {
         {/*  */}
 
             <button onClick={handleClickLiblary} className='flex gap-x-3'>
-                <span className='font-medium text-[#282E3E]'>Thư viện của bạn</span>
+                <span className='font-medium text-[#282E3E]'>Your library</span>
                 <i className="fa-solid fa-angle-down pt-1"></i>
                 </button>
       
@@ -38,7 +38,7 @@ export default function YourLibrary() {
                     }}
                         className='flex items-center gap-x-3'>
                         <i className="fa-solid fa-folder"></i>
-                        <span>Bộ thẻ</span>
+                        <span>Card set</span>
 
                     </button>
                     <hr />
@@ -47,7 +47,7 @@ export default function YourLibrary() {
                         navigate('/my-cards')
                     }} className='flex items-center gap-x-3'>
                         <i className="fa-solid fa-repeat"></i>
-                        <span>Thẻ</span>
+                        <span>Card</span>
                     </button>
                     <hr />
                     <button onClick={() => {
@@ -55,7 +55,7 @@ export default function YourLibrary() {
                         navigate('/groups/owner')
                     }} className='flex items-center gap-x-3'>
                        <i className="fa-solid fa-users"></i>
-                        <span>Nhóm học tập</span>
+                        <span>Study group</span>
                     </button>
         
                 </div>

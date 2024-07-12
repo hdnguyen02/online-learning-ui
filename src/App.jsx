@@ -40,6 +40,8 @@ import LearnCommonDeck from './page/LearnCommonDeck.jsx'
 
 import OwnerCommonDecks from './component/OwnerCommonDeck.jsx'
 
+import User from './component/User.jsx'
+
 
 function App() {
 

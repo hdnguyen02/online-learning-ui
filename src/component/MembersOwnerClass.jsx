@@ -143,9 +143,8 @@ async function handleInviteUser(event) {
           </form>
         </Modal>
 
-
         {userGroups.length != 0 ? (
-          <div className="mb-12 grid grid-cols-2 gap-12">
+          <div className="mb-8 grid grid-cols-2 gap-8">
             {
               userGroups.map((userGroup, index) => <div key={index} className="bg-[#F0F6F6] p-6 rounded">
                 <div className="flex items-center justify-between">

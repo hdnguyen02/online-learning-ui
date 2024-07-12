@@ -1,6 +1,4 @@
 
-import Success from '../component/Success'
-import Fail from '../component/Fail'
 import { fetchDataWithoutAccessToken,showToastMessage, showToastError } from '../global'
 import { useState } from 'react'
 import { ToastContainer } from 'react-toastify'
@@ -37,8 +35,8 @@ export default function ForgotPW() {
     return (
         <div className='flex w-full justify-center mt-32'>
             <form onSubmit={handleForgotPW} className='flex flex-col max-w-lg gap-y-6'>
-                <h1 className='font-medium text-3xl'>Đặt lại mật khẩu của bạn</h1>
-                <p>Hay nhập địa chỉ email ma bạn đa đăng kí. Chúng tôi sẽ gửi cho bạn một liên kết để đăng nhập và đặt lại mật khẩu của bạn.</p>
+                <h1 className='font-medium text-3xl'>Reset your password</h1>
+                <p>Please enter the email address you registered with. We'll send you a link to log in and reset your password.</p>
                 <div>
                     <label className='text-sm' htmlFor="email">Email</label>
                     <input
@@ -49,7 +47,7 @@ export default function ForgotPW() {
                         required
                     />
                 </div>
-                <button type="submit" className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Gửi</button>
+                <button type="submit" className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Submit</button>
 
 
             </form>

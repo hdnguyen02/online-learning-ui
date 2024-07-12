@@ -8,6 +8,7 @@ import DeleteDeck from './DeleteDeck'
 import ModalCreateDeck from './ModalCreateDeck'
 import ModalEditDeck from './ModalEditDeck'
 import Modal from "react-modal"
+import Empty from './Empty'
 
 function Decks() {
 
@@ -118,10 +119,10 @@ function Decks() {
 
 
     return <div>
-        <ModalCreateDeck ref={refModalCreateDeck} />
-        <ModalEditDeck ref={refModalEditDeck} />
+        <ModalCreateDeck ref={refModalCreateDeck} getDecks={getDecks}/>
+        <ModalEditDeck ref={refModalEditDeck} getDecks={getDecks}/>
         <div className='profile flex gap-x-3 items-center justify-between h-12'>
-            <span className='font-medium uppercase text-sm'>Bộ thẻ của bạn</span>
+            <span className='font-medium uppercase text-sm'>Your card set</span>
             <div className='flex gap-x-8 items-center'>
                 <button onClick={() => { refModalCreateDeck.current.show() }} className=''>
                     <img src="plus.png" className='w-9' alt="" />
@@ -135,7 +136,7 @@ function Decks() {
                         </div>
                         <input onChange={(event) => {
                             setSearchTerm(event.target.value)
-                        }} type="search" id="decks-search" className="block w-full  px-4 h-10 ps-10 text-sm text-gray-900 border border-gray-300 rounded-md bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Tên, mô tả..." />
+                        }} type="search" id="decks-search" className="block w-full  px-4 h-10 ps-10 text-sm text-gray-900 border border-gray-300 rounded-md bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Name, description..." />
                     </div>
                 </div>
             </div>
@@ -208,9 +209,7 @@ function Decks() {
                         </table>
                     
                         
-                    ) : (<div>
-                            <span className='text-sm'>Không có dữ liệu</span>
-                        </div>)
+                    ) : (<Empty/>)
                     }
                     {/* <hr className='my-4' /> */}
                 </div>

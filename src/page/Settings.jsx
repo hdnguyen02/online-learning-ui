@@ -36,21 +36,21 @@ function Settings() {
             
             <li className='flex items-center gap-x-3'>
 
-                <Link to={"/"}>Trang chủ</Link>
+                <Link to={"/"}>Home</Link>
             </li>
             <hr className='opacity-10'/>
             <li  className='flex items-center gap-x-3'>
             
-                <Link className={location.pathname.includes('/settings/info') ? 'link-active-mobile': ''} to={"/settings/info"}>Thông tin chung</Link>
+                <Link className={location.pathname.includes('/settings/info') ? 'link-active-mobile': ''} to={"/settings/info"}>Personal information</Link>
             </li>
             <hr className='opacity-10'/>
             <li className='flex items-center gap-x-3'>
-                <Link className={location.pathname.includes('/settings/password') ? 'link-active-mobile': ''} to={"/settings/password"}>Mật khẩu</Link>
+                <Link className={location.pathname.includes('/settings/password') ? 'link-active-mobile': ''} to={"/settings/password"}>Password</Link>
             </li>
             <hr className='opacity-10'/>
             <li className='flex gap-x-3 items-center'>
 
-                <button onClick={handleSignOut}>Đăng xuất</button>
+                <button onClick={handleSignOut}>Log out</button>
             </li>
         </ul>
     </div>

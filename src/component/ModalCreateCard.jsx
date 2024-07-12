@@ -66,6 +66,7 @@ const ModalCreateCard = React.forwardRef(({ decks, getCards }, ref) => {
             setMessageCss({
                 'color': 'red'
             })
+            console.log(error.message)
             setMessage('Đã có lỗi xảy ra!')
         }
         setTimeout(() => {setMessage(null)}, 2000) // ẩn thông báo sau 2s 
@@ -87,23 +88,23 @@ const ModalCreateCard = React.forwardRef(({ decks, getCards }, ref) => {
                     <div className="w-full border-r pr-6 border-gray-400">
                         <div className="flex-col md:flex-row flex justify-between gap-x-16 mt-4">
                             <div className="flex flex-col w-full gap-y-3">
-                                <label htmlFor="card-term">Thuật ngữ</label>
+                                <label htmlFor="card-term">Term</label>
                                 <input defaultValue={''} id="card-term" className="bg-transparent h-10 px-4" type="text" />
                             </div>
 
                             <div className="mt-4 md:mt-0 flex flex-col w-full gap-y-3">
-                                <label htmlFor="">Định nghĩa</label>
+                                <label htmlFor="">definition</label>
                                 <input defaultValue={''} id="card-definition" className="bg-transparent h-10 px-4" type="text" />
 
                             </div>
                         </div>
                         <div className="flex-col md:flex-row flex justify-between gap-x-16 mt-4">
                             <div className="flex flex-col w-full gap-y-3">
-                                <label htmlFor="">Thông tin thêm, ví dụ</label>
+                                <label htmlFor="">Example</label>
                                 <input defaultValue={''} id="card-example" className="bg-transparent h-10 px-4" type="text" />
                             </div>
                             <div className="mt-4 md:mt-0 flex flex-col w-full gap-y-3">
-                                <label>Bộ thẻ</label>
+                                <label>Card set</label>
                                 <select id='card-id-deck' className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                                     {decks.map((deck) => (
                                         <option key={deck.id} value={deck.id}>{deck.name}</option>
@@ -113,9 +114,9 @@ const ModalCreateCard = React.forwardRef(({ decks, getCards }, ref) => {
                         </div>
                     </div>
                     <div className="site-file flex flex-col gap-y-3">
-                        <span>Hình ảnh</span>
+                        <span>Image</span>
                         <input id="card-image" type="file" />
-                        <span>Âm thanh</span>
+                        <span>Audio</span>
                         <input id="card-audio" type="file" />
                     </div>
                 </div>
@@ -124,8 +125,8 @@ const ModalCreateCard = React.forwardRef(({ decks, getCards }, ref) => {
                 <div className='flex justify-between items-center'>
                     <div style={messageCss}>{message}</div>
                     <button className='bg-green-500 hover:bg-green-400 text-white h-10 w-24 justify-center border-b-4 border-green-700 hover:border-green-500 rounded flex items-center gap-x-2'>
-                        <span className='text-sm'>Thêm thẻ</span>
-                        <i className="hidden md:block fa-solid fa-plus"></i>
+                        <span className='text-sm'>Submit</span>
+                        {/* <i className="hidden md:block fa-solid fa-plus"></i> */}
                     </button>
                 </div>
             </form>

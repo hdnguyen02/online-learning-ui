@@ -152,11 +152,11 @@ export default function OwnerClasses() {
 
     function renderUnlockedUser() {
         return <div className="flex items-center justify-center flex-col gap-y-3">
-            <h1 className="text-3xl font-bold text-center">Online learning - Dành cho giáo viên</h1>
+            <h1 className="text-3xl font-bold text-center">Online learning - For teachers</h1>
             <div className="flex justify-center">
                 <button onClick={handlePayment} className='gap-x-2 flex items-center h-10 px-8 text-sm text-center rounded-md font-bold bg-yellow-400 sm:w-fit hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-yellow-200'>
 
-                    <span className='text-sm'>Mua</span>
+                    <span className='text-sm'>Buy</span>
                     <i className="fa-solid fa-unlock"></i>
                 </button>
             </div>
@@ -166,19 +166,10 @@ export default function OwnerClasses() {
 
     if (auth.roles.includes('TEACHER')) {
         return ownerClasses && <div>
-            <div className="flex justify-end">
-                <button className="mb-4">
-                    <img
-                        onClick={() => setIsOpenCreateClass(true)}
-                        src='/plus.png'
-                        className='w-9'
-                        alt=''
-                    />
-                </button>
-            </div>
+          
             {ownerClasses?.length != 0 ?
                 (
-                    <div className="mb-12 grid grid-cols-2 gap-12">
+                    <div className="mb-8 grid grid-cols-2 gap-8">
                         {
                             ownerClasses.map((ownerClass, index) => <div key={index} className="bg-[#F0F6F6] p-6 rounded">
                                 <div className="flex items-center justify-between">
@@ -189,7 +180,7 @@ export default function OwnerClasses() {
                                         <div className="flex flex-col gap-y-2">
                                             <div className="flex gap-x-2 items-center">
                                                 <span className="font-bold text-xl">{ownerClass.name}</span>
-                                                <span>({ownerClass.quantityMembers} thành viên)</span>
+                                                <span>({ownerClass.quantityMembers} member)</span>
                                             </div>
 
                                             <div className="flex items-center gap-x-3">
@@ -226,6 +217,16 @@ export default function OwnerClasses() {
                     </div>
                 ) : (<Empty />)
             }
+              <div className="flex justify-start">
+                <button className="mb-4">
+                    <img
+                        onClick={() => setIsOpenCreateClass(true)}
+                        src='/plus.png'
+                        className='w-9'
+                        alt=''
+                    />
+                </button>
+            </div>
             <Modal
                 isOpen={isOpenCreateClass}
                 onRequestClose={() => setIsOpenCreateClass(false)}

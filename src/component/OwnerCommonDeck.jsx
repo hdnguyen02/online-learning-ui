@@ -24,14 +24,6 @@ export default function OwnerCommonDecks() {
     const [isOpenEditCard, setIsOpenEditCard] = useState(false)
 
 
-    // tạo cards => lấy hàm tạo card qua đây +> 
-
-
-
-
-
-    // idGroup, name, description
-
     async function handleCreateCommonDeck(event) {
         event.preventDefault()
         const subUrl = '/common-decks'
@@ -149,7 +141,7 @@ export default function OwnerCommonDecks() {
         const idCards = checkedCheckboxes.map(checkedCheckbox => checkedCheckbox.value)
         console.log(idCards)
         if (idCards.length == 0) {
-            showToastError('Bạn chưa chọn thẻ nào!')
+            showToastError('You have not selected any card yet!')
             return
         }
 
@@ -162,7 +154,7 @@ export default function OwnerCommonDecks() {
             showToastMessage(message)
         }
         catch (error) {
-            showToastError("Xóa thẻ thất bại")
+            showToastError("Delete card failed")
         }
 
     }
@@ -311,8 +303,8 @@ export default function OwnerCommonDecks() {
 
     const stylesModalCreateCommonDeck = {
         content: {
-            width: '1000px',
-            height: '580px',
+            width: '548px',
+            height: '400px',
             top: '55%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
@@ -388,7 +380,7 @@ export default function OwnerCommonDecks() {
                                             {commonDeck.name}
                                         </th>
                                         <td className="font-medium px-8 py-5">
-                                            {commonDeck.quantityCards} thẻ
+                                            {commonDeck.quantityCards} card
                                         </td>
                                         <td className="font-medium px-8 py-5">
                                             {commonDeck.createAt}
@@ -436,11 +428,11 @@ export default function OwnerCommonDecks() {
             isOpen={isOpenEditCommonDeck}
             onRequestClose={() => setIsOpenEditCommonDeck(false)}
             contentLabel='Custom Modal'
-            style={stylesModalParent}
+            style={stylesModalCreateCommonDeck}
         >
             <form onSubmit={handleEditCommonDeck} className=''>
                 <div className='flex justify-between'>
-                    <h3 className='text-gray-800 text-2xl font-bold'>Hiệu chỉnh học phần</h3>
+                    <h3 className='text-gray-800 text-2xl font-bold'>Edit common card set</h3>
                     <button onClick={() => setIsOpenCreateCommonDeck(false)} type='button'>
                         <img src='/close.png' className='w-5 h-5' alt='' />
                     </button>
@@ -451,7 +443,7 @@ export default function OwnerCommonDecks() {
                 <div className='mt-6'>
                     <div className='flex flex-col gap-y-2 w-full'>
                         <label className='text-sm text-gray-600 font-bold' htmlFor=''>
-                            Tên
+                            Name
                         </label>
                         <input
                             defaultValue={detailCommonDeck?.name}
@@ -464,7 +456,7 @@ export default function OwnerCommonDecks() {
 
                     <div className='flex flex-col gap-y-2 w-full mt-4'>
                         <label className='text-sm text-gray-600 font-bold' htmlFor=''>
-                            Mô tả
+                            description
                         </label>
                         <input
                             defaultValue={detailCommonDeck?.description}
@@ -484,7 +476,7 @@ export default function OwnerCommonDecks() {
                         type='submit'
                         className='h-10 w-full items-center gap-x-2 px-8 text-sm text-center text-white font-bold rounded-md bg-primary sm:w-fit hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300'
                     >
-                        Hiệu chỉnh
+                        Submit
                     </button>
                 </div>
             </form>
@@ -499,7 +491,7 @@ export default function OwnerCommonDecks() {
         >
             <form onSubmit={handleCreateCommonDeck} className=''>
                 <div className='flex justify-between'>
-                    <h3 className='text-gray-800 text-2xl font-bold'>Tạo học phần</h3>
+                    <h3 className='text-gray-800 text-2xl font-bold'>Create common card set</h3>
                     <button onClick={() => setIsOpenCreateCommonDeck(false)} type='button'>
                         <img src='/close.png' className='w-5 h-5' alt='' />
                     </button>
@@ -543,7 +535,7 @@ export default function OwnerCommonDecks() {
                         type='submit'
                         className='h-10 w-full items-center gap-x-2 px-8 text-sm text-center text-white font-bold rounded-md bg-primary sm:w-fit hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300'
                     >
-                        Tạo
+                        Submit
                     </button>
                 </div>
             </form>
@@ -559,7 +551,7 @@ export default function OwnerCommonDecks() {
         >
             <form onSubmit={handleCreateCommonDeck} className=''>
                 <div className='flex justify-between'>
-                    <h3 className='text-gray-800 text-2xl font-bold'>Tạo học phần</h3>
+                    <h3 className='text-gray-800 text-2xl font-bold'>Create common card set</h3>
                     <button onClick={() => setIsOpenCreateCommonDeck(false)} type='button'>
                         <img src='/close.png' className='w-5 h-5' alt='' />
                     </button>
@@ -570,7 +562,7 @@ export default function OwnerCommonDecks() {
                 <div className='mt-6'>
                     <div className='flex flex-col gap-y-2 w-full'>
                         <label className='text-sm text-gray-600 font-bold' htmlFor=''>
-                            Tên
+                            Name
                         </label>
                         <input
                             onChange={(e) => setName(e.target.value)}
@@ -583,7 +575,7 @@ export default function OwnerCommonDecks() {
 
                     <div className='flex flex-col gap-y-2 w-full mt-4'>
                         <label className='text-sm text-gray-600 font-bold' htmlFor=''>
-                            Mô tả
+                            description
                         </label>
                         <input
                             onChange={(e) => setDescription(e.target.value)}
@@ -595,7 +587,7 @@ export default function OwnerCommonDecks() {
                     </div>
                 </div>
 
-                <hr className='my-4' />
+                <hr className='my-5' />
                 <div className='mt-4 flex justify-end items-center'>
                     {/* checkbox public => công khai lớp hay không */}
 
@@ -603,7 +595,7 @@ export default function OwnerCommonDecks() {
                         type='submit'
                         className='h-10 w-full items-center gap-x-2 px-8 text-sm text-center text-white font-bold rounded-md bg-primary sm:w-fit hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300'
                     >
-                        Tạo
+                        Submit
                     </button>
                 </div>
             </form>
@@ -627,7 +619,7 @@ export default function OwnerCommonDecks() {
                     <div className="flex flex-col gap-y-2 flex-1">
                         <div className="flex gap-x-2 items-center">
                             <span className="font-bold text-xl">{detailCommonDeck.name}</span>
-                            <span>({detailCommonDeck.quantityCards} thẻ)</span>
+                            <span>({detailCommonDeck.quantityCards} card)</span>
                         </div>
 
                         <div className="flex items-center gap-x-3">
@@ -639,17 +631,17 @@ export default function OwnerCommonDecks() {
 
                     <div className="flex gap-x-4">
                         <button onClick={() => setIsOpenCreateCard(true)} className="w-32 flex items-center justify-center gap-x-2 h-8 text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-3 text-center">
-                            <span>Thêm thẻ</span>
+                            <span>create card</span>
 
                             <i className="fa-solid fa-download"></i>
                         </button>
                         <button onClick={handleDeleteCard} className="w-32 flex items-center justify-center gap-x-2 h-8 text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-3 text-center">
-                            <span>Xóa thẻ</span>
+                            <span>delete card</span>
 
                             <i className="fa-solid fa-trash"></i>
                         </button>
                         <Link to={`/common-decks/${detailCommonDeck.id}/learn-cards`} className="w-32 flex items-center justify-center gap-x-2 h-8 text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-3 text-center">
-                            <span>Học thẻ</span>
+                            <span>Study card</span>
                             {/* chuyển người dùng tới phần học thẻ */}
                             <i className="fa-solid fa-graduation-cap"></i>
                         </Link>
@@ -667,10 +659,10 @@ export default function OwnerCommonDecks() {
                                 <input onChange={handleCheckAllCards} type="checkbox" className="w-4 h-4" />
                             </th>
                             <th scope="col" className="px-6 py-5">
-                                Thuật ngữ
+                                Term
                             </th>
                             <th scope="col" className="px-6 py-5">
-                                Định nghĩa
+                            Definition
                             </th>
                             <th scope="col" className="px-6 py-5">
                                 Example
@@ -759,7 +751,7 @@ export default function OwnerCommonDecks() {
                         </div>
 
                         <hr className="my-12"></hr>
-                        <div className='flex justify-between items-center'>
+                        <div className='flex justify-endD items-center'>
 
 
                             {/* chỉ có chủ của gr mới tạo được */}
@@ -768,8 +760,9 @@ export default function OwnerCommonDecks() {
 
 
                             <button className='bg-green-500 hover:bg-green-400 text-white h-10 w-24 justify-center border-b-4 border-green-700 hover:border-green-500 rounded flex items-center gap-x-2'>
-                                <span className='text-sm'>Create card</span>
-                                <i className="hidden md:block fa-solid fa-plus"></i>
+                                {/* <span className='text-sm'>Create card</span> */}
+                                {/* <i className="hidden md:block fa-solid fa-plus"></i> */}
+                                Submit
                             </button>
                         </div>
                     </form>

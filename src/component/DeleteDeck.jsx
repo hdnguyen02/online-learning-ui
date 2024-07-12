@@ -28,19 +28,19 @@ function DeleteDeck({handleCancle, handleDeleteDeck}) {
 
 
             <div className="mb-6">
-              <h3 className='text-center'>Xác nhận xóa bộ thẻ</h3>
-              <p className='text-red-600 text-center'>Lưu ý: Thao tác không thể quay lại</p>
+              <h3 className='text-center'>Confirm deletion of card set</h3>
+              <p className='text-red-600 text-center'>Note: The operation cannot be undone</p>
             </div>
 
 
             <div className="flex md:flex-row flex-col gap-4 justify-between items-center">
                 <button onClick={handleCancle}
                     className="py-2 w-32 text-sm font-medium text-center hover:text-white bg-gray-300 rounded-lg hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-red-300">
-                    Không, cảm ơn
+                    No, thanks
                 </button>
                 <button onClick={handleDeleteDeck}
                     className="py-2 w-32 text-sm font-medium text-center text-white bg-red-500 rounded-lg hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300">
-                    Xóa bộ thẻ
+                   Delete card set
                 </button>
             </div>
         </div>
