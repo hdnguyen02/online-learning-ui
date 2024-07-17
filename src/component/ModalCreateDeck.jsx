@@ -45,8 +45,9 @@ const ModelCreateDeck = React.forwardRef(({getDecks}, ref) => {
 
     return (isShow && <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40">
         <div className="bg-white p-6 rounded-lg shadow-lg z-50">
-            <div className="flex justify-end">
-                <button onClick={close} className="pr-2">
+            <div className="flex justify-between items-center px-4">
+                <span className="font-bold text-lg">Create card set</span>
+                <button onClick={close}>
                     <i className="fa-solid fa-xmark text-4xl text-gray-500"></i>
                 </button>
             </div>

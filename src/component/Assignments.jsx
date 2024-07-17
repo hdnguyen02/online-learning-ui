@@ -80,8 +80,8 @@ export default function Assignments() {
 
   const customStyles = {
     content: {
-      width: "750px",
-      height: "360px",
+      width: "600px",
+      height: "350px",
       top: "50%",
       left: "50%",
       transform: "translate(-50%, -50%)",

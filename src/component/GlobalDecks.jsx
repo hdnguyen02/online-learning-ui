@@ -144,13 +144,14 @@ export default function GlobalDecks() {
                       </div>
                     </div>
                   </div>
-                  <div className='flex gap-x-2'>
+                  <div className='flex gap-x-2 flex-col'>
                     {/* <Link to={`/groups/${globalGroup.id}`} >
     
                                     <span className='ml-1'>Chi tiết</span>
     
     
                                 </Link> */}
+                    
                     <button
                       onClick={() => getDeckDetail(deck.id)}
                       className='flex items-center gap-x-2 h-8 text-blue-900 hover:text-white border border-blue-800 hover:bg-blue-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 text-center'
@@ -159,6 +160,7 @@ export default function GlobalDecks() {
 
                       <i className='fa-regular fa-eye'></i>
                     </button>
+
 
                     {/* <button className='flex items-center gap-x-2 h-8 text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-3 text-center'>
                                     <span>Clone</span>
@@ -224,15 +226,17 @@ export default function GlobalDecks() {
                     </div>
                   </div>
   
-                  <div>
+                  <div className='flex gap-x-2 items-center'>
+                  <span className='text-sm'>{detailDeck?.quantityClone} clone</span>
                     <button
                       onClick={handleCloneDeck}
                       className='flex items-center gap-x-2 h-8 text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-3 text-center'
                     >
                       <span>Clone</span>
-  
+        
                       <i className='fa-solid fa-download'></i>
                     </button>
+                  
                   </div>
                 </div>
   

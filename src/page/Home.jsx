@@ -15,7 +15,15 @@ function Home() {
         <div className="w-1/2 flex items-center">
           <img src="/public/preview-fashcard.avif" loading="lazy" className="w-full" alt="" />
         </div>
+        
       </div>
+      
+
+      {/*  */}
+      
+
+
+
     </div>
 
   

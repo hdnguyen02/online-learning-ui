@@ -2,7 +2,7 @@
 import { useRef, useState, useEffect } from 'react'
 import { fetchData, convertValueFromSelect } from '../global'
 import ModalCreateCard from './ModalCreateCard'
-import ModelEditCard from './ModelEditCard'
+import ModalEditCard from './ModalEditCard'
 import Empty from './Empty'
 
 export default function Cards() {
@@ -23,7 +23,7 @@ export default function Cards() {
     const refSuccess = useRef()
     const refFail = useRef()
     const refModalCreateCard = useRef()
-    const refModelEditCard = useRef()
+    const refModalEditCard = useRef()
     const [searchContent, setSearchContent] = useState('')
     const [showFilterDeck, setShowFilterDeck] = useState()
     const [showFilterIsRemember, setShowFilterIsRemember] = useState()
@@ -40,7 +40,7 @@ export default function Cards() {
     }
 
     function handleEditCard(event, idCard) {
-        refModelEditCard.current.show(idCard)
+        refModalEditCard.current.show(idCard)
     }
 
 
@@ -207,7 +207,7 @@ export default function Cards() {
 
     return <div>
         <ModalCreateCard decks={decks} getCards={getCards} ref={refModalCreateCard} />
-        <ModelEditCard decks={decks} getCards={getCards} ref={refModelEditCard} />
+        <ModalEditCard decks={decks} getCards={getCards} ref={refModalEditCard} />
         <div className='flex justify-between mt-10'>
 
             <div className='flex gap-x-8 items-center h-12'>
@@ -352,7 +352,12 @@ export default function Cards() {
                                     </tr>
                                 ))}
                             </tbody>
-                        </table>)
+                        </table>
+                        
+                                
+                                
+                    )
+                        
                         : (<Empty/>)
                     }
                     {/* <hr className='my-4' /> */}

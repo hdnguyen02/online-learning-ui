@@ -106,8 +106,8 @@ async function handleInviteUser(event) {
           style={stylesModalInviteUser}
         >
           <form onSubmit={handleInviteUser} className=''>
-            <div className='flex justify-between'>
-              <h3 className='text-gray-800 text-2xl font-bold'>Invite student</h3>
+            <div className='flex justify-between items-center'>
+              <span className='text-gray-800 text-lg font-bold'>Invite student</span>
               <button onClick={() => setIsOpenModalInviteUser(false)} type='button'>
                 <img src='/close.png' className='w-5 h-5' alt='' />
               </button>

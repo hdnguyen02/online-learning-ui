@@ -234,8 +234,8 @@ export default function OwnerClasses() {
                 style={stylesModalCreateClass}
             >
                 <form onSubmit={handleCreateClass} className=''>
-                    <div className='flex justify-between'>
-                        <h3 className='text-gray-800 text-2xl font-bold'>Create group</h3>
+                    <div className='flex justify-between items-center'>
+                        <span className='text-gray-800 text-lg font-bold'>Create group</span>
                         <button onClick={() => setIsOpenCreateClass(false)} type='button'>
                             <img src='/close.png' className='w-5 h-5' alt='' />
                         </button>
@@ -296,8 +296,8 @@ export default function OwnerClasses() {
                 style={stylesModalCreateClass}
             >
                 <form onSubmit={handleEditGroup} className=''>
-                    <div className='flex justify-between'>
-                        <h3 className='text-gray-800 text-2xl font-bold'>Edit group</h3>
+                    <div className='flex justify-between items-center   '>
+                        <span className='text-gray-800 text-lg font-bold'>Edit group</span>
                         <button onClick={() => setIsOpenEditGroup(false)} type='button'>
                             <img src='/close.png' className='w-5 h-5' alt='' />
                         </button>

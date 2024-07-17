@@ -3,7 +3,7 @@ import { baseUrl, fetchData } from "../global"
 import { showToastError, showToastMessage } from "../global"
 import { ToastContainer } from "react-toastify"
 
-const ModelEditCard = React.forwardRef(({ decks, getCards }, ref) => {
+const ModalEditCard = React.forwardRef(({ decks, getCards }, ref) => {
 
     const [isShow, setIsShow] = useState(false)
     const [message, setMessage] = useState()
@@ -84,8 +84,9 @@ const ModelEditCard = React.forwardRef(({ decks, getCards }, ref) => {
 
     return (isShow && card && <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40">
         <div className="bg-white p-6 rounded-lg shadow z-50">
-            <div className="flex justify-end">
-                <button onClick={close} className="pr-2">
+            <div className="flex justify-between items-center px-6">
+                <span className="font-bold text-lg">Edit card</span>
+                <button onClick={close}>
                     <i className="fa-solid fa-xmark text-4xl text-gray-500"></i>
                 </button>
             </div>
@@ -132,7 +133,7 @@ const ModelEditCard = React.forwardRef(({ decks, getCards }, ref) => {
                     {card.image ? (<div className="flex justify-start">
                         <img className="object-contain w-52" src={card.image} />
                     </div>) : (
-                        <span>Không có hình ảnh</span>
+                        <span>No image</span>
                     )}
 
                     {card.audio ? (<div className="">
@@ -142,16 +143,15 @@ const ModelEditCard = React.forwardRef(({ decks, getCards }, ref) => {
                                 Your browser does not support the audio element.
                             </audio>
                         </div>
-                    </div>) : (<span>Không có audio</span>)}
+                    </div>) : (<span>No audio</span>)}
 
                 
                 </div>
                 <hr className="my-6" />
                 <div className='flex justify-between items-center'>
                     <div style={messageCss}>{message}</div>
-                    <button className='bg-green-500 hover:bg-green-400 text-white h-10 w-36 justify-center border-b-4 border-green-700 hover:border-green-500 rounded flex items-center gap-x-2'>
-                        <span className='text-sm'>Hiệu chỉnh</span>
-                        <i className="fa-regular fa-pen-to-square text-xl"></i>
+                    <button className='bg-green-500 hover:bg-green-400 text-white h-10 w-24 justify-center border-b-4 border-green-700 hover:border-green-500 rounded flex items-center gap-x-2'>
+                        Submit
                     </button>
                 </div>
             </form>
@@ -160,4 +160,4 @@ const ModelEditCard = React.forwardRef(({ decks, getCards }, ref) => {
     </div>)
 })
 
-export default ModelEditCard
+export default ModalEditCard

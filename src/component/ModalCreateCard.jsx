@@ -1,6 +1,9 @@
 import React, { useState } from "react"
 import { baseUrl } from "../global"
 
+
+// thong nhat chi co tao card la khong dong thoi -> tao may cai khac deu dong modal.
+
 const ModalCreateCard = React.forwardRef(({ decks, getCards }, ref) => {
 
     const [isShow, setIsShow] = useState(false)
@@ -78,8 +81,9 @@ const ModalCreateCard = React.forwardRef(({ decks, getCards }, ref) => {
 
     return (isShow && <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40">
         <div className="bg-white p-6 rounded shadow-lg z-50">
-            <div className="flex justify-end">
-                <button onClick={close} className="pr-2">
+            <div className="flex justify-between items-center px-6">
+                <span className="font-bold text-lg">Create card</span>
+                <button onClick={close} className="">
                     <i className="fa-solid fa-xmark text-4xl text-gray-500"></i>
                 </button>
             </div>
