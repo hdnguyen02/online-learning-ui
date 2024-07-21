@@ -41,6 +41,14 @@ import LearnCommonDeck from './page/LearnCommonDeck.jsx'
 import OwnerCommonDecks from './component/OwnerCommonDeck.jsx'
 
 import User from './component/User.jsx'
+import Admin from './page/Admin.jsx'
+import Users from './component/admin/Users.jsx'
+import Invoices from './component/admin/Invoices.jsx'
+import Statistics from './component/admin/Statistics.jsx'
+
+
+// tìm kiếm, lọc phân trang với reactTable 
+import CardsTest from './component/cards/CardsTest.jsx'
 
 
 function App() {
@@ -55,6 +63,13 @@ function App() {
         <Route element={<PrivateRoutes />}>
 
           {/* phần thêm mới */}
+
+          <Route path='/admin' element={<Admin />}>
+            <Route path='' element={<Users />}> </Route>
+            <Route path='users' element={<Users />}> </Route>
+            <Route path='invoices' element={<Invoices />}> </Route>
+            <Route path='statistics' element={<Statistics />}> </Route>
+          </Route>
 
 
           <Route path='/decks' element={<GlobalDeck />}>
@@ -116,6 +131,11 @@ function App() {
           <Route path="/my-cards" element={<Card />} >
             <Route path='' element={<Cards />} />
           </Route>
+
+          <Route path="/my-cards-test" element={<Card />} >
+            <Route path='' element={<CardsTest />} />
+          </Route>
+
 
           {/* settings */}
           <Route path='/settings' element={<Settings />} >
