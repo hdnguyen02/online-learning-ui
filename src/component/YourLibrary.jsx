@@ -20,7 +20,7 @@ export default function YourLibrary() {
         {/*  */}
 
             <button onClick={handleClickLiblary} className='flex gap-x-3'>
-                <span className='font-medium text-[#282E3E]'>Your library</span>
+                <span className='font-medium'>Your library</span>
                 <i className="fa-solid fa-angle-down pt-1"></i>
                 </button>
       

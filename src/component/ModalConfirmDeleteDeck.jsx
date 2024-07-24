@@ -1,7 +1,7 @@
 
 import React from 'react'
 
-function DeleteDeck({handleCancle, handleDeleteDeck}) {
+function ModalConfirmDeleteDeck({handleCancelDeleteDeck, handleDeleteDeck}) {
 
 
 
@@ -14,7 +14,7 @@ function DeleteDeck({handleCancle, handleDeleteDeck}) {
                 transform: "translate(-50%, -50%)",
                 boxShadow: "rgba(0, 0, 0, 0.4) 0px 30px 90px"
               }}>
-            <button onClick={handleCancle}
+            <button onClick={handleCancelDeleteDeck}
                 className="absolute top-2.5 right-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
                 >
                 <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
@@ -34,7 +34,7 @@ function DeleteDeck({handleCancle, handleDeleteDeck}) {
 
 
             <div className="flex md:flex-row flex-col gap-4 justify-between items-center">
-                <button onClick={handleCancle}
+                <button onClick={handleCancelDeleteDeck}
                     className="py-2 w-32 text-sm font-medium text-center hover:text-white bg-gray-300 rounded-lg hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-red-300">
                     No, thanks
                 </button>
@@ -48,7 +48,7 @@ function DeleteDeck({handleCancle, handleDeleteDeck}) {
 
 }
 
-export default DeleteDeck
+export default ModalConfirmDeleteDeck
 
 
 

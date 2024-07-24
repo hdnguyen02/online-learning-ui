@@ -1,6 +1,6 @@
 import React, { useState } from "react"
-import { baseUrl, fetchData } from "../global"
-import { showToastError, showToastMessage } from "../global"
+import { baseUrl, fetchData } from "../../global"
+import { showToastError, showToastMessage } from "../../global"
 import { ToastContainer } from "react-toastify"
 
 const ModalEditCard = React.forwardRef(({ decks, getCards }, ref) => {
@@ -21,9 +21,12 @@ const ModalEditCard = React.forwardRef(({ decks, getCards }, ref) => {
             console.log(error.message)
         }        
     }
-    function show(idCard) {
+    async function show(idCard) {
+        await getCard(idCard)
         setIsShow(true)
-        getCard(idCard)
+ 
+
+        
     }
 
     function close() {

@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { baseUrl } from "../global"
+import { baseUrl } from "../../global"
 
 
 // thong nhat chi co tao card la khong dong thoi -> tao may cai khac deu dong modal.

@@ -153,10 +153,11 @@ async function handleInviteUser(event) {
                       <img src={userGroup.avatar ? userGroup.avatar : '/user.png'} loading="lazy" className='w-full h-full' alt='' />
                     </div>
                     <div className="flex flex-col gap-y-2">
-                      <span className="font-medium">{userGroup.firstName + " " + userGroup.lastName}</span>
-
+                      
+                    <span className="font-medium">{userGroup.email}</span>
                       <div className="flex items-center gap-x-3">
-                        <span className="font-light text-sm">{userGroup.email}</span>
+                        
+                        <span className="font-light text-sm">{userGroup.firstName + " " + userGroup.lastName}</span>
                         {
                           userGroup.roles.map((role, index) => {
                             return <span key={index}>
@@ -165,6 +166,7 @@ async function handleInviteUser(event) {
                           })
                         }
                       </div>
+                     
                     </div>
                   </div>
                   <div className="flex gap-x-2">

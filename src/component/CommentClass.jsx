@@ -4,6 +4,7 @@ import { fetchData, showToastMessage, showToastError } from "../global";
 import { ToastContainer } from "react-toastify";
 import { useEffect, useState } from "react";
 import Empty from "./Empty";
+import { commonformatDistanceToNow } from "../helper/common";
 
 export default function CommentClass() {
   const [isOpenReply, setIsOpenReply] = useState(false);
@@ -25,7 +26,8 @@ export default function CommentClass() {
     setContentCommentReply(event.target.value);
   }
 
-  async function handleCreateComment() {
+  async function handleCreateComment(event) {
+    event.preventDefault()
     const subUrl = "/comments";
     const body = {
       groupId: params.id,
@@ -34,15 +36,17 @@ export default function CommentClass() {
     };
 
     try {
-      const response = await fetchData(subUrl, "POST", body);
-      
+      await fetchData(subUrl, "POST", body)
+      setContentComment('')
+
       getComments();
     } catch ({ message }) {
       showToastError(message);
     }
   }
 
-  async function handleCreateCommentReply() {
+  async function handleCreateCommentReply(event) {
+    event.preventDefault()
     const subUrl = "/comments";
     const body = {
       groupId: params.id,
@@ -68,11 +72,10 @@ export default function CommentClass() {
       console.log(error.message);
     }
   }
-  
 
   function showReplyComment(id) {
-    setIdCommentReply(id)
-    setIsOpenReply(true)
+    setIdCommentReply(id);
+    setIsOpenReply(true);
   }
 
   useEffect(() => {
@@ -98,21 +101,22 @@ export default function CommentClass() {
 
   return (
     <div className="mb-16">
-      <div className="flex items-center gap-x-8 mb-8">
+      <form onSubmit={handleCreateComment} className="flex items-center gap-x-8 mb-8">
         <input
           onChange={handleChangeComment}
+          value={contentComment}
+          required
           className="w-full p-4 h-9"
           placeholder="comment..."
         ></input>
         <div className="flex justify-end">
           <button
-            onClick={handleCreateComment}
             className="flex items-center gap-x-2 h-9 px-5 text-sm text-center text-white rounded-md bg-green-600 sm:w-fit hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-gray-300"
           >
             <span className="text-sm">Submit</span>
           </button>
         </div>
-      </div>
+      </form>
 
       {/* show comments */}
       {comments && (
@@ -120,7 +124,7 @@ export default function CommentClass() {
           {comments.length != 0 ? (
             comments.map((comment, index) => {
               return (
-                <div key={index}>
+                <div key={index} className="mt-6">
                   <div className="flex items-center gap-x-2">
                     {/* avatar */}
                     <div className="dropdown-btn h-10 w-10 rounded-full overflow-hidden cursor-pointer">
@@ -136,18 +140,13 @@ export default function CommentClass() {
                     </div>
                     <div className="flex flex-col gap-y-1">
                       {/* fullname email */}
-                      <span className="text-sm font-medium">
-                        {comment.user.firstName + " " + comment.user.lastName}
+                      <span className="text-sm">
+                        {comment.user.firstName + " " + comment.user.lastName} -{" "}
+                        {commonformatDistanceToNow(comment.created)}
                       </span>
                       {/* content */}
-                      <div className="text-gray-800">
-                        {comment.content}
-                      </div>
-                      {/* repply */}
-                      <div className="flex gap-x-5 items-center">
-                        <span className="text-xs font-light">
-                          {comment.created}
-                        </span>
+                      <div className="text-gray-800 font-bold flex gap-x-4">
+                        <span>{comment.content}</span>{" "}
                         <button
                           onClick={() => showReplyComment(comment.id)}
                           className="flex gap-x-2 items-center"
@@ -155,6 +154,13 @@ export default function CommentClass() {
                           <span className="text-sm font-medium">Reply</span>
                           <i className="fa-regular fa-message text-xs mt-1"></i>
                         </button>
+                      </div>
+                      {/* repply */}
+                      <div className="flex gap-x-5 items-center">
+                        {/* <span className="text-sm">
+  
+                          {commonformatDistanceToNow(comment.created)}
+                        </span> */}
                       </div>
                     </div>
                   </div>
@@ -178,21 +184,20 @@ export default function CommentClass() {
                             </div>
                             <div className="flex flex-col gap-y-1">
                               {/* fullname email */}
-                              <span className="">
+                              <span className="text-sm">
                                 {commentChild.user.firstName +
                                   " " +
-                                  commentChild.user.lastName}
+                                  commentChild.user.lastName}{" "}
+                                -{" "}
+                                {commonformatDistanceToNow(
+                                  commentChild.created
+                                )}
                               </span>
                               {/* content */}
-                              <div className="text-gray-800 font-medium">
+                              <div className="text-gray-800 font-bold">
                                 {commentChild.content}
                               </div>
                               {/* repply */}
-                              <div className="flex gap-x-5 items-center">
-                                <span className="text-sm font-light">
-                                  {commentChild.created}
-                                </span>
-                              </div>
                             </div>
                           </div>
                         </div>
@@ -214,26 +219,24 @@ export default function CommentClass() {
         contentLabel="Custom Modal"
         style={customStyles}
       >
-        <div className="flex flex-col gap-y-2">
-
-        <p>Repply</p>
-        <div className="flex gap-x-4">
-          
-          <input
-            onChange={handleChangeContentCommentReply}
-            type="text"
-            className="w-full h-9 px-4"
-          />
-          <div className="flex justify-end">
-            <button
-              onClick={handleCreateCommentReply}
-              className="flex items-center gap-x-2 h-9 px-5 text-sm text-center text-white rounded-md bg-green-600 sm:w-fit hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-gray-300"
-            >
-              <span className="text-sm">Submit</span>
-            </button>
-          </div>
-        </div>
-        </div>
+        <d  iv className="flex flex-col gap-y-2">
+          <p>Repply</p>
+          <form onSubmit={handleCreateCommentReply} className="flex gap-x-4">
+            <input
+              onChange={handleChangeContentCommentReply}
+              required
+              type="text"
+              className="w-full h-9 px-4"
+            />
+            <div className="flex justify-end">
+              <button type="submit"
+                className="flex items-center gap-x-2 h-9 px-5 text-sm text-center text-white rounded-md bg-green-600 sm:w-fit hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-gray-300"
+              >
+                <span className="text-sm">Submit</span>
+              </button>
+            </div>
+          </form>
+        </d>
       </Modal>
       <ToastContainer />
     </div>
