@@ -111,7 +111,7 @@ const TableComponent = ({ columns, data, handleEdit, handleDelete, getCards, dec
                 >
                   {column.render("Header")}
                   <span className="ml-2">
-                  <i class="fa-solid fa-sort opacity-60"></i>
+                  <i className="fa-solid fa-sort opacity-60"></i>
                   </span>
                 </th>
               ))}

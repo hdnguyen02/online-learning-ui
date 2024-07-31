@@ -3,7 +3,6 @@ function Home() {
   return (
     <div className="my-[60px] w-full">
        <img className="w-full" src="/study.jpg" loading="lazy" alt=""/>
-
       <div className="mt-12 flex gap-x-12 px-48">
         <div className="flex flex-col justify-around w-1/2">
           <h2 className="text-2xl font-bold">Search and create card set</h2>
@@ -13,20 +12,10 @@ function Home() {
           </button>
         </div>
         <div className="w-1/2 flex items-center">
-          <img src="/public/preview-fashcard.avif" loading="lazy" className="w-full" alt="" />
-        </div>
-        
+          <img src="/preview-fashcard.avif" loading="lazy" className="w-full" alt="" />
+        </div>       
       </div>
-      
-
-      {/*  */}
-      
-
-
-
     </div>
-
-  
   )
 }
 
