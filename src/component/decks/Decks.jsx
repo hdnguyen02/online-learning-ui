@@ -39,7 +39,7 @@ const Decks = () => {
       {
         Header: "Quantity cards",
         accessor: "quantityCards",
-        Cell: ({value}) => <span class="text-xs font-semibold inline-block py-1 px-2 rounded text-orange-600 bg-orange-200 uppercase last:mr-0 mr-1">
+        Cell: ({value}) => <span className="text-xs font-semibold inline-block py-1 px-2 rounded text-orange-600 bg-orange-200 uppercase last:mr-0 mr-1">
         {value}
       </span>
       },
@@ -47,7 +47,7 @@ const Decks = () => {
       {
         Header: "Quantity clone",
         accessor: "quantityClones",
-        Cell: ({value}) => <span class="text-xs font-semibold inline-block py-1 px-2 rounded text-emerald-600 bg-emerald-200 uppercase last:mr-0 mr-1">
+        Cell: ({value}) => <span className="text-xs font-semibold inline-block py-1 px-2 rounded text-emerald-600 bg-emerald-200 uppercase last:mr-0 mr-1">
         {value}
       </span>
       },
@@ -60,7 +60,7 @@ const Decks = () => {
               Yes
             </span>
           ) : (
-            <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-red-600 bg-red-200 last:mr-0 mr-1">
+            <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-red-600 bg-red-200 last:mr-0 mr-1">
               No
             </span>
           ),

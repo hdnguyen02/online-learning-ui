@@ -32,7 +32,7 @@ import DetailGlobalGroup from "./page/DetailGlobalGroup.jsx";
 import GlobalGroups from "./page/GlobalGroups.jsx";
 
 import GlobalDecks from "./component/GlobalDecks.jsx";
-import DetailGlobalDeck from "./component/DetailGlobalDeck.jsx";
+// import DetailGlobalDeck from "./component/DetailGlobalDeck.jsx";
 import GlobalDeck from "./page/GlobalDeck.jsx";
 import LearnCommonDeck from "./page/LearnCommonDeck.jsx";
 
@@ -78,7 +78,7 @@ function App() {
 
           <Route path="/decks" element={<GlobalDeck />}>
             <Route path="" element={<GlobalDecks />} />
-            <Route path=":id" element={<DetailGlobalDeck />}></Route>
+            {/* <Route path=":id" element={<DetailGlobalDeck />}></Route> */}
           </Route>
 
           <Route path="/groups" element={<GlobalGroup />}>
