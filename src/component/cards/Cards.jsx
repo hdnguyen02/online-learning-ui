@@ -1,6 +1,7 @@
 import React, { useMemo,useState, useEffect,useRef } from 'react';
 import TableComponent from './TableComponent'
-import { fetchData, showToastError, showToastMessage } from '../../global';
+import { fetchData, showToastError, showToastMessage } from '../../global'
+import {commonformatDistanceToNow} from '../../helper/common'
 import ModalEditCard from './ModalEditCard'
 import { ToastContainer } from 'react-toastify'
 const App = () => {
@@ -46,17 +47,35 @@ const App = () => {
     {
       Header: 'Created At',
       accessor: 'createAt',
-      Cell: ({ value }) => new Date(value).toLocaleDateString(),
+      Cell: ({ value }) => commonformatDistanceToNow(value),
     },
     {
       Header: 'Favourite',
       accessor: 'isFavourite',
-      Cell: ({ value }) => (value ? 'Yes' : 'No'),
+      Cell: ({ value }) =>
+        value ? (
+          <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blue-600 bg-blue-200 last:mr-0 mr-1">
+            Yes
+          </span>
+        ) : (
+          <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-red-600 bg-red-200 last:mr-0 mr-1">
+            No
+          </span>
+        ),
     },
     {
       Header: 'Remembered',
       accessor: 'isRemembered',
-      Cell: ({ value }) => (value ? 'Yes' : 'No'),
+      Cell: ({ value }) =>
+        value ? (
+          <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blue-600 bg-blue-200 last:mr-0 mr-1">
+            Yes
+          </span>
+        ) : (
+          <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-red-600 bg-red-200 last:mr-0 mr-1">
+            No
+          </span>
+        ),
     },
     {
       Header: 'Deck',
@@ -107,8 +126,6 @@ const App = () => {
       {/* <h1>My Table</h1> */}
   
       <TableComponent columns={columns}  handleEdit={handleEdit} handleDelete={handleDelete} data={data} getCards={getCards} decks={decks} />
-    
-      
       <ModalEditCard decks={decks} getCards={getCards} ref={refModalEditCard} />
       <ToastContainer />
 

@@ -26,59 +26,40 @@ import AssignmentTeacher from "./page/AssignmentTeacher.jsx";
 import DetailAssignment from "./component/DetailAssignment.jsx";
 import Submits from "./component/Submits.jsx";
 import MembersAttendanceClass from "./component/MembersAttendanceClass.jsx";
-
 import GlobalGroup from "./page/GlobalGroup.jsx";
 import DetailGlobalGroup from "./page/DetailGlobalGroup.jsx";
 import GlobalGroups from "./page/GlobalGroups.jsx";
-
 import GlobalDecks from "./component/GlobalDecks.jsx";
-// import DetailGlobalDeck from "./component/DetailGlobalDeck.jsx";
 import GlobalDeck from "./page/GlobalDeck.jsx";
 import LearnCommonDeck from "./page/LearnCommonDeck.jsx";
-
 import OwnerCommonDecks from "./component/OwnerCommonDeck.jsx";
-
 import User from "./component/User.jsx";
 import Admin from "./page/Admin.jsx";
 import Users from "./component/admin/Users.jsx";
 import Invoices from "./component/admin/Invoices.jsx";
 import Statistics from "./component/admin/Statistics.jsx";
-
 import Cards from "./component/cards/Cards";
 import Decks from "./component/decks/Decks.jsx";
-
 import ProfileUser from "./component/ProfileUser.jsx";
 import DecksUser from './component/profile-users/Decks.jsx'
+import UsersTest from './component/admin/UsersTest.jsx'
 
-// tìm
 
 function App() {
   return (
     <Router>
       <Navbar />
       <Routes>
-        {/* private router */}
         <Route element={<PrivateRoutes />}>
-          {/* phần thêm mới */}
-
           <Route path="/admin" element={<Admin />}>
-            <Route path="" element={<Users />}>
-              {" "}
-            </Route>
-            <Route path="users" element={<Users />}>
-              {" "}
-            </Route>
-            <Route path="invoices" element={<Invoices />}>
-              {" "}
-            </Route>
-            <Route path="statistics" element={<Statistics />}>
-              {" "}
-            </Route>
+            <Route path="" element={<UsersTest />}/>
+            <Route path="users" element={<UsersTest/>}/>
+            <Route path="invoices" element={<Invoices />}/>
+            <Route path="statistics" element={<Statistics />}/>
           </Route>
 
           <Route path="/decks" element={<GlobalDeck />}>
             <Route path="" element={<GlobalDecks />} />
-            {/* <Route path=":id" element={<DetailGlobalDeck />}></Route> */}
           </Route>
 
           <Route path="/groups" element={<GlobalGroup />}>
@@ -86,10 +67,7 @@ function App() {
             <Route path=":id" element={<DetailGlobalGroup />}></Route>
           </Route>
 
-          <Route
-            path="/teacher/groups/:idClass/assignments/:idAssignment"
-            element={<AssignmentTeacher />}
-          >
+          <Route path="/teacher/groups/:idClass/assignments/:idAssignment" element={<AssignmentTeacher />}>
             <Route path="" element={<DetailAssignment />}>
               {" "}
             </Route>
@@ -98,13 +76,8 @@ function App() {
             </Route>
           </Route>
 
-          <Route
-            path="/student/groups/:idClass/assignments/:idAssignment"
-            element={<AssignmentTeacher />}
-          >
-            <Route path="" element={<DetailAssignment />}>
-              {" "}
-            </Route>
+          <Route path="/student/groups/:idClass/assignments/:idAssignment" element={<AssignmentTeacher />}>
+            <Route path="" element={<DetailAssignment />}/>
           </Route>
 
           {/* classes */}
@@ -114,12 +87,8 @@ function App() {
               <Route path="attendance" element={<AttendanceClasses />}></Route>
             </Route>
 
-            <Route
-              path="detail-owner/:id"
-              element={<DetailClass></DetailClass>}
-            >
+            <Route path="detail-owner/:id" element={<DetailClass></DetailClass>}>
               <Route path="decks" element={<OwnerCommonDecks />} />
-
               <Route path="add-member" element={<AddMember />} />
               <Route path="members" element={<MembersOwnerClass />} />
               <Route path="comments" element={<CommentClass />} />
@@ -146,11 +115,6 @@ function App() {
             element={<LearnCommonDeck />}
           />
 
-          {/* <Route path='/my-decks' element={<Deck />}>
-            <Route path='' element={<Decks />} />
-            <Route path=':id/learn-cards' element={<FlipCard />} />
-          </Route> */}
-
           <Route path="/my-decks" element={<Deck />}>
             <Route path="" element={<Decks />} />
             <Route path=":id/learn-cards" element={<FlipCard />} />
@@ -159,10 +123,7 @@ function App() {
           <Route path="/my-cards" element={<Card />}>
             <Route path="" element={<Cards />} />
           </Route>
-          {/* 
-          <Route path="/my-cards-test" element={<Card />} >
-            <Route path='' element={<CardsTest />} />
-          </Route> */}
+
 
           {/* settings */}
           <Route path="/settings" element={<Settings />}>
@@ -174,7 +135,6 @@ function App() {
 
           <Route path="/users/:emailUser" element={<ProfileUser />}>
             <Route path="decks" element={<DecksUser />} />
-            <Route path="groups" element={<InfoUser />} />
           </Route>
         </Route>
 
@@ -190,4 +150,4 @@ function App() {
   );
 }
 
-export default App;
+export default App

@@ -74,7 +74,7 @@ export default function Decks() {
     decks && (
       <>
         {decks.length != 0 ? (
-          <div className="mb-12 grid grid-cols-2 gap-12">
+          <div className="mt-4 mb-12 grid grid-cols-2 gap-12">
             {decks.map((deck, index) => (
               <div key={index}>
 

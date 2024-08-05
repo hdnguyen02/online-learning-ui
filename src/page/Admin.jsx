@@ -52,7 +52,7 @@ export default function Admin() {
           <li className="flex items-center gap-x-3">
             <Link
               className={
-                location.pathname.includes("/settings/info")
+                location.pathname.includes("/admin/users")
                   ? "link-active-mobile"
                   : ""
               }
@@ -65,7 +65,7 @@ export default function Admin() {
           <li className="flex items-center gap-x-3">
             <Link
               className={
-                location.pathname.includes("/settings/password")
+                location.pathname.includes("/admin/invoices")
                   ? "link-active-mobile"
                   : ""
               }
@@ -77,7 +77,11 @@ export default function Admin() {
           </li>
           <hr className="opacity-10" />
           <li className="flex items-center gap-x-3">
-            <Link to={"/admin/statistics"}>Statistics</Link>
+            <Link className={
+                location.pathname.includes("/admin/statistics")
+                  ? "link-active-mobile"
+                  : ""
+              } to={"/admin/statistics"}>Statistics</Link>
           </li>
           <hr className="opacity-10" />
           <li className="flex gap-x-3 items-center">

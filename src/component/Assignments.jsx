@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { baseUrl, fetchData, showToastMessage } from "../global";
-import { Link, useParams, useLocation, useNavigate } from "react-router-dom";
+import { baseUrl, fetchData, showToastError, showToastMessage } from "../global";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import Modal from "react-modal";
 import { ToastContainer } from "react-toastify"
 import Empty from "./Empty";
+import {commonFormatddMMYYYYHHmm} from '../helper/common'
 
 export default function Assignments() {
   const params = useParams();
@@ -56,9 +57,9 @@ export default function Assignments() {
         throw new Error(response.message);
       }
       setIsOpenCreateAsm(false);
-      showToastMessage("Tạo bài tập thành công");
+      showToastMessage("Create successful assignments");
     } catch (error) {
-      console.log(error.message);
+      showToastError(error.message)
     }
   }
 
@@ -127,7 +128,7 @@ export default function Assignments() {
                 </div>
 
                 <span className="text-xs text-[#6D6E6E]">
-                  {assignment.deadline}
+                  {commonFormatddMMYYYYHHmm(assignment.deadline)} (deadline)
                 </span>
               </div>
             );

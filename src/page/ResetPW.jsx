@@ -16,7 +16,7 @@ export default function ForgotPW() {
 
         if (newPassword !== confirmPassword) {
             
-            failRef.current.show('Mật khẩu mới và mật khẩu xác nhận không trùng nhau!')
+            failRef.current.show('New password and confirmation password do not match!')
             return
         }
         // lấy ra token trên url đó. 
@@ -26,9 +26,11 @@ export default function ForgotPW() {
         
         try {
             const subUrl = '/reset-password'
+            localStorage.setItem('accessToken', accessToken)
             const body = {
                 newPassword, accessToken
             }
+            console.log(body)
             const {message} = await fetchData(subUrl, 'POST', body)
             showToastMessage(message)
             }
@@ -42,10 +44,10 @@ export default function ForgotPW() {
     return (
         <div className='flex w-full justify-center mt-32'>
             <form onSubmit={handleResetPW} className='flex flex-col max-w-lg gap-y-6'>
-                <h1 className='font-medium text-3xl'>Đặt lại mật khẩu của bạn</h1>
-                <p>Đặt lại mật khẩu và xác nhận mật khẩu khẩu, vui lòng không chia sẻ link này cho bất cứ ai!</p>
+                <h1 className='font-medium text-3xl'>Reset your password</h1>
+                <p>Reset password and confirm password, please do not share this link with anyone!</p>
                 <div>
-                    <label className='text-sm' htmlFor="email">Mật khẩu</label>
+                    <label className='text-sm' htmlFor="email">Password</label>
                     <input
                         onChange={event => setNewPassword(event.target.value)}
                         type="password"
@@ -55,7 +57,7 @@ export default function ForgotPW() {
                     />
                 </div>
                 <div>
-                    <label className='text-sm' htmlFor="email">Xác nhận mật khẩu</label>
+                    <label className='text-sm' htmlFor="email">Confirm password</label>
                     <input
                         onChange={event => setConfirmPassword(event.target.value)}
                         type="password"
