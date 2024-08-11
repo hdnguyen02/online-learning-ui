@@ -32,7 +32,7 @@ export default function Invoices() {
       <div className="flex gap-x-8 items-center h-12">
         <span className="font-medium uppercase text-sm">Invoices</span>
       </div>
-      <div className="flex items-center gap-x-8">
+      {/* <div className="flex items-center gap-x-8">
         <div className="max-w-md mx-auto">
           <div className="relative">
             <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -60,7 +60,7 @@ export default function Invoices() {
             />
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
 
     <hr className="my-8"></hr>

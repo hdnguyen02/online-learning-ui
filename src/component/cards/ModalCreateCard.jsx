@@ -70,7 +70,7 @@ const ModalCreateCard = React.forwardRef(({ decks, getCards }, ref) => {
                 'color': 'red'
             })
             console.log(error.message)
-            setMessage('Đã có lỗi xảy ra!')
+            setMessage('An error has occurred!')
         }
         setTimeout(() => {setMessage(null)}, 2000) // ẩn thông báo sau 2s 
     }

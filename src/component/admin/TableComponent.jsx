@@ -1,80 +1,70 @@
-import React, { useMemo, useState, useEffect, useRef } from 'react'
+import React, { useRef} from "react"
+import Empty from "../Empty";
 import {
   useTable,
   useSortBy,
   usePagination,
   useGlobalFilter,
-} from 'react-table'
-import Empty from '../Empty'
+} from "react-table";
 
-import ModalCreateCard from './ModalCreateCard'
+import ModalCreateDeck from "../../component/ModalCreateDeck";
 
 // Bộ lọc tìm kiếm toàn cục
-function GlobalFilter({ globalFilter, setGlobalFilter, getCards, decks }) {
-  const refModalCreateCard = useRef()
-
-  async function handleShowModalCreateCard() {
-    refModalCreateCard.current.show()
-  }
+function GlobalFilter({ globalFilter, setGlobalFilter }) {
 
   return (
-    <div className='flex justify-between mt-10'>
-      <div className='flex gap-x-8 items-center h-12'>
-        <span className='font-medium uppercase text-sm'>Your card</span>
+    <div className="flex justify-between mt-10">
+      <div className="flex gap-x-8 items-center h-12">
+        <span className="font-medium uppercase text-sm">Users</span>
       </div>
-      <div className='flex items-center gap-x-8'>
-        <button onClick={handleShowModalCreateCard} className=''>
-          <img src='plus.png' className='w-9' alt='' />
-        </button>
-        <div className='max-w-md mx-auto'>
-          <div className='relative'>
-            <div className='absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none'>
+      <div className="flex items-center gap-x-8">
+        {/* <button onClick={handleShowModalCreateDeck} className="">
+          <img src="plus.png" className="w-9" alt="" />
+        </button> */}
+        <div className="max-w-md mx-auto">
+          <div className="relative">
+            <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
               <svg
-                className='w-4 h-4 text-gray-500'
-                aria-hidden='true'
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                viewBox='0 0 20 20'
+                className="w-4 h-4 text-gray-500"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 20 20"
               >
                 <path
-                  stroke='currentColor'
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth='2'
-                  d='m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z'
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
                 />
               </svg>
             </div>
             <input
-              value={globalFilter || ''}
+              value={globalFilter || ""}
               onChange={(e) => setGlobalFilter(e.target.value || undefined)}
-              placeholder='Type to search...'
-              className='block w-full  px-4 h-10 ps-10 text-sm text-gray-900 border border-gray-300 rounded-md bg-gray-50 focus:ring-blue-500 focus:border-blue-500'
+              placeholder="Type to search..."
+              className="block w-full  px-4 h-10 ps-10 text-sm text-gray-900 border border-gray-300 rounded-md bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
         </div>
       </div>
-      <ModalCreateCard
-        decks={decks}
-        getCards={getCards}
-        ref={refModalCreateCard}
-      />
+
     </div>
-  )
+  );
 }
 
 const TableComponent = ({
   columns,
   data,
-  getCards,
-  decks,
+  getDecks,
 }) => {
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
     prepareRow,
-    page, // Sử dụng `page` thay vì `rows` cho phân trang
+    page, 
     canPreviousPage,
     canNextPage,
     pageOptions,
@@ -94,20 +84,17 @@ const TableComponent = ({
     useGlobalFilter, // Sử dụng hook tìm kiếm toàn cục
     useSortBy,
     usePagination
-  )
+  );
 
   return (
     <>
       <GlobalFilter
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}
-        getCards={getCards}
-        decks={decks}
       />
+      <hr className="my-8"></hr>
 
-<hr className="my-8"></hr>
-    
-    {
+      {
         data.length != 0 ? (
           <div>
       
@@ -216,8 +203,9 @@ const TableComponent = ({
        </div>
         ) : <Empty></Empty>
       }
-    </>
-  )
-}
 
-export default TableComponent
+    </>
+  );
+};
+
+export default TableComponent;

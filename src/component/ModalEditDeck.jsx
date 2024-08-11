@@ -42,8 +42,9 @@ const ModelEditDeck = React.forwardRef(({ getDecks }, ref) => {
         try { 
             const {message} = await fetchData(subUrl, 'PUT', body)
             await getDecks()
-            showToastMessage(message)
             close()
+            showToastMessage(message)
+            
         }
         catch({message}) {
             showToastError(message)

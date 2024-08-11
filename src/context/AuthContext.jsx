@@ -27,7 +27,6 @@ export const AuthProvider = ({ children }) => {
   }
 
   async function checkAuth() {
-    console.log("checkAuth ...")
     const subUrl = '/users/info'
     try {
       const {data} = await fetchData(subUrl, 'GET')

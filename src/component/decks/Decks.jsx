@@ -129,7 +129,7 @@ const Decks = () => {
     try {
       await fetchData(subUrl, "DELETE");
       await getDecks();
-      showToastMessage("Xóa bộ thẻ thành công");
+      showToastMessage("Deleted card set successfully");
     } catch (error) {
       showToastError(error.message);
     }

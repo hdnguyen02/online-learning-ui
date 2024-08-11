@@ -49,7 +49,7 @@ async function handleInviteUser(event) {
 
   try {
     await fetchData(subUrl, 'POST')
-    showToastMessage('Gửi lời mời thành công')
+    showToastMessage('Invitation sent successfully')
   }
   catch(error) {   
     showToastError(error.message)

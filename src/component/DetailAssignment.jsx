@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import {commonFormatddMMYYYYHHmm} from '../helper/common'
 import {
   fetchData,
   showToastMessage,
@@ -25,7 +26,7 @@ export default function DetailAssignment() {
   }
 
   async function handleSubmit() {
-    const url = `${baseUrl}/students/submits`;
+    const url = `${baseUrl}/student/submits`;
     const formData = new FormData();
 
     const accessToken = localStorage.getItem("accessToken");
@@ -49,7 +50,7 @@ export default function DetailAssignment() {
         throw new Error(response.message);
       }
 
-      showToastMessage("Nộp bài thành công");
+      showToastMessage("Submitted successfully");
     } catch (error) {
       showToastError(error.message)
     }
@@ -61,7 +62,10 @@ export default function DetailAssignment() {
 
   return (
     assignment && (
-      <div className="flex flex-col gap-y-6">
+      <div>
+
+  
+      <div className="flex flex-col gap-y-2">
         <div className="flex justify-between items-center">
           <div>
             <h3 className="text-lg text-gray-700 font-bold uppercase">
@@ -73,7 +77,7 @@ export default function DetailAssignment() {
                   className="bg-blue-500 text-white font-bold px-4 rounded-sm py-1"
                   onClick={handleSubmit}
                 >
-                  Nộp bài
+                  Submit
                 </button>
                 <input
                   className="ml-6"
@@ -85,10 +89,14 @@ export default function DetailAssignment() {
               </div>
             )}
           </div>
-          <p className="text-sm">{assignment.deadline} (thời hạn)</p>
+          <p className="text-sm">{commonFormatddMMYYYYHHmm(assignment.deadline)} (deadline)</p>
         </div>
         <p className="text-gray-600 text-sm">{assignment.description}</p>
-        <div className="flex justify-center">
+        {/* cho người dùng nộp bài. */}
+        <ToastContainer />
+      </div>
+
+      <div className="flex justify-center mt-7">
           <iframe
             className="w-[900px] h-screen"
             src={assignment.url}
@@ -96,9 +104,6 @@ export default function DetailAssignment() {
             title="Iframe Example"
           ></iframe>
         </div>
-
-        {/* cho người dùng nộp bài. */}
-        <ToastContainer />
       </div>
     )
   );

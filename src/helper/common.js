@@ -6,3 +6,8 @@ export function commonformatDistanceToNow(isoDateString) {
     const timeAgo = formatDistanceToNow(date, { addSuffix: true })
     return timeAgo 
 }
+
+export function commonFormatddMMYYYYHHmm(isoDateString) { 
+    const date = parseISO(isoDateString)
+    return format(date, ' HH:mm dd/MM/yyyy')
+}

@@ -115,8 +115,8 @@ input[type="file"] {
 
 /* Chỉ áp dụng cho trình duyệt WebKit như Chrome, Safari */
 ::-webkit-scrollbar {
-  width: 8px; /* Đặt chiều rộng của thanh cuộn dọc */
-  height: 8px; /* Đặt chiều cao của thanh cuộn ngang */
+  width: 4px; /* Đặt chiều rộng của thanh cuộn dọc */
+  height: 4px; /* Đặt chiều cao của thanh cuộn ngang */
 }
 
 ::-webkit-scrollbar-thumb {

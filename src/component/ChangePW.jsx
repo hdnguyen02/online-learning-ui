@@ -12,7 +12,7 @@ export default function ChangePW() {
     event.preventDefault()
 
     if (newPW != confirmPw) {
-      showToastError("Mật khẩu và mật khẩu xác nhận không chính xác")
+      showToastError("Password and confirmation password are incorrect")
       return 
     }
     else { 
