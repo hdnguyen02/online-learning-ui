@@ -64,7 +64,7 @@ function Navbar() {
                 to={"/groups"}
                 className={location.pathname === "/groups" ? "link-active" : ""}
               >
-                Study group
+                Expert study group
               </Link>
             )}
             <Link

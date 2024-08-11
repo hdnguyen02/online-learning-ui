@@ -1,6 +1,7 @@
 import { toast } from "react-toastify";
 
-export const baseUrl = "http://localhost:8080/api/v1"; // URL tương đối
+export const baseUrl = "/api/v1"; // URL tương đối
+// export const baseUrl = "http://localhost:8080/api/v1"; // URL tương đối
 
 
 export async function fetchData(subUrl, method, body) {

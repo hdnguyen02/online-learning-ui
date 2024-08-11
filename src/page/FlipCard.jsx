@@ -117,10 +117,26 @@ function Card() {
         }
     }
 
+    function handleAudio(audioUrl) { 
+        const audioPlayer = document.getElementById('audioPlayer')
+        audioPlayer.src = audioUrl
+        audioPlayer.play()
+    }
+
 
     function action() {
         return (
             <div className='absolute top-4 right-8 flex items-center gap-x-3'>
+
+
+                {/* kiểm tra xem có audio hay không */}
+                <button onClick={event => {
+                    event.stopPropagation()
+                    handleAudio(cards[index].audio)
+                }}>
+                    <i className="fa-solid fa-headphones text-xl"></i>
+                </button>
+
                 <button
                     onClick={event => {
                         event.stopPropagation()
@@ -144,6 +160,7 @@ function Card() {
 
     return (cards && cards.length != 0 &&
         <div className='flex justify-center'>
+            <audio className='hidden' id="audioPlayer" controls></audio>
             <div className="card-container">
                 {
                     deck && (<h3 className='text-xl font-medium'>Bộ thẻ: { deck.name }</h3>)
