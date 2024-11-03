@@ -2,10 +2,13 @@ import { Link, useLocation } from "react-router-dom";
 import useAuth from "../context/AuthContext";
 import YourLibrary from "./YourLibrary";
 import YourProfile from "./YourProfile";
+import LanguageSelector from "./language/LanguageSelector";
+import { useTranslation } from 'react-i18next';
 
 function Navbar() {
   const { auth } = useAuth();
   const location = useLocation();
+  const { t } = useTranslation();
 
   function handleShowMenu() {
     document.getElementById("menu-mobile").style.display = "flex";
@@ -36,7 +39,7 @@ function Navbar() {
               to={"/"}
               className={location.pathname === "/" ? "link-active" : ""}
             >
-              Home
+              {t('NAVBAR.HOME')}
             </Link>
             <div
               className={
@@ -47,8 +50,11 @@ function Navbar() {
                   ? "link-active"
                   : ""
               }
-            >
+            > 
+         
               <YourLibrary />
+
+
             </div>
 
             {auth && (
@@ -56,7 +62,7 @@ function Navbar() {
                 to={"/decks"}
                 className={location.pathname === "/decks" ? "link-active" : ""}
               >
-                Expert card set
+                 {t('NAVBAR.CARD_SET')}
               </Link>
             )}
             {auth && (
@@ -64,33 +70,17 @@ function Navbar() {
                 to={"/groups"}
                 className={location.pathname === "/groups" ? "link-active" : ""}
               >
-                Expert study group
+                {t('NAVBAR.STUDY_GROUP')}
               </Link>
             )}
             <Link
               to={"/contact"}
               className={location.pathname === "/contact" ? "link-active" : ""}
             >
-              Contact
+              {t('NAVBAR.CONTACT')}
             </Link>
           </div>
         </div>
-
-        {/* <li className='hover:cursor-pointer font-medium'>
-          <Link className={location.pathname === '/' ? 'link-active' : ''} to={'/'} >Trang chủ</Link>
-        </li>
-        {auth &&<li className='hover:cursor-pointer font-medium'>
-          <Link className={location.pathname.includes('/decks') ? 'link-active' : ''} to={'/decks'} >Bộ thẻ</Link>
-        </li>}
-        {auth &&<li className='hover:cursor-pointer font-medium'>
-          <Link className={location.pathname.includes('/cards') ? 'link-active' : ''} to={'/cards'} >Thẻ</Link>
-        </li>}
-        {auth &&<li className='hover:cursor-pointer font-medium'>
-          <Link className={location.pathname.includes('/groups') ? 'link-active' : ''} to={'/groups/owner'} >Lớp</Link>
-        </li>}
-        <li className='hover:cursor-pointer font-medium'>
-          <Link className={location.pathname === '/contact' ? 'link-active' : ''} to={'/contact'} >Liên hệ</Link>
-        </li> */}
 
         <div className="flex items-center gap-x-4">
           {/* <SearchClass></SearchClass> */}
@@ -113,6 +103,7 @@ function Navbar() {
           )}
 
           <YourProfile />
+          <LanguageSelector />
         </div>
 
         {/* menu mobile */}

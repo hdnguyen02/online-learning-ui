@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { fetchDataWithoutAccessToken, showToastError } from '../global'
 import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import useAuth from '../context/AuthContext'
 
 function SignUp() {
-  let isShowPassword = false
+
 
   const { checkAuth } = useAuth()
   const navigate = useNavigate()
@@ -16,31 +16,6 @@ function SignUp() {
   const [firstName, setFirstName] = useState()
   const [lastName, setLastName] = useState()
   const [confirmPassword, setConfirmPassword] = useState()
-
-  
-  // cần fix lỗi
-  function handleChangeView() {
-    const elPasswords = document.querySelectorAll('input[type="password"]')
-    const elViewPassword = document.getElementById('view-password')
-
-    if (isShowPassword) {
-      // elPassword.type = 'password'
-      elPasswords.forEach(elPassword => { 
-        console.log(elPassword)
-        elPassword.type = 'password'
-      })
-      elViewPassword.src = '/hide.png'
-    }
-    else {
-      // elPassword.type = 'text'
-      elPasswords.forEach(elPassword => { 
-        elPassword.type = 'text'
-      })
-      elViewPassword.src = '/view.png'
-    }
-    isShowPassword = !isShowPassword
-
-  }
 
 
   async function postSignUp(email, password, firstName, lastName, isRemember) {

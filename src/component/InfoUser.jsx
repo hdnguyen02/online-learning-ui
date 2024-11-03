@@ -1,13 +1,13 @@
 
 import { useEffect, useState } from "react"
-import { baseUrl, fetchData, showToastMessage, showToastError } from "../global"
+import { baseUrl, showToastMessage, showToastError } from "../global"
 import { ToastContainer } from "react-toastify"
 import useAuth from "../context/AuthContext"
 
 export default function InfoUser() {
 
 
-    const {auth, checkAuth, setAuth} = useAuth()
+    const { auth, checkAuth } = useAuth()
 
     const [user, setUser] = useState()
     async function getUser() {
@@ -19,11 +19,9 @@ export default function InfoUser() {
         event.preventDefault()
         const accessToken = localStorage.getItem('accessToken')
         const url = `${baseUrl}/users/info`
-        const elName = document.getElementById('name')
         const elFirstName = document.getElementById('first-name')
         const elLastName = document.getElementById('last-name')
         const elGender = document.getElementById('gender')
-        const elAge = document.getElementById('age')
         const elPhone = document.getElementById('phone')
         const elDateOfBirth = document.getElementById('date-of-birth')
         const elAvatar = document.getElementById('input-avatar')
@@ -44,7 +42,7 @@ export default function InfoUser() {
                     'Authorization': `Bearer ${accessToken}`
                 },
             })
-            const {data, message} = await jsonRp.json()
+            const { message} = await jsonRp.json()
             if (!jsonRp.ok) {
                 throw new Error(message)
             }
@@ -61,7 +59,7 @@ export default function InfoUser() {
 
     useEffect(() => {
         getUser()
-    }, [])
+    }, [getUser])
 
     return (user && <div className="flex justify-center items-center w-full px-12">
         <div className="flex flex-col items-center shadow-2xl sm:max-w-lg p-12 rounded-lg">

@@ -1,9 +1,10 @@
 
-import React, { createContext, useState, useContext, useEffect } from 'react'
+import { createContext, useState, useContext, useEffect } from 'react'
 import { fetchData } from '../global'
 
 const AuthContext = createContext()
 
+// eslint-disable-next-line react/prop-types
 export const AuthProvider = ({ children }) => {
 
 
@@ -57,4 +58,5 @@ const useAuth = () => {
   return useContext(AuthContext)
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export default useAuth

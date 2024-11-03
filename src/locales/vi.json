@@ -1,0 +1,15 @@
+{
+    "LOGIN": {
+        "TITLE": "Đăng nhập",
+        "EMAIL": "Email",
+        "PASSWORD": "Mật khẩu"
+    },
+    "NAVBAR": { 
+        "HOME": "Trang chủ",
+        "YOUR_LIBRARY": "Thư viện của bạn",
+        "CARD_SET": "Bộ thẻ",
+        "CARD": "Thẻ",
+        "STUDY_GROUP": "Nhóm học tập", 
+        "CONTACT": "Liên hệ"
+    }
+}

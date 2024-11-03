@@ -1,11 +1,15 @@
 import { toast } from "react-toastify";
+import config from "./config";
 
 export const baseUrl = "/api/v1"; // URL tương đối
-// export const baseUrl = "http://localhost:8080/api/v1"; // URL tương đối
 
+
+export function getUrl(subUrl) { 
+    return config.baseUrl + subUrl; 
+}
 
 export async function fetchData(subUrl, method, body) {
-    const url = `${baseUrl}${subUrl}`
+    const url = getUrl(subUrl); 
     const accessToken = localStorage.getItem('accessToken') 
     if (!accessToken) throw new Error("Access token is missing")
 
@@ -17,6 +21,7 @@ export async function fetchData(subUrl, method, body) {
         }, 
     }
     if (body) options.body = JSON.stringify(body)
+    // eslint-disable-next-line no-useless-catch
     try { 
         const responseAPI = await fetch(url, options)
         const response = await responseAPI.json()  
@@ -36,31 +41,27 @@ export async function fetchData(subUrl, method, body) {
 
 
 export async function fetchDataWithoutAccessToken(subUrl, method, body) {
-    const url = `${baseUrl}${subUrl}`
-
-
+    const url = getUrl(subUrl); 
+    console.log(url);
     const options = { 
         method: method, 
         headers: { 
             'Content-Type': 'application/json',
         }, 
     }
-    if (body) options.body = JSON.stringify(body)
-    try { 
-        const responseAPI = await fetch(url, options)
-        const response = await responseAPI.json()  
-        if (!responseAPI.ok) {
-            const error = { code: responseAPI.status, message: response.message || 'An error occurred' };
-            throw error;
-        }
-        return {
-            data: response.data, 
-            message: response.message
-        }
+    if (body) options.body = JSON.stringify(body);
+    const responseAPI = await fetch(url, options); 
+    const response = await responseAPI.json(); 
+    if (!responseAPI.ok) {
+        const error = { code: responseAPI.status, message: response.message || 'An error occurred' };
+        throw error;
     }
-    catch(error) {
-        throw error
+    return {
+        data: response.data, 
+        message: response.message
     }    
+
+
 }
 
 
@@ -89,7 +90,7 @@ export function handleError(code) {
             console.error('Not Found: Không tìm thấy tài nguyên!')
             break;
         default:
-            console.error('Lỗi khác:', error)
+            console.error('Lỗi khác:')
             break;
     }
 }

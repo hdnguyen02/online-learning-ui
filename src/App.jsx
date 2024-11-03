@@ -2,9 +2,10 @@ import Navbar from "./component/Navbar";
 import Home from "./page/Home";
 import SignIn from "./page/SignIn";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import SignUp from "./page/SignUp";
+// import SignUp from "./page/SignUp";
+import SignUpComponent from "./feature/sign-up/sign-up.component.jsx"
 import Settings from "./page/Settings";
-import InfoUser from "./component/InfoUser";
+// import InfoUser from "./component/InfoUser";
 import ChangePW from "./component/ChangePW";
 import ForgotPW from "./page/Forgot-PW";
 import ResetPW from "./page/ResetPW";
@@ -33,9 +34,7 @@ import GlobalDecks from "./component/GlobalDecks.jsx";
 import GlobalDeck from "./page/GlobalDeck.jsx";
 import LearnCommonDeck from "./page/LearnCommonDeck.jsx";
 import OwnerCommonDecks from "./component/OwnerCommonDeck.jsx";
-import User from "./component/User.jsx";
 import Admin from "./page/Admin.jsx";
-import Users from "./component/admin/Users.jsx";
 import Invoices from "./component/admin/Invoices.jsx";
 import Statistics from "./component/admin/Statistics.jsx";
 import Cards from "./component/cards/Cards";
@@ -43,6 +42,7 @@ import Decks from "./component/decks/Decks.jsx";
 import ProfileUser from "./component/ProfileUser.jsx";
 import DecksUser from './component/profile-users/Decks.jsx'
 import UsersTest from './component/admin/UsersTest.jsx'
+
 
 
 function App() {
@@ -127,7 +127,7 @@ function App() {
 
           {/* settings */}
           <Route path="/settings" element={<Settings />}>
-            <Route path="info" element={<InfoUser />} />
+            {/* <Route path="info" element={<InfoUser />} /> */}
             <Route path="password" element={<ChangePW />} />
           </Route>
 
@@ -141,11 +141,14 @@ function App() {
         {/* public */}
         <Route path="/" exact element={<Home />} />
         <Route path="/sign-in" element={<SignIn />} />
-        <Route path="/sign-up" element={<SignUp />} />
+        <Route path="/sign-up" element={<SignUpComponent />} />
         <Route path="/forgot-password" element={<ForgotPW />} />
         <Route path="/reset-password" element={<ResetPW />} />
         <Route path="/contact" element={<Contact />} />
+        
       </Routes>
+
+
     </Router>
   );
 }

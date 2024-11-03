@@ -1,14 +1,15 @@
 import { useState } from "react"
-import { useNavigate, useLocation } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import useAuth from "../context/AuthContext"
-
+import { useTranslation } from 'react-i18next';
 
 export default function YourLibrary() {
 
     const { auth } = useAuth()
-    const [showLiblary, setShowLiblary] = useState(false)
-    const navigate = useNavigate()
-    const location = useLocation()
+    const [showLiblary, setShowLiblary] = useState(false);
+    const navigate = useNavigate();
+    const { t } = useTranslation();
+
 
     function handleClickLiblary() {
         setShowLiblary(!showLiblary)
@@ -20,13 +21,10 @@ export default function YourLibrary() {
         {/*  */}
 
             <button onClick={handleClickLiblary} className='flex gap-x-3'>
-                <span className='font-medium'>Your library</span>
+                <span className='font-medium'>{t('NAVBAR.YOUR_LIBRARY')}</span>
                 <i className="fa-solid fa-angle-down pt-1"></i>
                 </button>
       
-            
-      
-        
         {/* show dashboard */}
         {
             showLiblary && <div className='absolute top-12 left-0 rounded-md px-6 py-4 w-56 bg-white shadow-2xl'>
@@ -38,7 +36,7 @@ export default function YourLibrary() {
                     }}
                         className='flex items-center gap-x-3'>
                         <i className="fa-solid fa-folder"></i>
-                        <span>Card set</span>
+                        <span>{t('NAVBAR.CARD_SET')}</span>
 
                     </button>
                     <hr />
@@ -47,7 +45,7 @@ export default function YourLibrary() {
                         navigate('/my-cards')
                     }} className='flex items-center gap-x-3'>
                         <i className="fa-solid fa-repeat"></i>
-                        <span>Card</span>
+                        <span>{t('NAVBAR.CARD')}</span>
                     </button>
                     <hr />
                     <button onClick={() => {
@@ -55,7 +53,7 @@ export default function YourLibrary() {
                         navigate('/groups/owner')
                     }} className='flex items-center gap-x-3'>
                        <i className="fa-solid fa-users"></i>
-                        <span>Study group</span>
+                        <span>{t('NAVBAR.STUDY_GROUP')}</span>
                     </button>
         
                 </div>

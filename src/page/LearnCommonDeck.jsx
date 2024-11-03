@@ -2,8 +2,8 @@
 
 
 
-import React, { useEffect, useState } from 'react'
-import {baseUrl, fetchData } from '../global'
+import { useEffect, useState } from 'react'
+import { fetchData } from '../global'
 import { useParams } from 'react-router-dom'
 
 export default function LearnCommonDeck() {
@@ -14,7 +14,7 @@ export default function LearnCommonDeck() {
     const [cards, setCards] = useState()
     const [deck, setDeck] = useState()
     const [index, setIndex] = useState(0)
-    const accessToken = localStorage.getItem('accessToken')
+    // const accessToken = localStorage.getItem('accessToken')
 
 
     async function getCommonDeck() {
@@ -89,7 +89,7 @@ export default function LearnCommonDeck() {
                 <button
                     onClick={event => {
                         event.stopPropagation()
-                        favouriteCard()
+                        // favouriteCard()
                     }}
                 >
                     { 

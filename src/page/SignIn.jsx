@@ -1,147 +1,141 @@
-import React, { useState } from 'react'
-import { fetchDataWithoutAccessToken, showToastError } from '../global'
-import { Link, useNavigate } from 'react-router-dom'
-import { ToastContainer } from "react-toastify"
-import useAuth from '../context/AuthContext'
-
+import { useState } from 'react';
+import { fetchDataWithoutAccessToken, showToastError } from '../global';
+import { Link, useNavigate } from 'react-router-dom';
+import { ToastContainer } from "react-toastify";
+import useAuth from '../context/AuthContext';
+import { useTranslation } from 'react-i18next';
 
 export default function SignIn() {
+  const { checkAuth } = useAuth();
+  const navigate = useNavigate();
+  const { t } = useTranslation();
 
-
-  const { checkAuth } = useAuth()
-  const navigate = useNavigate()
-  
-  const [email, setEmail] = useState()
-  const [password, setPassword] = useState()
-  const [isRemember, setIsRemember] = useState()
-  
-  let isShowPassword = false
-
-  
-
-
-  function handleChangeView() {   
-    const elPassword = document.getElementById('password')
-    const elViewPassword = document.getElementById('view-password')
-    if (isShowPassword) { 
-      elPassword.type = 'password'
-      elViewPassword.src = '/hide.png'
-      
-    }
-    else {
-      elPassword.type = 'text'
-      elViewPassword.src = '/view.png'
-    }
-    isShowPassword = !isShowPassword
-  }
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isRemember, setIsRemember] = useState(false);
+  const [isShowPassword, setIsShowPassword] = useState(false); // State to manage password visibility
 
   async function postSignIn(email, password, isRemember) {
-
-
-    const subUrl = `/auth/sign-in`
-    const body = { 
-      email, password, isRemember
-    }
+    const subUrl = `/auth/sign-in`;
+    const body = { email, password, isRemember };
 
     try { 
-      const response = await fetchDataWithoutAccessToken(subUrl, 'POST', body)
-      const auth = response.data
-  
-      localStorage.setItem('accessToken', auth.accessToken)
-      checkAuth()
-      navigate('/')
-    }
-    catch (error) {
-      showToastError(error.message)
-      
-      
+      const response = await fetchDataWithoutAccessToken(subUrl, 'POST', body);
+      const auth = response.data;
+      localStorage.setItem('accessToken', auth.accessToken);
+      checkAuth();
+      navigate('/');
+    } catch (error) {
+      showToastError(error.message);
     }  
   }
-  function handleSignIn(event) {
-    event.preventDefault()
 
-    postSignIn(email, password, isRemember)
+  function handleSignIn(event) {
+    event.preventDefault();
+    postSignIn(email, password, isRemember);
   }
 
-
-  return (<div className="flex justify-center items-center h-screen">
-  {/* Left: Image */}
-  <div className="w-1/2 hidden lg:block h-screen">
-    <img
-      src="/touann-gatouillat-vergos-dSBJv66Yjlk-unsplash.jpg"
-      alt="login image"
-      loading="lazy"
-      className="object-cover w-full h-full"
-    />
-  </div>
-  {/* Right: Login Form */}
-  <div className="lg:p-36 md:p-52 sm:20 p-8 w-full lg:w-1/2">
-    <h1 className="text-2xl font-semibold mb-4">Sign in</h1>
-    <form onSubmit={handleSignIn}>
-      {/* Email Input */}
-      <div className="mb-4">
-        <label htmlFor="email" className="block text-gray-600">
-          Email
-        </label>
-        <input onChange={e => setEmail(e.target.value)}
-          type="email"
-          className="mt-2 w-full rounded-md py-2 px-3"
-          required
+  return (
+    <div className="flex justify-center items-center h-screen">
+      {/* Left: Image */}
+      <div className="w-2/3 hidden lg:block h-screen">
+        <img
+          src="https://cdn.pixabay.com/photo/2016/02/16/21/07/books-1204029_1280.jpg"
+          alt="login image"
+          loading="lazy"
+          className="object-cover w-full h-full"
         />
       </div>
-      {/* Password Input */}
-      <div className="mb-4">
-        <label htmlFor="password" className="block text-gray-600 mb-2">
-          Password
-        </label>
-        <div className='relative'>
-          <input onChange={e => setPassword(e.target.value)}
-    
-            type="password"
-            id="password"
-            className="w-full rounded-md py-2 px-3"
-            required
-          />
-          <img onClick={handleChangeView} id='view-password' src="/hide.png" className='cursor-pointer absolute top-1/2 right-4' style={{transform: 'translateY(-50%)'}} alt="" />
+      {/* Right: Login Form */}
+      <div className="lg:p-36 md:p-52 sm:20 p-8 w-full lg:w-1/2">
+        <h1 className="text-3xl text-center font-semibold mb-4">{t('LOGIN.TITLE')}</h1>
+        <form onSubmit={handleSignIn} className="mt-12">
+          {/* Email Input */}
+          <div className="mb-6">
+            <label htmlFor="email" className="block text-gray-600 text-sm">
+              Email<span className="text-red-500 ml-1">*</span>
+            </label>
+            <div className="relative mt-2">
+              <input
+                onChange={e => setEmail(e.target.value)}
+                type="email"
+                className="w-full rounded-md py-2 px-3 pl-10"
+                required
+              />
+              <span className="absolute left-3 top-2.5 text-gray-400">
+                <i className="fa-regular fa-envelope font-light"></i>
+              </span>
+            </div>
+          </div>
+
+          {/* Password Input */}
+          <div className="mb-6">
+            <label htmlFor="password" className="block text-gray-600 mb-2 text-sm">
+            {t('LOGIN.PASSWORD')}
+              <span className="text-red-500 ml-1">*</span>
+            </label>
+            <div className='relative'>
+              {/* Biểu tượng khóa */}
+              <span className="absolute left-3 top-2.5 text-gray-400">
+                <i className="fa-solid fa-lock"></i>
+              </span>
+              <input
+                onChange={e => setPassword(e.target.value)}
+                type={isShowPassword ? 'text' : 'password'} // Toggle between text and password
+                id="password"
+                className="w-full rounded-md py-2 px-10"
+                required
+              />
+              <span
+                onClick={() => setIsShowPassword(!isShowPassword)} // Toggle password visibility
+                className='cursor-pointer absolute top-1/2 right-4 transform -translate-y-1/2 text-gray-400'
+              >
+                {isShowPassword ? (
+                  <i className="fa-solid fa-eye-slash"></i>
+                ) : (
+                  <i className="fa-solid fa-eye"></i>
+                )}
+              </span>
+            </div>
+          </div>
+
+          {/* Remember Me Checkbox */}
+          <div className='flex justify-between items-center'>
+            <div className="flex items-center">
+              <input
+                onChange={e => setIsRemember(e.target.checked)}
+                type="checkbox"
+                name="remember"
+                className="text-blue-500"
+              />
+              <label htmlFor="remember" className="text-gray-600 ml-2 text-sm">
+                Remember me
+              </label>
+            </div>
+            {/* Forgot Password Link */}
+            <div className="text-blue-500">
+              <Link to={'/forgot-password'} className="hover:underline text-sm">
+                Forgot password
+              </Link>
+            </div>
+          </div>
+
+          {/* Login Button */}
+          <button
+            type="submit"
+            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md py-2 px-4 w-full mt-6"
+          >
+            Submit
+          </button>
+        </form>
+        {/* Sign up  Link */}
+        <div className="mt-6 text-blue-500 text-end">
+          <Link to={'/sign-up'} className="hover:underline text-sm">
+            Sign up
+          </Link>
         </div>
-        
       </div>
-      {/* Remember Me Checkbox */}
-      <div className="mb-4 flex items-center">
-        <input
-          onChange={e => setIsRemember(e.target.value)}
-          type="checkbox"
-          name="remember"
-          className="text-blue-500"
-          
-        />
-        <label htmlFor="remember" className="text-gray-600 ml-2">
-          remember account
-        </label>
-      </div>
-      {/* Forgot Password Link */}
-      <div className="mb-6 text-blue-500">
-        <Link to={'/forgot-password'} className="hover:underline">
-          Forgot password
-        </Link>
-      </div>
-      {/* Login Button */}
-      <button
-        type="submit"
-        className="bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md py-2 px-4 w-full"
-      >
-        Submit
-      </button>
-    </form>
-    {/* Sign up  Link */}
-    <div className="mt-6 text-blue-500 text-center">
-      <Link to={'/sign-up'} className="hover:underline">
-        Sign up
-      </Link>
+      <ToastContainer/>
     </div>
-  </div>
-  <ToastContainer/>
-</div>)
-
+  );
 }
-

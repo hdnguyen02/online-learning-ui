@@ -1,0 +1,15 @@
+{
+    "LOGIN": {
+        "TITLE": "Login",
+        "EMAIL": "Email",
+        "PASSWORD": "Password"
+    },
+    "NAVBAR": { 
+        "HOME": "Home",
+        "YOUR_LIBRARY": "Your Library",
+        "CARD_SET": "Card Set",
+        "CARD": "Card",
+        "STUDY_GROUP": "Study Group", 
+        "CONTACT": "Contact"
+    }
+}
