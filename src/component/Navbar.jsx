@@ -7,18 +7,12 @@ import { useTranslation } from 'react-i18next';
 
 function Navbar() {
   const { auth } = useAuth();
+  console.log("giá trị auth: ")
+  console.log(auth); 
   const location = useLocation();
   const { t } = useTranslation();
 
-  function handleShowMenu() {
-    document.getElementById("menu-mobile").style.display = "flex";
-  }
-
-  function handleCloseMenu() {
-    document.getElementById("menu-mobile").style.display = "none";
-  }
-
-  if (
+  if (  
     location.pathname !== "/sign-in" &&
     location.pathname !== "/sign-up" &&
     !location.pathname.includes("settings") &&
@@ -34,7 +28,7 @@ function Navbar() {
             Quezlot
           </Link>
 
-          <div className="hidden md:flex gap-x-4 lg:gap-x-8 text-sm font-medium">
+          <div className="md:flex gap-x-4 lg:gap-x-8 text-sm font-medium">
             <Link
               to={"/"}
               className={location.pathname === "/" ? "link-active" : ""}
@@ -106,83 +100,6 @@ function Navbar() {
           <LanguageSelector />
         </div>
 
-        {/* menu mobile */}
-        <div className="fixed right-4 flex md:hidden">
-          <button onClick={handleShowMenu}>
-            <img className="w-8" src="/menu.png" alt="" />
-          </button>
-          <ul
-            id="menu-mobile"
-            className="hidden fixed top-0 bottom-0 right-0 text-md w-64 bg-blue-500 text-white font-medium p-8 flex-col gap-y-4"
-          >
-            <button onClick={handleCloseMenu}>
-              <img src="/close.png" className="w-8" alt="" />
-            </button>
-            <li className="hover:cursor-pointer font-medium">
-              <Link
-                className={
-                  location.pathname === "/" ? "link-active-mobile" : ""
-                }
-                to={"/"}
-              >
-                Trang chủ
-              </Link>
-            </li>
-            {auth && (
-              <li className="hover:cursor-pointer font-medium">
-                <Link
-                  className={
-                    location.pathname.includes("/decks")
-                      ? "link-active-mobile"
-                      : ""
-                  }
-                  to={"/decks"}
-                >
-                  Bộ thẻ
-                </Link>
-              </li>
-            )}
-            {auth && (
-              <li className="hover:cursor-pointer font-medium">
-                <Link
-                  className={
-                    location.pathname.includes("/cards")
-                      ? "link-active-mobile"
-                      : ""
-                  }
-                  to={"/cards"}
-                >
-                  Thẻ
-                </Link>
-              </li>
-            )}
-            {auth && (
-              <li className="hover:cursor-pointer font-medium">
-                <Link
-                  className={
-                    location.pathname.includes("/classes")
-                      ? "link-active-mobile"
-                      : ""
-                  }
-                  to={"/classes"}
-                >
-                  Lớp
-                </Link>
-              </li>
-            )}
-
-            <li className="hover:cursor-pointer font-medium">
-              <Link
-                className={
-                  location.pathname === "/contact" ? "link-active-mobile" : ""
-                }
-                to={"/contact"}
-              >
-                Liên hệ
-              </Link>
-            </li>
-          </ul>
-        </div>
       </nav>
     );
   } else {

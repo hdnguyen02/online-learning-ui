@@ -11,5 +11,11 @@
         "CARD": "Card",
         "STUDY_GROUP": "Study Group", 
         "CONTACT": "Contact"
+    },
+    "ACTION": { 
+        "CREATE": "Create", 
+        "IMPORT": "Import file", 
+        "CANCLE": "Cancle", 
+        "OK": "Ok"
     }
 }

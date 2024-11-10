@@ -10,7 +10,7 @@ import ChangePW from "./component/ChangePW";
 import ForgotPW from "./page/Forgot-PW";
 import ResetPW from "./page/ResetPW";
 import PrivateRoutes from "./helper/PrivateRoutes";
-import Deck from "./page/Deck";
+import Deck from "./feature/deck/deck.component";
 import FlipCard from "./page/FlipCard";
 import Contact from "./page/Contact";
 import Card from "./page/Card";
@@ -38,7 +38,7 @@ import Admin from "./page/Admin.jsx";
 import Invoices from "./component/admin/Invoices.jsx";
 import Statistics from "./component/admin/Statistics.jsx";
 import Cards from "./component/cards/Cards";
-import Decks from "./component/decks/Decks.jsx";
+import Decks from "./feature/deck/component/decks.component.jsx";
 import ProfileUser from "./component/ProfileUser.jsx";
 import DecksUser from './component/profile-users/Decks.jsx'
 import UsersTest from './component/admin/UsersTest.jsx'
@@ -114,6 +114,7 @@ function App() {
             path="/common-decks/:id/learn-cards"
             element={<LearnCommonDeck />}
           />
+
 
           <Route path="/my-decks" element={<Deck />}>
             <Route path="" element={<Decks />} />

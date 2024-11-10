@@ -67,9 +67,7 @@ export default function GlobalDecks() {
         setDecks(searchDecks)
       }
     }
-    
-    
-  }, [searchTerm])
+  }, [decks, searchTerm])
 
   const stylesModal = {
     content: {

@@ -1,11 +1,10 @@
-import React, { useMemo, useState, useEffect, useRef } from "react";
-import TableComponent from "./TableComponent";
-import { fetchData, showToastError, showToastMessage } from "../../global";
+import { useMemo, useState, useEffect, useRef } from "react";
+import TableComponent from "./table.component";
+import { fetchData, showToastError, showToastMessage } from "../../../global";
 import { ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import ModalEditDeck from "../ModalEditDeck";
-import ModalConfirmDeleteDeck from "../../component/ModalConfirmDeleteDeck" 
-import { commonformatDistanceToNow } from "../../helper/common";
+import ModalEditDeck from "../../../component/ModalEditDeck";
+import ModalConfirmDeleteDeck from "../../../component/ModalConfirmDeleteDeck" 
 
 const Decks = () => {
   const [data, setData] = useState([]);
@@ -29,6 +28,28 @@ const Decks = () => {
 
   const columns = useMemo(
     () => [
+      {
+        Header: "Action",
+        Cell: ({ row }) => (
+          <div className="flex gap-x-4">
+            <button onClick={() => handleLearn(row.original.id)}>
+              <i className="fa-solid fa-graduation-cap"></i>
+            </button>
+            <button
+              onClick={() => handleEdit(row.original.id)}
+              className="ml-2"
+            >
+              <i className="fa-regular fa-pen-to-square"></i>
+            </button>
+            {/* <button
+              onClick={() => showModalConfirmDeleteDeck(row.original.id)}
+              className="ml-2"
+            >
+              <i className="fa-solid fa-trash"></i>
+            </button> */}
+          </div>
+        ),
+      },
     
       {
         Header: "Name",
@@ -68,37 +89,16 @@ const Decks = () => {
       {
         Header: "Created At",
         accessor: "createAt",
-        Cell: ({ value }) => commonformatDistanceToNow(value),
+        Cell: ({ value }) => value,
       },
       {
         Header: "Description",
         accessor: "description",
       },
 
-      {
-        Header: "Actions",
-        Cell: ({ row }) => (
-          <div>
-            <button onClick={() => handleLearn(row.original.id)}>
-              <i className="fa-solid fa-graduation-cap"></i>
-            </button>
-            <button
-              onClick={() => handleEdit(row.original.id)}
-              className="ml-2"
-            >
-              <i className="fa-regular fa-pen-to-square"></i>
-            </button>
-            <button
-              onClick={() => showModalConfirmDeleteDeck(row.original.id)}
-              className="ml-2"
-            >
-              <i className="fa-solid fa-trash"></i>
-            </button>
-          </div>
-        ),
-      },
+     
     ],
-    []
+    [handleLearn]
   );
 
   const handleEdit = (idDeck) => {
@@ -133,7 +133,6 @@ const Decks = () => {
     } catch (error) {
       showToastError(error.message);
     }
-    handleCancel();
     setIdDeckDelete(null);
   }
 

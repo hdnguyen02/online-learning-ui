@@ -30,8 +30,8 @@ export const AuthProvider = ({ children }) => {
   async function checkAuth() {
     const subUrl = '/users/info'
     try {
-      const {data} = await fetchData(subUrl, 'GET')
-      setAuth(data)
+      const {data} = await fetchData(subUrl, 'GET');
+      setAuth(data); 
     }
     catch (error) {
       setAuth(null)

@@ -35,7 +35,7 @@ function SignUpComponent() {
 
   return (
     <div className="flex justify-center items-center h-screen overflow-y-hidden">
-      <div className="w-2/3 hidden lg:block h-screen">
+      <div className="w-2/3 lg:block h-screen">
         <img src="https://cdn.pixabay.com/photo/2016/02/16/21/07/books-1204029_1280.jpg" alt="login" loading="lazy" className="object-cover w-full h-full" />
       </div>
       <div className="lg:p-36 md:p-52 sm:20 p-8 w-full lg:w-1/2">

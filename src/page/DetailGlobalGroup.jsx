@@ -114,17 +114,17 @@ export default function DetailGlobalClass() {
                     </div>
                     <span className="mt-2 text-sm uppercase text-gray-700">Group detail</span>
                     <div className="flex gap-x-3 items-center">
-                        <span className="w-4"><i class="fa-solid fa-users"></i></span>
+                        <span className="w-4"><i className="fa-solid fa-users"></i></span>
                         
                         <span>{group.quantityMembers} member</span>
                     </div>
                     <div className="flex gap-x-3 items-center">
-                        <span className="w-4"><i class="fa-solid fa-folder"></i></span>
+                        <span className="w-4"><i className="fa-solid fa-folder"></i></span>
                         
                         <span>{group.quantityCommonDecks} học phần</span>
                     </div>
                     <div className="flex gap-x-3 items-center">
-                        <span className="w-4 pl-[1px]"><i class="fa-solid fa-file"></i></span>
+                        <span className="w-4 pl-[1px]"><i className="fa-solid fa-file"></i></span>
                         
                         <span>{group.quantityAssignments} assignment</span>
                     </div>

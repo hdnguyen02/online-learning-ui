@@ -11,5 +11,11 @@
         "CARD": "Thẻ",
         "STUDY_GROUP": "Nhóm học tập", 
         "CONTACT": "Liên hệ"
+    }, 
+    "ACTION": { 
+        "CREATE": "Thêm", 
+        "IMPORT": "Nhập file", 
+        "CANCLE": "Hủy", 
+        "OK": "Ok"
     }
 }
