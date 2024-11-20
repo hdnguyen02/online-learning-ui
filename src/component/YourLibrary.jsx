@@ -40,14 +40,14 @@ export default function YourLibrary() {
 
                     </button>
                     <hr />
-                    {/* <button onClick={() => {
+                    <button onClick={() => {
                         setShowLiblary(false)
                         navigate('/my-cards')
                     }} className='flex items-center gap-x-3'>
                         <i className="fa-solid fa-repeat"></i>
                         <span>{t('NAVBAR.CARD')}</span>
-                    </button> */}
-                    {/* <hr /> */}
+                    </button>
+                    <hr />
                     <button onClick={() => {
                         setShowLiblary(false)
                         navigate('/groups/owner')

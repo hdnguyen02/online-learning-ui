@@ -17,5 +17,12 @@
         "IMPORT": "Import file", 
         "CANCLE": "Cancle", 
         "OK": "Ok"
+    }, 
+    "CARD": { 
+        "TERM": "Term", 
+        "DEFINITION": "Definition", 
+        "IMAGE": "Image", 
+        "AUDIO": "Audio", 
+        "EXAMPLE": "Example"
     }
 }

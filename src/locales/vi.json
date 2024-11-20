@@ -15,7 +15,23 @@
     "ACTION": { 
         "CREATE": "Thêm", 
         "IMPORT": "Nhập file", 
-        "CANCLE": "Hủy", 
-        "OK": "Ok"
+        "CANCEL": "Hủy", 
+        "OK": "Ok", 
+        "SAVE": "Lưu", 
+        "CONTINUE": "Tiếp tục", 
+        "PREVIOUS": "Quay lại"
+    }, 
+    "DECK": {
+        "NAME": "Tên bộ thẻ", 
+        "DESCRIPTION": "Mô tả bộ thẻ", 
+        "SET_UP_DECK": "Thiết lập bộ thẻ", 
+        "SET_UP_CARD": "Thiết lập thẻ"
+    },
+    "CARD": { 
+        "TERM": "Thuật ngữ", 
+        "DEFINITION": "Định nghĩa", 
+        "IMAGE": "Hình ảnh", 
+        "AUDIO": "Âm thanh", 
+        "EXAMPLE": "Ví dụ"
     }
 }
