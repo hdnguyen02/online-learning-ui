@@ -6,7 +6,6 @@ import deckService from "../../../service/deck.service";
 import Slider from 'react-slick';
 import { useEffect } from "react";
 import { v4 as uuidv4 } from 'uuid'; // Import v4 từ thư viện uuid
-import { ca } from "date-fns/locale";
 
 const DeckCreateForm = () => {
 
@@ -39,8 +38,10 @@ const DeckCreateForm = () => {
 
 
     const [isOpenChooseAudio, setIsOpenChooseAudio] = useState(false);
-    const openChooseAudio = () => {
+    const openChooseAudio = (id) => {
         setIsOpenChooseAudio(true);
+        setQueryTransferAudio(''); 
+        setIdCardSelected(id); 
     }
 
     const closeChooseAudio = () => setIsOpenChooseAudio(false);
@@ -56,14 +57,9 @@ const DeckCreateForm = () => {
         setStep(0);
     }
 
-    const [infoDeck, setInfoDeck] = useState({
-        name: "",
-        description: "",
-        isPublic: false,
-        configLanguage: ""
-    })
 
-    
+
+
 
 
     const onSubmit = (e) => {
@@ -134,10 +130,20 @@ const DeckCreateForm = () => {
         ],
     };
 
+    const [infoDeck, setInfoDeck] = useState({
+        name: "",
+        description: "",
+        isPublic: false,
+        configLanguage: ""
+    });
+
 
     const [cards, setCards] = useState([
         { id: uuidv4(), term: '', definition: '', example: '', image: null, audio: null },
     ]);
+
+
+    const isButtonContinueDisabled = !(infoDeck.name.trim() && infoDeck.configLanguage.trim());
 
 
     const onAddCard = () => {
@@ -150,10 +156,8 @@ const DeckCreateForm = () => {
             audio: null,
         };
 
-        setCards(prevCards => [...prevCards, newCard]); // Cập nhật state
+        setCards(prevCards => [...prevCards, newCard]);
     };
-
-
 
 
     const onSelectImage = (imageUrl) => {
@@ -167,16 +171,14 @@ const DeckCreateForm = () => {
     };
 
 
-    const [queryTransferAudio, setQueryTransferAudio] = useState(''); 
+    const [queryTransferAudio, setQueryTransferAudio] = useState('');
 
 
-    const onKeyDownTransferAudio = async (e) => { 
-
-        // lấy ra thông tin đó vào. 
+    const onKeyDownTransferAudio = async (e) => {
         if (e.key != 'Enter') return;
-        setQuerySearchImage(querySearchImage.trim()); 
+        setQuerySearchImage(querySearchImage.trim());
 
-        try { 
+        try {
             const rawData = await deckService.getVoice(queryTransferAudio, infoDeck.configLanguage);
 
 
@@ -187,21 +189,48 @@ const DeckCreateForm = () => {
                 card.id === idCardSelected ? { ...card, audio: rawData } : card
             ));
         }
-        catch(error) { 
-            console.log(error); 
+        catch (error) {
+            console.log(error);
         }
-
-       
-
     }
 
 
+    const handleFileChange = (file, cardId, field) => {
+        let fileUrl = null;
+
+        if (field === "image") {
+            fileUrl = URL.createObjectURL(file);
+            setIsOpenChooseImage(false); 
+        } else if (field === "audio") {
+            fileUrl = URL.createObjectURL(file);
+            setIsOpenChooseAudio(false); 
+        }
+
+        setCards((prevCards) =>
+            prevCards.map((card) =>
+                card.id === cardId ? { ...card, [field]: fileUrl } : card
+            )
+        );
+    };
 
 
+    const onUploadImage = () => {
+        document.getElementById(`imageInput-${idCardSelected}`).click(); // upload hình ảnh lên.
+    }
 
 
+    const onUploadAudio = () => { 
+        document.getElementById(`audioInput-${idCardSelected}`).click(); // upload hình ảnh lên.
+    }
 
 
+    const onPlayAudio = () => { 
+        document.getElementById(`audio-${idCardSelected}`).play(); 
+    }
+
+    const onDeleteCard = (cardId) => { 
+        setCards(cards.filter(card => card.id !== cardId));
+    }
 
 
     return <div>
@@ -308,6 +337,7 @@ const DeckCreateForm = () => {
 
                                 <input
                                     onChange={(e) => setInfoDeck({ ...infoDeck, name: e.target.value })}
+                                    value={infoDeck.name}
                                     className="appearance-none border  w-full py-2 px-3 text-gray-700 leading-tight" id="username" type="text"
                                     required
                                 />
@@ -367,15 +397,19 @@ const DeckCreateForm = () => {
 
                         <div className="mt-6 relative overflow-y-scroll max-h-[360px] h-[360px]">
 
-                            <div id="container-form-card" className="flex flex-col gap-y-8">
+                            <div id="container-form-card" className="flex flex-col gap-y-6">
                                 {cards.map(card => (
-                                    <div key={card.id} className="border rounded-md px-10 py-3 bg-[#f8f6f6] mr-4">
-                                        <div className="mt-1 flex gap-x-8 justify-between items-center">
+
+                                    <div key={card.id} className="py-3 mr-4 flex items-center gap-x-8">
+                                        <button onClick={() => onDeleteCard(card.id)}>
+                                            <img src="/src/assets/image/delete.png" alt="" />
+                                        </button>
+                                        <div className="mt-1 flex gap-x-12 justify-between items-center w-full">
                                             <div className="flex flex-col gap-y-1 flex-1">
-                                                <div className="flex gap-x-8">
+                                                <div className="flex gap-x-12">
                                                     <div className="flex flex-col flex-1">
                                                         <input
-                                                            className="bg-transparent py-2 rounded-none border-0 border-b-2 border-black outline-none w-full"
+                                                            className="bg-transparent py-1 rounded-none border-0 border-b-2 focus:border-green-500 border-gray-500 outline-none w-full"
                                                             type="text"
                                                             value={card.term}
                                                             onChange={(e) => {
@@ -385,11 +419,11 @@ const DeckCreateForm = () => {
                                                                 setCards(updatedCards);
                                                             }}
                                                         />
-                                                        <label className="mt-2 uppercase text-xs font-bold">Thuật ngữ</label>
+                                                        <label className="mt-2 text-xs text-gray-800 font-medium uppercase">Thuật ngữ<span className="text-red-500">*</span></label>
                                                     </div>
                                                     <div className="flex flex-col flex-1">
                                                         <input
-                                                            className="bg-transparent py-2 rounded-none border-0 border-b-2 border-black outline-none w-full"
+                                                            className="bg-transparent py-1 rounded-none border-0 border-b-2 border-gray-500 focus:border-green-500 outline-none w-full"
                                                             type="text"
                                                             value={card.definition}
                                                             onChange={(e) => {
@@ -399,12 +433,12 @@ const DeckCreateForm = () => {
                                                                 setCards(updatedCards);
                                                             }}
                                                         />
-                                                        <label className="mt-2 uppercase text-xs font-bold">Định nghĩa</label>
+                                                        <label className="mt-2 text-xs uppercase text-gray-800 font-medium">Định nghĩa<span className="text-red-500">*</span></label>
                                                     </div>
-                                                </div>
-                                                <div className="flex flex-col flex-1">
+
+                                                    <div className="flex flex-col flex-1">
                                                     <input
-                                                        className="bg-transparent py-2 rounded-none border-0 border-b-2 border-black outline-none w-full"
+                                                        className="bg-transparent py-1 rounded-none border-0 border-b-2 border-gray-500 focus:border-green-500 outline-none w-full"
                                                         type="text"
                                                         value={card.example}
                                                         onChange={(e) => {
@@ -414,34 +448,61 @@ const DeckCreateForm = () => {
                                                             setCards(updatedCards);
                                                         }}
                                                     />
-                                                    <label className="mt-2 uppercase text-xs font-bold">Example</label>
+                                                    <label className="mt-2 text-xs uppercase text-gray-800 font-medium">Example</label>
                                                 </div>
+
+                                                    
+                                                </div>
+                                                {/* <div className="flex flex-col flex-1">
+                                                    <input
+                                                        className="bg-transparent py-1 rounded-none border-0 border-b-2 border-gray-500 focus:border-green-500 outline-none w-full"
+                                                        type="text"
+                                                        value={card.example}
+                                                        onChange={(e) => {
+                                                            const updatedCards = cards.map(c =>
+                                                                c.id === card.id ? { ...c, example: e.target.value } : c
+                                                            );
+                                                            setCards(updatedCards);
+                                                        }}
+                                                    />
+                                                    <label className="mt-2 text-sm font-medium">Example</label>
+                                                </div> */}
+
+                                                {/* file upload */}
+                                                {/* upload image */}
+                                                <input type="file" id={`imageInput-${card.id}`} accept="image/*" onChange={(e) =>
+                                                    handleFileChange(e.target.files[0], card.id, "image")
+                                                }
+                                                className="hidden" 
+                                                />
+
+                                                {/* upload audio */}
+                                                <input type="file" id={`audioInput-${card.id}`} accept="mp3/*" onChange={(e) =>
+                                                    handleFileChange(e.target.files[0], card.id, "audio")
+                                                }
+                                                className="hidden" 
+                                                />
+
+                                            { card.audio && <audio id={`audio-${card.id}`} controls className="hidden">
+                                                                <source src={card.audio} type="audio/mp3" />
+                                                                Your browser does not support the audio element.
+                                                            </audio>
+                                            }
+
+
                                             </div>
                                             <div className="flex gap-x-3">
-                                                <button
-                                                    onClick={() => openChooseAudio(card.id)}
-                                                    className="w-24 h-24 border rounded border-dashed border-gray-500 flex items-center justify-center"
-                                                >
-                                                    <img
-                                                        src="/src/assets/image/volume.png"
-                                                        className="w-5"
-                                                        alt="Volume"
-                                                    />
-                                                </button>
-
-
-
-
+                                            
                                                 <button
                                                     onClick={() => openChooseImage(card.id)}
-                                                    className={`w-24 h-24 ${card.image ? '' : 'border border-dashed border-gray-500'} rounded flex items-center justify-center`}
+                                                    className={`w-16 h-16 ${card.image ? '' : 'border border-dashed border-gray-500'} rounded flex items-center justify-center`}
                                                 >
                                                     {card.image ? (
                                                         // Nếu có image, thay thế button bằng hình ảnh
                                                         <img
                                                             src={card.image}
                                                             alt="Card image"
-                                                            className="w-24 h-24 object-cover" // Đảm bảo hình ảnh vừa với button
+                                                            className="w-16 h-16 object-cover" // Đảm bảo hình ảnh vừa với button
                                                         />
                                                     ) : (
                                                         <img
@@ -451,10 +512,25 @@ const DeckCreateForm = () => {
                                                         />
                                                     )}
                                                 </button>
+
+                                                <button
+                                                    onClick={() => openChooseAudio(card.id)}
+                                                    className="w-16 h-16 border rounded border-dashed border-gray-500 flex items-center justify-center"
+                                                >
+                                                    <img
+                                                        src="/src/assets/image/volume.png"
+                                                        className="w-5"
+                                                        alt="Volume"
+                                                    />
+                                                </button>
                                             </div>
                                         </div>
+
+            
                                     </div>
+                         
                                 ))}
+
                             </div>
 
                             <div className="my-6 flex justify-end mr-4">
@@ -472,12 +548,15 @@ const DeckCreateForm = () => {
                 <div className="flex justify-end mt-auto pt-4 border-t absolute bottom-4 left-0 right-4">
                     <div className="flex gap-x-3">
                         {
-                            step == 0 && <div onClick={handleContinue} className="group flex cursor-pointer items-center justify-center rounded-md bg-blue-700 px-6 py-[6px] text-white transition">
+                            step == 0 && <button onClick={handleContinue}
+                                disabled={isButtonContinueDisabled}
+                                className={`group flex cursor-pointer items-center justify-center rounded-md px-6 py-[6px] text-white transition ${isButtonContinueDisabled ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-700'
+                                    }`}>
                                 <span className="group flex w-full items-center justify-center rounded py-1 text-center font-bold">{t('ACTION.CONTINUE')}</span>
                                 <svg className="flex-0 ml-4 h-6 w-6 transition-all group-hover:ml-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                                 </svg>
-                            </div>
+                            </button>
                         }
                         {
                             step == 1 && <div onClick={handlePrevious} className="group flex cursor-pointer items-center justify-center rounded-md bg-blue-700 px-6 py-[6px] text-white transition">
@@ -527,7 +606,7 @@ const DeckCreateForm = () => {
                         onKeyDown={onKeyDownSearchImage}
                         value={querySearchImage}
                         onChange={(e) => setQuerySearchImage(e.target.value)} placeholder="Tìm hình ảnh" className="h-10 w-72 appearance-none border py-2 px-3 text-gray-700 mb-3 leading-tight" id="description" type="text" />
-                    <button type="button" className="h-10 flex gap-x-2 items-center text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-lg text-sm px-5 text-center">
+                    <button onClick={onUploadImage} type="button" className="h-10 flex gap-x-2 items-center text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-lg text-sm px-5 text-center">
                         <i className="fa-solid fa-upload"></i>
                         <span>Hoặc tải lên hình ảnh của riêng bạn</span>
                     </button>
@@ -575,17 +654,22 @@ const DeckCreateForm = () => {
                     },
                 }}
             >
-                <div className="flex gap-x-8 p-4">
-                    <input 
-                    onKeyDown={onKeyDownTransferAudio}
-                    value={queryTransferAudio}
-                    onChange={(e) => setQueryTransferAudio(e.target.value)}
-                    placeholder="Chuyển đổi audio" className="h-10 w-72 appearance-none border py-2 px-3 text-gray-700 mb-3 leading-tight" id="description" type="text" />
-                    <button type="button" className="h-10 flex gap-x-2 items-center text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-lg text-sm px-5 text-center">
+                <div className="flex gap-x-8 p-4 items-center">
+                    <input
+                        onKeyDown={onKeyDownTransferAudio}
+                        value={queryTransferAudio}
+                        onChange={(e) => setQueryTransferAudio(e.target.value)}
+                        placeholder="Chuyển đổi audio" className="h-10 w-72 appearance-none border py-2 px-3 text-gray-700 mb-3 leading-tight" id="description" type="text" />
+                    <button onClick={onUploadAudio} type="button" className="h-10 flex gap-x-2 items-center text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-lg text-sm px-5 text-center">
                         <i className="fa-solid fa-upload"></i>
                         <span>Hoặc tải lên audio của riêng bạn</span>
                     </button>
+
+                    <button onClick={onPlayAudio}>
+                        <img src="/src/assets/image/volume.png" alt="" />
+                    </button>
                 </div>
+
 
 
             </Modal>
