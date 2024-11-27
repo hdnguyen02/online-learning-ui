@@ -6,97 +6,93 @@ import { useTranslation } from 'react-i18next';
 export default function YourLibrary() {
 
     const { auth } = useAuth()
-    const [showLiblary, setShowLiblary] = useState(false);
+    const [showLibrary, setShowLibrary] = useState(false);
     const navigate = useNavigate();
     const { t } = useTranslation();
 
 
     function handleClickLiblary() {
-        setShowLiblary(!showLiblary)
+        setShowLibrary(!showLibrary)
     }
 
+    return auth &&  <div className="group relative cursor-pointer">
 
+        <div className="flex items-center justify-between space-x-2 bg-transparent pb-2">
+            <a className="menu-hover font-medium text-black uppercase text-xs" onClick="">
+                {t('NAVBAR.YOUR_LIBRARY')}
+            </a>
+            <span>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" className="h-6 w-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                </svg>
+            </span>
+        </div>
 
-    return auth && <div className='relative'>
-        {/*  */}
+        <div
+            className="invisible absolute z-50 flex w-[200px] flex-col bg-white py-1 px-4 text-gray-800 shadow-xl group-hover:visible">
 
-            <button onClick={handleClickLiblary} className='flex gap-x-3'>
-                <span className='font-medium'>{t('NAVBAR.YOUR_LIBRARY')}</span>
-                <i className="fa-solid fa-angle-down pt-1"></i>
-                </button>
-      
-        {/* show dashboard */}
-        {
-            showLiblary && <div className='absolute top-12 left-0 rounded-md px-6 py-4 w-56 bg-white shadow-2xl'>
-
-                <div className='flex flex-col text-sm font-medium text-gray-600 gap-y-4'>
-                    <button onClick={() => {
-                        setShowLiblary(false)
-                        navigate('/my-decks')
-                    }}
-                        className='flex items-center gap-x-3'>
-                        <i className="fa-solid fa-folder"></i>
-                        <span>{t('NAVBAR.CARD_SET')}</span>
-
-                    </button>
-                    <hr />
-                    <button onClick={() => {
-                        setShowLiblary(false)
-                        navigate('/my-cards')
-                    }} className='flex items-center gap-x-3'>
-                        <i className="fa-solid fa-repeat"></i>
-                        <span>{t('NAVBAR.CARD')}</span>
-                    </button>
-                    <hr />
-                    <button onClick={() => {
-                        setShowLiblary(false)
-                        navigate('/groups/owner')
-                    }} className='flex items-center gap-x-3'>
-                       <i className="fa-solid fa-users"></i>
-                        <span>{t('NAVBAR.STUDY_GROUP')}</span>
-                    </button>
         
-                </div>
-            </div>}
-    </div>
+
+            <a onClick={() => {navigate('/my-decks')}} className="flex items-center gap-x-3 my-3 border-b border-gray-100 py-1 font-semibold hover:text-black">
+                <i class="fa-solid fa-layer-group"></i>
+                {t('NAVBAR.CARD_SET')}
+            </a>
+
+            <a onClick={() => {navigate('/my-cards')}} className="flex items-center gap-x-3 my-3 border-b border-gray-100 py-1 font-semibold hover:text-black">
+                <i class="fa-solid fa-clone"></i>
+                {t('NAVBAR.CARD')}
+            </a>
+
+            <a onClick={() => {navigate('/groups/owner')}} className="flex items-center gap-x-3 my-3 border-b border-gray-100 py-1 font-semibold hover:text-black">
+                <i class="fa-solid fa-user-group"></i>
+                {t('NAVBAR.STUDY_GROUP')}
+            </a>
+        </div>
+    </div> 
 
 
 
+    // return auth && <div classNameName='relative'>
 
 
-    // return <div className="relative">
-    //     <button onClick={handleClickLiblary} className='flex gap-x-3'>
-    //         <span className='font-medium text-[#282E3E]'>Thư viện của bạn</span>
-    //         <i className="fa-solid fa-angle-down pt-1"></i>
-    //     </button>
-    //     {showLiblary && <div className="absolute bg-[#F0F6F6] top-12 rounded-lg p-4 w-[450px] shadow-2xl">
-    //         {/* header */}
-    //         <div className="text-gray-600 font-bold px-2">
-    //             <Link to={'/my-decks'} >bộ thẻ</Link>
-    //             <Link to={'/my-cards'} className="ml-12">Thẻ</Link>
-    //             {/* Phần lớp học load động +> cập nhập thông tin */}
-    //             <button className="ml-12">Lớp học</button>
+    //         <button onClick={handleClickLiblary} classNameName='flex gap-x-3'>
+    //             <span classNameName='font-medium'>{t('NAVBAR.YOUR_LIBRARY')}</span>
+    //             <i classNameName="fa-solid fa-angle-down pt-1"></i>
+    //             </button>
+      
+    //     {
+    //         showLiblary && <div classNameName='absolute top-12 left-0 rounded-md px-6 py-4 w-56 bg-white shadow-2xl'>
 
-    //         </div>
-    //         <hr className="my-4" />
-    //         <div className="overflow-y-scroll h-24">
-    //             {
-    //                 decks.map((deck, index) => <div key={index}>
-    //                     <div className="p-2 flex justify-between">
-    //                         <span>{deck.name}</span>
-    //                         <i className="fa-solid fa-arrow-trend-up"></i>
-    //                     </div>
-    //                 </div>)
-    //             }
-    //         </div>
+    //             <div classNameName='flex flex-col text-sm font-medium text-gray-600 gap-y-4'>
+    //                 <button onClick={() => {
+    //                     setShowLiblary(false)
+    //                     navigate('/my-decks')
+    //                 }}
+    //                     classNameName='flex items-center gap-x-3'>
+    //                     <i classNameName="fa-solid fa-folder"></i>
+    //                     <span>{t('NAVBAR.CARD_SET')}</span>
 
-    //         <hr className="my-4" />
-    //         <button className="text-blue-600 text-lg px-2">Xem tất cả</button>
-    //     </div>
-
-    //     }
-
-
-
+    //                 </button>
+    //                 <hr />
+    //                 <button onClick={() => {
+    //                     setShowLiblary(false)
+    //                     navigate('/my-cards')
+    //                 }} classNameName='flex items-center gap-x-3'>
+    //                     <i classNameName="fa-solid fa-repeat"></i>
+    //                     <span>{t('NAVBAR.CARD')}</span>
+    //                 </button>
+    //                 <hr />
+    //                 <button onClick={() => {
+    //                     setShowLiblary(false)
+    //                     navigate('/groups/owner')
+    //                 }} classNameName='flex items-center gap-x-3'>
+    //                    <i classNameName="fa-solid fa-users"></i>
+    //                     <span>{t('NAVBAR.STUDY_GROUP')}</span>
+    //                 </button>
+        
+    //             </div>
+    //         </div>}
     // </div>
+
 }

@@ -1,12 +1,61 @@
 
 import config from '../config';
+import firebaseService from './firebase.service';
 import { fetchData } from '../global';
 
-
 class DeckService {
-  async create(data) {
-    console.log(data);
+
+
+  async convertBlobUrlToBlob(blobUrl) {
+    const response = await fetch(blobUrl);  // Tải dữ liệu từ URL blob
+    const blob = await response.blob();     // Tạo Blob object từ response
+    return blob;
   }
+
+
+
+  async create(data) {
+    const { deck, cards } = data;
+  
+    try {
+      for (const card of cards) {
+        // Check và upload audio nếu cần
+        if (typeof card.audio === "string" && card.audio?.startsWith("blob:")) {
+          const blob = await this.convertBlobUrlToBlob(card.audio);
+          card.audio = await firebaseService.uploadBlob(blob, '/audio');
+        }
+  
+        // Check và upload image nếu cần
+        if (card.image?.startsWith("blob:")) {
+          const blob = await this.convertBlobUrlToBlob(card.image);
+          card.image = await firebaseService.uploadBlob(blob, '/image');
+        }
+      }
+  
+      const dataToSend = {
+        name: deck.name,
+        description: deck.description,
+        isPublic: deck.isPublic,
+        configLanguage: deck.configLanguage,
+        cards: cards.map(card => ({
+          term: card.term,
+          definition: card.definition,
+          example: card.example,
+          image: card.image,
+          audio: card.audio,
+        })),
+      };
+  
+      await fetchData('/decks', 'POST', dataToSend);
+      return true; 
+    } catch (error) {
+      console.error("An error occurred during the creation process:", error);
+      return false; s
+    }
+  }
+  
+
+
 
 
   async searchImages(query) {
@@ -61,6 +110,17 @@ class DeckService {
     const subUrl = '/languages';
     const { data: rawData } = await fetchData(subUrl, 'GET');
     return rawData;
+  }
+
+  async getDecks() { 
+    try { 
+      const subUrl = '/decks'; 
+      const {data: rawData} = await fetchData(subUrl, 'GET'); 
+      return rawData; 
+    }
+    catch(error) { 
+      return []; 
+    }
   }
 
 

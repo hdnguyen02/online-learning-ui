@@ -4,34 +4,46 @@
         "EMAIL": "Email",
         "PASSWORD": "Mật khẩu"
     },
-    "NAVBAR": { 
+    "NAVBAR": {
         "HOME": "Trang chủ",
         "YOUR_LIBRARY": "Thư viện của bạn",
         "CARD_SET": "Bộ thẻ",
         "CARD": "Thẻ",
-        "STUDY_GROUP": "Nhóm học tập", 
+        "STUDY_GROUP": "Nhóm học tập",
         "CONTACT": "Liên hệ"
-    }, 
-    "ACTION": { 
-        "CREATE": "Thêm", 
-        "IMPORT": "Nhập file", 
-        "CANCEL": "Hủy", 
-        "OK": "Ok", 
-        "SAVE": "Lưu", 
-        "CONTINUE": "Tiếp tục", 
+    },
+    "ACTION": {
+        "CREATE": "Thêm",
+        "IMPORT": "Nhập file",
+        "CANCEL": "Hủy",
+        "OK": "Ok",
+        "SAVE": "Lưu",
+        "CONTINUE": "Tiếp tục",
         "PREVIOUS": "Quay lại"
-    }, 
+    },
     "DECK": {
-        "NAME": "Tên bộ thẻ", 
-        "DESCRIPTION": "Mô tả bộ thẻ", 
-        "SET_UP_DECK": "Thiết lập bộ thẻ", 
+        "NAME": "Tên bộ thẻ",
+        "DESCRIPTION": "Mô tả bộ thẻ",
+        "SET_UP_DECK": "Thiết lập bộ thẻ",
         "SET_UP_CARD": "Thiết lập thẻ"
     },
-    "CARD": { 
-        "TERM": "Thuật ngữ", 
-        "DEFINITION": "Định nghĩa", 
-        "IMAGE": "Hình ảnh", 
-        "AUDIO": "Âm thanh", 
+    "CARD": {
+        "TERM": "Thuật ngữ",
+        "DEFINITION": "Định nghĩa",
+        "IMAGE": "Hình ảnh",
+        "AUDIO": "Âm thanh",
         "EXAMPLE": "Ví dụ"
+    },
+    "NOTIFICATION": {
+        "SUCCESS": {
+            "CREATE": "Tạo mới thành công!",
+            "UPDATE": "Hiệu chỉnh thành công!",
+            "DELETE:": "Xóa thành công!"
+        },
+        "ERROR": {
+            "CREATE": "Tạo mới thất bại!",
+            "UPDATE": "Hiệu chỉnh thất bại!",
+            "DELETE:": "Xóa thất bại!"
+        }
     }
 }

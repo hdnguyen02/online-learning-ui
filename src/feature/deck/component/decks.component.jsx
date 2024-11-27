@@ -1,11 +1,11 @@
-import { useMemo, useState, useEffect, useRef } from "react";
+  import { useMemo, useState, useEffect, useRef } from "react";
 import TableComponent from "./table.component";
 import { fetchData, showToastError, showToastMessage } from "../../../global";
 import { ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import ModalEditDeck from "../../../component/ModalEditDeck";
 import ModalConfirmDeleteDeck from "../../../component/ModalConfirmDeleteDeck" 
-
+import deckService from "../../../service/deck.service";
 const Decks = () => {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
@@ -13,14 +13,11 @@ const Decks = () => {
   const [idDeckDelete, setIdDeckDelete] = useState(null);
 
   async function getDecks() {
-    try {
-      const subUrl = "/decks";
-      const response = await fetchData(subUrl, "GET");
-      setData(response.data);
-    } catch (error) {
-      showToastError(error.message);
-    }
+    const rawData = await deckService.getDecks(); 
+    setData(rawData); 
+    console.log(rawData); 
   }
+
 
   useEffect(() => {
     getDecks();
@@ -54,41 +51,33 @@ const Decks = () => {
       {
         Header: "Name",
         accessor: "name",
-        Cell: ({value}) => <span className="uppercase font-bold">{value}</span>
+        Cell: ({value}) => <span className="uppercase">{value}</span>
       },
       
       {
         Header: "Quantity cards",
         accessor: "quantityCards",
-        Cell: ({value}) => <span className="text-xs font-semibold inline-block py-1 px-2 rounded text-orange-600 bg-orange-200 uppercase last:mr-0 mr-1">
-        {value}
-      </span>
+        Cell: ({value}) => value
       },
       
       {
         Header: "Quantity clone",
         accessor: "quantityClones",
-        Cell: ({value}) => <span className="text-xs font-semibold inline-block py-1 px-2 rounded text-emerald-600 bg-emerald-200 uppercase last:mr-0 mr-1">
-        {value}
-      </span>
+        Cell: ({value}) => value
       },
       {
         Header: "public",
         accessor: "isPublic",
         Cell: ({ value }) =>
           value ? (
-            <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blue-600 bg-blue-200 last:mr-0 mr-1">
-              Yes
-            </span>
+            <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded">Yes</span>
           ) : (
-            <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-red-600 bg-red-200 last:mr-0 mr-1">
-              No
-            </span>
+            <span className="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded">No</span>
           ),
       },
       {
         Header: "Created At",
-        accessor: "createAt",
+        accessor: "createdDate",
         Cell: ({ value }) => value,
       },
       {

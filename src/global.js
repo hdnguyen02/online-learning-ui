@@ -1,5 +1,6 @@
 import { toast } from "react-toastify";
 import config from "./config";
+import { useTranslation } from 'react-i18next';
 
 export const baseUrl = "/api/v1"; // URL tương đối
 
@@ -106,3 +107,12 @@ export const showToastError = ( message) => {
       position: toast.POSITION.BOTTOM_RIGHT,
     });
 };
+
+
+export const handleActionResult = (isSuccess, actionType, t) => {
+    if (isSuccess) {
+      showToastMessage(t(`NOTIFICATION.SUCCESS.${actionType}`));
+    } else {
+      showToastError(t(`NOTIFICATION.ERROR.${actionType}`));
+    }
+  };

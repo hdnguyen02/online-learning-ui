@@ -6,8 +6,11 @@ import deckService from "../../../service/deck.service";
 import Slider from 'react-slick';
 import { useEffect } from "react";
 import { v4 as uuidv4 } from 'uuid'; // Import v4 từ thư viện uuid
+import { ToastContainer } from "react-toastify";
+import { handleActionResult } from "../../../global"; 
+import Empty from "component/Empty";
 
-const DeckCreateForm = () => {
+const DeckCreateForm = ({getDecks}) => {
 
 
     Modal.setAppElement("#root");
@@ -45,8 +48,6 @@ const DeckCreateForm = () => {
     }
 
     const closeChooseAudio = () => setIsOpenChooseAudio(false);
-
-
     // search image. 
 
     const handleContinue = () => {
@@ -57,17 +58,28 @@ const DeckCreateForm = () => {
         setStep(0);
     }
 
+    const resetData = () => { 
+        setInfoDeck({
+            name: null, 
+            description: null,
+            isPublic: false,
+            configLanguage: ""
+        }); 
+        setCards([]); 
+        setStep(0); 
+    }
 
-
-
-
-
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault();
-        console.log("Thông tin bộ thẻ: ");
-        console.log(infoDeck);
-        deckService.create({});
+        const data = { 
+            deck: infoDeck, cards
+        }
+        const isSuccess = await deckService.create(data);
 
+        handleActionResult(isSuccess, 'CREATE', t); 
+        getDecks(); 
+        closeModal(); 
+        resetData(); 
     }
 
     const onKeyDownSearchImage = async (e) => {
@@ -131,32 +143,31 @@ const DeckCreateForm = () => {
     };
 
     const [infoDeck, setInfoDeck] = useState({
-        name: "",
-        description: "",
+        name: null, 
+        description: null,
         isPublic: false,
         configLanguage: ""
     });
 
 
-    const [cards, setCards] = useState([
-        { id: uuidv4(), term: '', definition: '', example: '', image: null, audio: null },
-    ]);
+    const [cards, setCards] = useState([]);
 
 
-    const isButtonContinueDisabled = !(infoDeck.name.trim() && infoDeck.configLanguage.trim());
+    const isButtonContinueDisabled = !(infoDeck.name?.trim() && infoDeck.configLanguage?.trim());
 
 
     const onAddCard = () => {
         const newCard = {
             id: uuidv4(), // Tạo id mới cho card
-            term: '',
-            definition: '',
-            example: '',
+            term: null,
+            definition: null,
+            example: null,
             image: null,
             audio: null,
         };
 
         setCards(prevCards => [...prevCards, newCard]);
+        console.log("onAddCard"); 
     };
 
 
@@ -225,7 +236,7 @@ const DeckCreateForm = () => {
 
 
     const onPlayAudio = () => { 
-        document.getElementById(`audio-${idCardSelected}`).play(); 
+        document.getElementById(`audio-${idCardSelected}`)?.play(); 
     }
 
     const onDeleteCard = (cardId) => { 
@@ -235,11 +246,12 @@ const DeckCreateForm = () => {
 
     return <div>
 
+        <ToastContainer/>
+
         <button onClick={openModal} type="button" className="flex gap-x-2 items-center text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-lg text-sm px-5 py-2 text-center">
             <i className="fa-solid fa-plus"></i>
             <span>{t('ACTION.CREATE')}</span>
         </button>
-
 
         <Modal
             isOpen={isOpen}
@@ -265,8 +277,6 @@ const DeckCreateForm = () => {
         >
 
             <form onSubmit={onSubmit}>
-
-
                 {/* title */}
                 <div className="flex items-center justify-between">
                     <h1 className="text-lg font-medium">Tạo bộ thẻ</h1>
@@ -366,7 +376,7 @@ const DeckCreateForm = () => {
                                         value={infoDeck.configLanguage}
                                         required
                                         className="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow-md appearance-none cursor-pointer">
-                                        <option value="" disabled selected>Choose a language</option>
+                                        <option value="" disabled>Choose a language</option>
                                         {languages.map((language, index) => (<option key={index} value={language.hl}>{language.value}</option>))}
                                     </select>
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.2" stroke="currentColor" className="h-5 w-5 ml-1 absolute top-2.5 right-2.5 text-slate-700">
@@ -377,7 +387,11 @@ const DeckCreateForm = () => {
 
                                 <div className="flex gap-x-3">
                                     <label className="inline-flex items-center cursor-pointer">
-                                        <input type="checkbox" value="" className="sr-only peer" />
+                                        <input
+                                            onChange={(e) => setInfoDeck({ ...infoDeck, isPublic: e.target.value })}
+                                            value={infoDeck.isPublic}
+                                        
+                                            type="checkbox" className="sr-only peer" />
                                         <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
                                         <span className="ms-3 text-sm font-medium text-gray-900">Public</span>
                                     </label>
@@ -398,10 +412,11 @@ const DeckCreateForm = () => {
                         <div className="mt-6 relative overflow-y-scroll max-h-[360px] h-[360px]">
 
                             <div id="container-form-card" className="flex flex-col gap-y-6">
-                                {cards.map(card => (
+                                {
+                                cards.length != 0 ? (cards.map(card => (
 
                                     <div key={card.id} className="py-3 mr-4 flex items-center gap-x-8">
-                                        <button onClick={() => onDeleteCard(card.id)}>
+                                        <button type="button" onClick={() => onDeleteCard(card.id)}>
                                             <img src="/src/assets/image/delete.png" alt="" />
                                         </button>
                                         <div className="mt-1 flex gap-x-12 justify-between items-center w-full">
@@ -409,8 +424,6 @@ const DeckCreateForm = () => {
                                                 <div className="flex gap-x-12">
                                                     <div className="flex flex-col flex-1">
                                                         <input
-                                                            className="bg-transparent py-1 rounded-none border-0 border-b-2 focus:border-green-500 border-gray-500 outline-none w-full"
-                                                            type="text"
                                                             value={card.term}
                                                             onChange={(e) => {
                                                                 const updatedCards = cards.map(c =>
@@ -418,13 +431,14 @@ const DeckCreateForm = () => {
                                                                 );
                                                                 setCards(updatedCards);
                                                             }}
+                                                            className="bg-transparent py-1 rounded-none border-0 border-b-2 focus:border-green-500 border-gray-500 outline-none w-full"
+                                                            type="text"
+                                                            required
                                                         />
                                                         <label className="mt-2 text-xs text-gray-800 font-medium uppercase">Thuật ngữ<span className="text-red-500">*</span></label>
                                                     </div>
                                                     <div className="flex flex-col flex-1">
                                                         <input
-                                                            className="bg-transparent py-1 rounded-none border-0 border-b-2 border-gray-500 focus:border-green-500 outline-none w-full"
-                                                            type="text"
                                                             value={card.definition}
                                                             onChange={(e) => {
                                                                 const updatedCards = cards.map(c =>
@@ -432,6 +446,9 @@ const DeckCreateForm = () => {
                                                                 );
                                                                 setCards(updatedCards);
                                                             }}
+                                                            required
+                                                            className="bg-transparent py-1 rounded-none border-0 border-b-2 border-gray-500 focus:border-green-500 outline-none w-full"
+                                                            type="text"
                                                         />
                                                         <label className="mt-2 text-xs uppercase text-gray-800 font-medium">Định nghĩa<span className="text-red-500">*</span></label>
                                                     </div>
@@ -495,6 +512,7 @@ const DeckCreateForm = () => {
                                             
                                                 <button
                                                     onClick={() => openChooseImage(card.id)}
+                                                    type="button"
                                                     className={`w-16 h-16 ${card.image ? '' : 'border border-dashed border-gray-500'} rounded flex items-center justify-center`}
                                                 >
                                                     {card.image ? (
@@ -515,6 +533,7 @@ const DeckCreateForm = () => {
 
                                                 <button
                                                     onClick={() => openChooseAudio(card.id)}
+                                                    type="button"
                                                     className="w-16 h-16 border rounded border-dashed border-gray-500 flex items-center justify-center"
                                                 >
                                                     <img
@@ -525,18 +544,15 @@ const DeckCreateForm = () => {
                                                 </button>
                                             </div>
                                         </div>
-
-            
                                     </div>
                          
-                                ))}
-
+                                ))) : (<Empty/>)}
                             </div>
 
                             <div className="my-6 flex justify-end mr-4">
-                                <button onClick={onAddCard} type="button" className="flex gap-x-2 items-center text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-lg text-sm px-5 py-2 text-center">
-                                    <i className="fa-solid fa-plus"></i>
-                                    <span>{t('ACTION.CREATE')}</span>
+                                <button onClick={onAddCard} type="button" className="w-full flex gap-x-2 items-center justify-center hover:text-white border border-blue-700 hover:bg-blue-600 focus:outline-none font-medium rounded text-xs uppercase px-5 py-4 text-center">
+                                    {/* <i className="fa-solid fa-plus"></i> */}
+                                    <span>{t('ACTION.CREATE')}</span> 
                                 </button>
                             </div>
 
@@ -548,8 +564,9 @@ const DeckCreateForm = () => {
                 <div className="flex justify-end mt-auto pt-4 border-t absolute bottom-4 left-0 right-4">
                     <div className="flex gap-x-3">
                         {
-                            step == 0 && <button onClick={handleContinue}
+                            step == 0 && <button  onClick={handleContinue}
                                 disabled={isButtonContinueDisabled}
+                                type="button"
                                 className={`group flex cursor-pointer items-center justify-center rounded-md px-6 py-[6px] text-white transition ${isButtonContinueDisabled ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-700'
                                     }`}>
                                 <span className="group flex w-full items-center justify-center rounded py-1 text-center font-bold">{t('ACTION.CONTINUE')}</span>
