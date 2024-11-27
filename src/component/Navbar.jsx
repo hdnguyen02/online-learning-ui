@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import useAuth from "../context/AuthContext";
-import YourLibrary from "./YourLibrary";
-import YourProfile from "./YourProfile";
+import YourLibrary from "./your-library.component";
+import YourProfile from "./your-profile.component";
 import LanguageSelector from "./language/LanguageSelector";
 import { useTranslation } from 'react-i18next';
 
@@ -17,8 +17,8 @@ function Navbar() {
     !location.pathname.includes("admin")
   ) {
     return (
-      <nav className="bg-[#F0F6F6] h-14 px-4 md:px-48 flex justify-between items-center fixed left-0 right-0 top-0 z-10">
-        <div className="flex items-center gap-x-8">
+      <nav className="bg-[#F0F6F6] h-16 px-4 md:px-48 flex justify-between items-center fixed left-0 right-0 top-0 z-10">
+        <div className="flex items-center gap-x-8 py-2">
           <Link
             to={"/"}
             className="text-blue-700 text-xl md:text-3xl font-bold"
@@ -79,7 +79,7 @@ function Navbar() {
           <div className="md:flex gap-x-4 lg:gap-x-8 text-xs uppercase font-medium">
             <Link
               to={"/"}
-              className={location.pathname === "/" ? "link-active" : ""}
+              className={location.pathname === "/" ? "link-active flex items-center" : "flex items-center"}
             >
               {t('NAVBAR.HOME')}
             </Link>
@@ -102,7 +102,7 @@ function Navbar() {
             {auth && (
               <Link
                 to={"/decks"}
-                className={location.pathname === "/decks" ? "link-active" : ""}
+                className={location.pathname === "/decks" ? "link-active flex items-center" : " flex items-center"}
               >
                  {t('NAVBAR.CARD_SET')}
               </Link>
@@ -110,21 +110,21 @@ function Navbar() {
             {auth && (
               <Link
                 to={"/groups"}
-                className={location.pathname === "/groups" ? "link-active" : ""}
+                className={location.pathname === "/groups" ? "link-active flex items-center" : "flex items-center"}
               >
                 {t('NAVBAR.STUDY_GROUP')}
               </Link>
             )}
             <Link
               to={"/contact"}
-              className={location.pathname === "/contact" ? "link-active" : ""}
+              className={location.pathname === "/contact" ? "link-active flex items-center" : "flex items-center"}
             >
               {t('NAVBAR.CONTACT')}
             </Link>
           </div>
         </div>
 
-        <div className="flex items-center gap-x-4">
+        <div className="flex items-center gap-x-8">
           {/* <SearchClass></SearchClass> */}
           {/* ẩn hiện tùy theo authenticate*/}
           {!auth && (
@@ -144,8 +144,12 @@ function Navbar() {
             </div>
           )}
 
-          <YourProfile />
+
+
           <LanguageSelector />
+
+          <YourProfile />
+         
         </div>
 
       </nav>

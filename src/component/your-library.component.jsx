@@ -1,23 +1,17 @@
-import { useState } from "react"
+
 import { useNavigate } from "react-router-dom"
 import useAuth from "../context/AuthContext"
 import { useTranslation } from 'react-i18next';
 
 export default function YourLibrary() {
 
-    const { auth } = useAuth()
-    const [showLibrary, setShowLibrary] = useState(false);
+    const { auth } = useAuth();
     const navigate = useNavigate();
     const { t } = useTranslation();
 
-
-    function handleClickLiblary() {
-        setShowLibrary(!showLibrary)
-    }
-
     return auth &&  <div className="group relative cursor-pointer">
 
-        <div className="flex items-center justify-between space-x-2 bg-transparent pb-2">
+        <div className="flex items-center justify-between space-x-2 bg-transparent">
             <a className="menu-hover font-medium text-black uppercase text-xs" onClick="">
                 {t('NAVBAR.YOUR_LIBRARY')}
             </a>
@@ -34,17 +28,17 @@ export default function YourLibrary() {
 
         
 
-            <a onClick={() => {navigate('/my-decks')}} className="flex items-center gap-x-3 my-3 border-b border-gray-100 py-1 font-semibold hover:text-black">
+            <a onClick={() => {navigate('/my-decks')}} className="h-10 flex items-center gap-x-3 border-b border-gray-100 font-semibold hover:text-black">
                 <i class="fa-solid fa-layer-group"></i>
                 {t('NAVBAR.CARD_SET')}
             </a>
 
-            <a onClick={() => {navigate('/my-cards')}} className="flex items-center gap-x-3 my-3 border-b border-gray-100 py-1 font-semibold hover:text-black">
+            <a onClick={() => {navigate('/my-cards')}} className="h-10 flex items-center gap-x-3 border-b border-gray-100 font-semibold hover:text-black">
                 <i class="fa-solid fa-clone"></i>
                 {t('NAVBAR.CARD')}
             </a>
 
-            <a onClick={() => {navigate('/groups/owner')}} className="flex items-center gap-x-3 my-3 border-b border-gray-100 py-1 font-semibold hover:text-black">
+            <a onClick={() => {navigate('/groups/owner')}} className="h-10 flex items-center gap-x-3 border-b border-gray-100 font-semibold hover:text-black">
                 <i class="fa-solid fa-user-group"></i>
                 {t('NAVBAR.STUDY_GROUP')}
             </a>

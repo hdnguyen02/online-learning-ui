@@ -22,10 +22,42 @@ function GlobalFilter({ globalFilter, setGlobalFilter, getDecks }) {
   return (
     <div className="flex justify-between mt-10">
       <div className="flex gap-x-8 items-center h-12">
-        <span className="font-medium uppercase text-sm">Your card set</span>
+        {/* <span className="font-medium uppercase text-sm">Your card set</span> */}
+
+        
+
+<nav class="flex" aria-label="Breadcrumb">
+  <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+    <li class="inline-flex items-center">
+      <a href="#" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
+        <svg class="w-3 h-3 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+          <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z"/>
+        </svg>
+        Home
+      </a>
+    </li>
+    <li>
+      <div class="flex items-center">
+        <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+        </svg>
+        <a href="#" class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">Projects</a>
+      </div>
+    </li>
+    <li aria-current="page">
+      <div class="flex items-center">
+        <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+        </svg>
+        <span class="ms-1 text-sm font-medium text-gray-500 md:ms-2 dark:text-gray-400">Flowbite</span>
+      </div>
+    </li>
+  </ol>
+</nav>
+
       </div>
       <div className="flex items-center gap-x-8">
-        <DeckCreateForm getDecks={getDecks}/>
+        <DeckCreateForm getDecks={getDecks} />
         <div className="max-w-md mx-auto">
           <div className="relative">
             <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -100,7 +132,7 @@ const TableComponent = ({
   };
 
 
-  
+
 
   return (
     <>
@@ -115,75 +147,71 @@ const TableComponent = ({
         data.length != 0 ? (
           <div className="">
 
-            <div className="flex flex-col min-h-[300px] h-[300px] overflow-x-hidden overflow-y-scroll border rounded">
+            <div className="flex flex-col border rounded">
               <div className="-m-1.5 overflow-x-auto">
                 <div className="p-1.5 min-w-full inline-block align-middle">
-                  <div className="overflow-hidden">
-                    <table
-                      {...getTableProps()}
-                      className="min-w-full divide-y divide-gray-200"
-                    >
+                  <div className="">
+                    <table {...getTableProps()} className="min-w-full">
                       <thead>
                         {headerGroups.map((headerGroup) => (
                           <tr {...headerGroup.getHeaderGroupProps()}>
                             {headerGroup.headers.map((column) => (
                               <th
                                 {...column.getHeaderProps(column.getSortByToggleProps())}
-                                className="px-6 py-5 text-start text-xs font-medium uppercase bg-gray-50"
+                                className={`py-2 px-3 bg-gray-50 ${column.width}`} // Áp dụng chiều rộng từ column.width
                               >
-                                {column.render("Header")}
-                                <span className="ml-2">
-                                  <i className="fa-solid fa-sort opacity-60"></i>
-                                </span>
+                                <div className="flex items-center space-x-4 font-medium text-[14px]">
+                                  { column.Header != "Action" && <span>{column.render("Header")}</span> }
+                                  {
+                                    column.Header != "Action" && <img src="/src/assets/image/sort.png" className="w-4 h-4" alt="Sort icon" />
+                                  }
+
+                                </div>
                               </th>
                             ))}
                           </tr>
                         ))}
                       </thead>
-                      <tbody
-                        {...getTableBodyProps()}
-                        className="divide-y divide-gray-200"
-                      >
+
+                      <tbody {...getTableBodyProps()} className="divide-y divide-gray-200 min-h-[240px]">
                         {page.map((row) => {
                           prepareRow(row);
                           return (
-                            <tr
-                              {...row.getRowProps()}
-                              className="hover:bg-gray-100"
-                            >
+                            <tr {...row.getRowProps()} className="hover:bg-gray-100 h-12 divide-y divide-gray-100">
                               {row.cells.map((cell) => (
-                                <td
-                                  {...cell.getCellProps()}
-                                  className="px-6 py-4 whitespace-nowrap text-sm text-gray-800"
-                                >
+                                <td {...cell.getCellProps()} className="whitespace-nowrap text-sm text-gray-800 h-12 px-3">
                                   {cell.render("Cell")}
                                 </td>
                               ))}
                             </tr>
                           );
                         })}
+
+                        {[...Array(Math.max(0, pageSize - page.length))].map((_, i) => (
+                          <tr key={`empty-${i}`} className="h-12">
+                            <td colSpan={headerGroups[0].headers.length} className="border-none bg-transparent"></td>
+                          </tr>
+                        ))}
                       </tbody>
+
                     </table>
+
                   </div>
                 </div>
               </div>
             </div>
 
-
-
-
-            <div className="mt-4 flex justify-between">
-              <div>
+            <div className="mt-8 flex justify-end">
+              <div className="flex gap-x-8 items-center">
                 <div className="relative">
                   <select
                     value={pageSize}
                     onChange={(e) => {
                       setPageSize(Number(e.target.value));
-                      gotoPage(0); 
-                      setCurrentPage(0); 
+                      gotoPage(0);
+                      setCurrentPage(0);
                     }}
-                    required
-                    className="w-full bg-transparent placeholder:text-slate-400 text-sm border border-slate-200 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow-md appearance-none cursor-pointer"
+                    className="h-9 w-full bg-transparent placeholder:text-slate-400 text-sm border border-slate-200 pl-3 pr-8 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 appearance-none cursor-pointer"
                   >
                     {[5, 10, 15, 20, 25].map((size) => (
                       <option key={size} value={size}>
@@ -197,7 +225,7 @@ const TableComponent = ({
                     viewBox="0 0 24 24"
                     strokeWidth="1.2"
                     stroke="currentColor"
-                    className="h-5 w-5 ml-1 absolute top-2.5 right-2.5 text-slate-700"
+                    className="h-5 w-5 absolute top-2 right-4 text-slate-700"
                   >
                     <path
                       strokeLinecap="round"
@@ -206,55 +234,47 @@ const TableComponent = ({
                     />
                   </svg>
                 </div>
-
-
-
-
-              </div>
-
-              <div className="flex gap-x-12 items-center">
-                <div>
-                  <div>
-                    <ul className="inline-flex -space-x-px text-sm">
-                      <li>
-                        <button
-                          onClick={() => previousPage()}
-                          disabled={!canPreviousPage}
-                          className="flex items-center justify-center px-3 h-9 ms-0 leading-tight bg-white border border-e-0 border-gray-300 hover:bg-gray-100 hover:text-gray-700"
-                        >
-                          Previous
-                        </button>
-                      </li>
-                      {Array.from({ length: pageCount }, (_, index) => (
-                        <li key={index}>
-                          <button
-                            onClick={() => handlePageClick(index)}
-                            className={`flex items-center justify-center px-4 h-9 leading-tight border 
+                <ul className="inline-flex -space-x-px text-sm">
+                  <li>
+                    <button
+                      onClick={() => previousPage()}
+                      disabled={!canPreviousPage}
+                      className="flex items-center justify-center px-3 h-9 ms-0 leading-tight bg-white border border-e-0 border-gray-300 hover:bg-gray-100 hover:text-gray-700"
+                    >
+                      Previous
+                    </button>
+                  </li>
+                  {Array.from({ length: pageCount }, (_, index) => (
+                    <li key={index}>
+                      <button
+                        onClick={() => handlePageClick(index)}
+                        className={`flex items-center justify-center px-4 h-9 leading-tight border 
                     ${currentPage === index
-                                ? "bg-blue-500 text-white border-blue-500"
-                                : "bg-white border-gray-300 hover:bg-gray-100 hover:text-gray-700"
-                              }`}
-                          >
-                            {index + 1}
-                          </button>
-                        </li>
-                      ))}
+                            ? "bg-blue-500 text-white border-blue-500"
+                            : "bg-white border-gray-300 hover:bg-gray-100 hover:text-gray-700"
+                          }`}
+                      >
+                        {index + 1}
+                      </button>
+                    </li>
+                  ))}
 
 
-                      <li>
-                        <button
-                          onClick={() => nextPage()}
-                          disabled={!canNextPage}
-                          className="flex items-center justify-center px-3 h-9 leading-tight  bg-white border border-gray-300  hover:bg-gray-100 hover:text-gray-700"
-                        >
-                          Next
-                        </button>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
+                  <li>
+                    <button
+                      onClick={() => nextPage()}
+                      disabled={!canNextPage}
+                      className="flex items-center justify-center px-3 h-9 leading-tight  bg-white border border-gray-300  hover:bg-gray-100 hover:text-gray-700"
+                    >
+                      Next
+                    </button>
+                  </li>
+                </ul>
+
               </div>
             </div>
+            {/* </div> */}
+
           </div>
         ) : <Empty></Empty>
       }

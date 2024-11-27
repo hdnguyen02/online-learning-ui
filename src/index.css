@@ -119,6 +119,7 @@ input[type="file"] {
 .link-active {
   border-bottom: 3px solid green;
   color: green;
+  margin-top: 2px;
 }
 
 .link-active-mobile {
