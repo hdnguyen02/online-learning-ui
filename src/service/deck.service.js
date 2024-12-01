@@ -16,7 +16,7 @@ class DeckService {
 
   async create(data) {
     const { deck, cards } = data;
-  
+
     try {
       for (const card of cards) {
         // Check và upload audio nếu cần
@@ -24,14 +24,14 @@ class DeckService {
           const blob = await this.convertBlobUrlToBlob(card.audio);
           card.audio = await firebaseService.uploadBlob(blob, '/audio');
         }
-  
+
         // Check và upload image nếu cần
         if (card.image?.startsWith("blob:")) {
           const blob = await this.convertBlobUrlToBlob(card.image);
           card.image = await firebaseService.uploadBlob(blob, '/image');
         }
       }
-  
+
       const dataToSend = {
         name: deck.name,
         description: deck.description,
@@ -45,15 +45,15 @@ class DeckService {
           audio: card.audio,
         })),
       };
-  
+
       await fetchData('/decks', 'POST', dataToSend);
-      return true; 
+      return true;
     } catch (error) {
       console.error("An error occurred during the creation process:", error);
       return false; s
     }
   }
-  
+
 
 
 
@@ -112,19 +112,28 @@ class DeckService {
     return rawData;
   }
 
-  async getDecks() { 
-    try { 
-      const subUrl = '/decks'; 
-      const {data: rawData} = await fetchData(subUrl, 'GET'); 
-      return rawData; 
+  async getDecks() {
+    try {
+      const subUrl = '/decks';
+      const { data: rawData } = await fetchData(subUrl, 'GET');
+      return rawData;
     }
-    catch(error) { 
-      return []; 
+    catch (error) {
+      return [];
     }
   }
 
 
-
+  async getDeck(id) {
+    try {
+      const subUrl = '/decks/' + id;
+      const { data: rawData } = await fetchData(subUrl, 'GET');
+      return rawData;
+    }
+    catch (error) {
+      return null;
+    }
+  }
 }
 
 export default new DeckService();

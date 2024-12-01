@@ -1,12 +1,14 @@
 import { useMemo, useState, useEffect, useRef } from "react";
 import TableComponent from "./table.component";
-import { fetchData, showToastError, showToastMessage } from "../../../global";
+import { fetchData, showToastError, showToastMessage, customFormatDistanceToNow } from "../../../global";
 import { ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import ModalEditDeck from "../../../component/ModalEditDeck";
-import ModalConfirmDeleteDeck from "../../../component/ModalConfirmDeleteDeck"
-import deckService from "../../../service/deck.service";
-import {customFormatDistanceToNow} from '../../../global'
+import ModalConfirmDeleteDeck from "component/ModalConfirmDeleteDeck"
+import deckService from "service/deck.service";
+import DeckDetailForm from "./deck-detail-form.component";
+
+
 const Decks = () => {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
@@ -72,20 +74,71 @@ const Decks = () => {
       width: "w-8", // Đặt chiều rộng cho cột "Action"
       Cell: ({ row }) => (
         <div className="flex gap-x-4">
-          <button onClick={() => handleLearn(row.original.id)}>
+          {/* <button onClick={() => handleLearn(row.original.id)}>
             <img src="/src/assets/image/case-study.png" className="w-5 h-5" alt="" />
+          </button> */}
+
+          
+          
+          <button
+            onClick={() => handleLearn(row.original.id)}
+            disabled={row.original.quantityCards === 0}
+            className={`relative px-4 py-0.5 overflow-hidden font-medium text-indigo-600 bg-indigo-50 border border-gray-100 rounded-lg shadow-inner group 
+            ${row.original.quantityCards === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
+          >
+            <span
+              className="absolute top-0 left-0 w-0 h-0 transition-all duration-200 border-t-2 border-indigo-600 group-hover:w-full ease"
+            ></span>
+            <span
+              className="absolute bottom-0 right-0 w-0 h-0 transition-all duration-200 border-b-2 border-indigo-600 group-hover:w-full ease"
+            ></span>
+            <span
+              className="absolute top-0 left-0 w-full h-0 transition-all duration-200 delay-100 bg-indigo-600 group-hover:h-full ease"
+            ></span>
+            <span
+              className="absolute bottom-0 left-0 w-full h-0 transition-all duration-200 delay-100 bg-indigo-600 group-hover:h-full ease"
+            ></span>
+            <span
+              className="absolute inset-0 w-full h-full duration-300 delay-200 bg-indigo-600 opacity-0 group-hover:opacity-100"
+            ></span>
+            <span
+              className="text-xs relative font-semibold transition-colors duration-200 delay-100 group-hover:text-white ease"
+            >
+              Ôn tập
+            </span>
           </button>
+
           <button onClick={() => handleEdit(row.original.id)} className="ml-2">
             <i className="fa-regular fa-pen-to-square"></i>
+          </button>
+
+          <button onClick={() => 
+            onOpenDetailDeck(row.original.id)} className="">
+            <img src="/src/assets/image/info.png" className="w-4 h-4" alt="" />
           </button>
         </div>
       ),
     },
-  ], [handleLearn]);
-  
+  ], [handleLearn, onOpenDetailDeck
+    
+  ]);
+
+
+  // lưu trữ deck. 
+  const [deck, setDeck] = useState(); 
+
+  const [isOpenDetailDeck, setIsOpenDetailDeck] = useState(false); 
+  const [isOpenUpdateDeck, setIsOpenUpdateDeck] = useState(false);
+
   const handleEdit = (idDeck) => {
     refModalEditDeck.current.show(idDeck);
   };
+
+  const getDeck = async (id) => { 
+    const rawData = await deckService.getDeck(id); 
+    console.log(rawData); 
+    setDeck(rawData); 
+  }
 
   async function handleDelete(idDeck) {
     alert(`Handle delete decks: ${idDeck}`);
@@ -95,6 +148,20 @@ const Decks = () => {
     const url = `/my-decks/${idDeck}/learn-cards`;
     navigate(url);
   }
+
+  async function onOpenDetailDeck(id) { 
+    // cho modal đó bật lên. 
+    
+    setIsOpenDetailDeck(true);
+    getDeck(id); 
+
+  }
+
+  async function onCloseDetailDeck() { 
+    setIsOpenDetailDeck(false); 
+  }
+
+  
 
   function handleCancelDeleteDeck() {
     document.getElementById("popup-delete-deck").style.display = "none";
@@ -122,6 +189,15 @@ const Decks = () => {
     <div>
       {/* <h1>My Table</h1> */}
 
+
+      <DeckDetailForm 
+        isOpenDetailDeck={isOpenDetailDeck}
+        onCloseDetailDeck={onCloseDetailDeck}
+        deck={deck}
+      >
+
+        
+        </DeckDetailForm>
       <ModalEditDeck ref={refModalEditDeck} getDecks={getDecks} />
       <ModalConfirmDeleteDeck
         idDeckDelete={idDeckDelete}

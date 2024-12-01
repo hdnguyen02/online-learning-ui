@@ -85,7 +85,7 @@ const App = () => {
     {
       Header: 'Action',
       Cell: ({ row }) => (
-        <div>
+        <div className='flex gap-x-4'>
           <button onClick={() => handleEdit(row.original.id)}><i class="fa-regular fa-pen-to-square"></i></button>
           <button onClick={() => handleDelete(row.original.id)} className='ml-2'><i className="fa-solid fa-trash"></i></button>
         </div>
