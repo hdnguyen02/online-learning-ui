@@ -1,27 +1,31 @@
 
-import { useEffect, useState } from 'react'
-import {baseUrl, fetchData } from '../global'
-import { useParams } from 'react-router-dom'
+import { useEffect, useState } from 'react';
+import {baseUrl, fetchData } from '../global';
+import { useParams } from 'react-router-dom';
+import Empty from 'component/Empty';
 
 function Card() {
 
 
-    const params = useParams()
-    const idDeck = params.id
-    const [cards, setCards] = useState()
-    const [deck, setDeck] = useState()
-    const [index, setIndex] = useState(0)
-    const accessToken = localStorage.getItem('accessToken')
+    const params = useParams();  
+    const idDeck = params.id;
+    const [cards, setCards] = useState();
+    const [deck, setDeck] = useState();
+    const [index, setIndex] = useState(0);
+    const accessToken = localStorage.getItem('accessToken');
 
 
     async function getCards() {
         const subUrl = `/cards/filter?idDeck=${idDeck}`
+        console.log(subUrl); 
         try { 
-            const response = await fetchData(subUrl, 'GET')
-            setCards(response.data)
+            const { data } = await fetchData(subUrl, 'GET'); 
+            setCards(data); 
+            console.log(data); 
+            
         }
         catch(error) { 
-            console.log(error.message)
+            console.log(error.message);
         }
     }
 
@@ -38,8 +42,9 @@ function Card() {
 
 
     useEffect(() => {
-        getDeck()
-        getCards()
+        console.log("FlipCard"); 
+        getDeck(); 
+        getCards(); 
     }, [])
 
 
@@ -84,14 +89,11 @@ function Card() {
             {cards[index].example && <p className="text-xl text-center">{cards[index].example}</p>}
         </div>
     }
-
-
-    // cho thích thẻ + đã nhớ
-    async function favouriteCard() {
+    async function favoriteCard() {
         const id = cards[index].id
         const card = cards[index]
         const formData = new FormData()
-        if (card.isFavourite) { 
+        if (card.isFavorite) { 
             formData.append('isFavourite', false) 
         }
         else { 
@@ -140,7 +142,7 @@ function Card() {
                 <button
                     onClick={event => {
                         event.stopPropagation()
-                        favouriteCard()
+                        favoriteCard()
                     }}
                 >
                     { 
@@ -163,7 +165,7 @@ function Card() {
             <audio className='hidden' id="audioPlayer" controls></audio>
             <div className="card-container">
                 {
-                    deck && (<h3 className='text-xl font-medium'>Bộ thẻ: { deck.name }</h3>)
+                    deck && (<h3 className='font-medium'>Bộ thẻ: { deck.name }</h3>)
                 } 
                 <div className="mt-12 card mx-auto" id="card" onClick={handleFlipCard}>
                     <div className="card-front">

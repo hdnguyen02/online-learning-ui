@@ -118,12 +118,24 @@ export const handleActionResult = (isSuccess, actionType, t) => {
 };
 
 export function customFormatDistanceToNow(isoDateString) {
-    const date = parseISO(isoDateString)
-    const timeAgo = formatDistanceToNow(date, { addSuffix: true })
-    return timeAgo;
+    try {
+        const date = parseISO(isoDateString)
+        const timeAgo = formatDistanceToNow(date, { addSuffix: true })
+        return timeAgo;
+    }
+    catch (error) {
+        return null;
+    }
+
 }
 
 export function customFormatDD_MM_YYYY_HH_mm(isoDateString) {
-    const date = parseISO(isoDateString)
-    return format(date, ' HH:mm dd/MM/yyyy');
+    try {
+        const date = parseISO(isoDateString)
+        return format(date, ' HH:mm dd/MM/yyyy');
+    }
+
+    catch (error) {
+        return null;
+    }
 }

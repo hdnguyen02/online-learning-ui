@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react'
-import { fetchData, showToastError, showToastMessage } from '../global'
-import { ToastContainer } from 'react-toastify'
-import Modal from 'react-modal'
-import Empty from './Empty'
-import { Link } from 'react-router-dom'
-import { customFormatDistanceToNow } from '../global'
+import { useEffect, useState } from 'react';
+import { fetchData, showToastError, showToastMessage, customFormatDistanceToNow } from '../../global';
+import { ToastContainer } from 'react-toastify';
+import Modal from 'react-modal';
+import Empty from 'component/Empty';
+import { Link } from 'react-router-dom';
+import globalDeckService from 'service/global-deck.service';
 
-export default function GlobalDecks() {
-  const [isShowDetailDeck, setIsShowDetailDeck] = useState(false); 
-  const [decks, setDecks] = useState(); 
+export default function GlobalDecksComponent() {
+  const [isShowDetailDeck, setIsShowDetailDeck] = useState(false);
+  const [globalDecks, setGlobalDecks] = useState();
 
   const [searchTerm, setSearchTerm] = useState();
   const [detailDeck, setDetailDeck] = useState();
@@ -22,52 +22,43 @@ export default function GlobalDecks() {
       const { data } = await fetchData(subUrl, 'GET');
       setDetailDeck(data);
       setIsShowDetailDeck(true);
-      console.log(data)
     } catch (error) {
-      showToastError(error.message)
+      showToastError(error.message);
     }
   }
 
-  async function getDecks() {
-    try {
-      const subUrl = '/global/decks'
-      const { data } = await fetchData(subUrl, 'GET')
-      setDecks(data)
-    } catch (error) {
-      showToastError(error.message)
-    }
+  async function getGlobalDecks() {
+    const rawData = await globalDeckService.getGlobalDecks();
+    setGlobalDecks(rawData);
+    console.log(rawData); 
+
   }
 
   async function handleCloneDeck() {
     try {
-      const subUrl = `/decks/${detailDeck.id}/clone`
-      const { message } = await fetchData(subUrl, 'POST')
-      showToastMessage(message)
+      const subUrl = `/decks/${detailDeck.id}/clone`;
+      const { message } = await fetchData(subUrl, 'POST');
+      showToastMessage(message);
     } catch (error) {
-      showToastError(error.message)
+      showToastError(error.message);
     }
   }
 
   useEffect(() => {
-    getDecks()
+    getGlobalDecks()
   }, [])
 
-  // useEffect(() => {
+  useEffect(() => {
+    if (searchTerm === '') {
+      getGlobalDecks();
+    } else if (globalDecks && Array.isArray(globalDecks)) {
+      const searchDecks = globalDecks.filter(globalDeck =>
+        globalDeck.name?.toLowerCase().includes(searchTerm?.toLowerCase())
+      );
+      setGlobalDecks(searchDecks);
+    }
+  }, [searchTerm]);
 
-    
-  //   if (searchTerm == '') { 
-  //     getDecks()
-  //   }
-
-  //   else { 
-  //     if (decks != null) { 
-  //       const searchDecks = decks.filter(deck =>
-  //         deck.name.toLowerCase()?.includes(searchTerm?.toLowerCase())
-  //       )
-  //       setDecks(searchDecks);
-  //     }
-  //   }
-  // }, [decks, searchTerm])
 
   const stylesModal = {
     content: {
@@ -84,10 +75,30 @@ export default function GlobalDecks() {
   }
 
   return (
-    decks && (
+    globalDecks && (
       <>
         <div className='profile flex gap-x-3 items-center justify-between h-12'>
-          <span className='font-medium uppercase text-sm'>Expert card set</span>
+        <div className="flex" aria-label="Breadcrumb">
+          <ol className="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse cursor-pointer">
+            <li className="inline-flex items-center">
+              <span className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
+                <svg className="w-3 h-3 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z" />
+                </svg>
+                Chuyên gia
+              </span>
+            </li>
+            <li>
+              <div className="flex items-center">
+                <svg className="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4" />
+                </svg>
+                <span className="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2">Bộ thẻ</span>
+              </div>
+            </li>
+
+          </ol>
+        </div>
           <div className='flex gap-x-8 items-center'>
             <div className='max-w-md mx-auto'>
               <div className='relative'>
@@ -113,7 +124,7 @@ export default function GlobalDecks() {
                     setSearchTerm(event.target.value)
                   }}
                   type='search'
-                  id='decks-search'
+                  id='globalDecks-search'
                   className='block w-full  px-4 h-10 ps-10 text-sm text-gray-900 border border-gray-300 rounded-md bg-gray-50 focus:ring-blue-500 focus:border-blue-500'
                   placeholder='Name, description...'
                 />
@@ -124,17 +135,17 @@ export default function GlobalDecks() {
 
         <hr className='my-8'></hr>
 
-        {decks.length != 0 ? (
+        {globalDecks.length != 0 ? (
           <div className='mb-12 grid grid-cols-2 gap-12'>
-            {decks.map((deck, index) => (
-              <div key={index}>
-                <span className='text-xs uppercase'>
+            {globalDecks.map((deck, index) => (
+              <div key={index} className=''>
+                <span className='text-sm'>
                   {customFormatDistanceToNow(deck.createdDate)}
                 </span>
-                <div className='bg-[#F0F6F6] p-6 rounded mt-2'>
+                <div className='bg-gray-100 py-4 px-8 rounded-lg shadow-md mt-2 border'>
                   <div className='flex items-center justify-between'>
                     <div className='flex items-center gap-x-4'>
-                      <div className='rounded-full h-10 w-10 overflow-hidden cursor-pointer'>
+                      {/* <div className='rounded-full h-10 w-10 overflow-hidden cursor-pointer'>
                         <img
                           src={
                             deck.user.avatar ? deck.user.avatar : '/user.png'
@@ -143,43 +154,50 @@ export default function GlobalDecks() {
                           className='w-full h-full'
                           alt=''
                         />
-                      </div>
-                      <div className='flex flex-col gap-y-2'>
+                      </div> */}
+                      <div className='flex flex-col gap-y-1'>
                         <div className='flex gap-x-2 items-center'>
                           <span className='font-bold text-xl'>{deck.name}</span>
-                          <span>({deck.quantityClones} clone - {deck.quantityCards} card)</span>
+                        </div>
+
+                        <div className='text-gray-700 text-ellipsis overflow-hidden whitespace-nowrap'>
+                        {deck.quantityClones} clone - {deck.quantityCards} card
                         </div>
 
                         <div className='flex items-center gap-x-3'>
+
+                          
                           <Link
-                            to={`/users/${deck.user.email}`}
-                            className='text-sm underline text-blue-600'
+                            to={`/users/${deck.user.id}`}
+                            className="text-xs underline text-blue-600"
                           >
-                            {deck.user.firstName + ' ' + deck.user.lastName}
+                            {deck.user.firstName || deck.user.lastName
+                              ? `${deck.user.firstName || ''} ${deck.user.lastName || ''}`.trim()
+                              : deck.user.email}
                           </Link>
 
-                          {deck.user.roles.map((role, index) => {
+
+                          {/* {deck.user.roles.map((role, index) => {
                             return (
                               <span key={index}>
-                                <span className='lowercase text-xs bg-gray-300 p-1 rounded-lg'>
+                                <span className='lowercase text-xs bg-green-600 py-1 px-2 rounded-lg text-white'>
                                   {role}
                                 </span>
                               </span>
                             )
-                          })}
+                          })} */}
                         </div>
-                        <div className='mt-2 text-gray-700 text-sm text-ellipsis overflow-hidden whitespace-nowrap'>
-                          {deck.description}
-                        </div>
+                       
                       </div>
                     </div>
                     <div className='flex gap-x-2 flex-col'>
                       <button
                         onClick={() => getDeck(deck.id)}
-                        className='flex items-center gap-x-2 h-8 text-blue-900 hover:text-white border border-blue-800 hover:bg-blue-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 text-center'
+                        className='flex items-center gap-x-2 h-8 text-blue-900 hover:text-white border border-blue-800 hover:bg-blue-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-sm px-3 text-center'
                       >
                         <span>Detail</span>
-                        <i className='fa-regular fa-eye'></i>
+                        {/* <i className='fa-regular fa-eye'></i> */}
+                        <img src="/src/assets/image/info.png" className='w-4 h-4' alt="" />
                       </button>
                     </div>
                   </div>
@@ -221,6 +239,8 @@ export default function GlobalDecks() {
                   </div>
 
                   <div className='flex items-center gap-x-3'>
+
+                    
                     <Link
                       to={`/users/${detailDeck?.user.email}`}
                       className='font-light text-sm text-blue-600 underline'

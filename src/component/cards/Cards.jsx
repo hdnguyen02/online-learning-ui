@@ -1,7 +1,7 @@
 import React, { useMemo,useState, useEffect,useRef } from 'react';
 import TableComponent from './TableComponent'
-import { fetchData, showToastError, showToastMessage } from '../../global'
-import {commonformatDistanceToNow} from '../../helper/common'
+import { fetchData, showToastError, showToastMessage, customFormatDD_MM_YYYY_HH_mm } from '../../global'
+
 import ModalEditCard from './ModalEditCard'
 import { ToastContainer } from 'react-toastify'
 const App = () => {
@@ -27,9 +27,6 @@ const App = () => {
     }, [])
 
 
-    // hàm thêm thẻ.
-
-
 
   const columns = useMemo(() => [
     {
@@ -46,21 +43,23 @@ const App = () => {
     },
     {
       Header: 'Created At',
-      accessor: 'createAt',
-      Cell: ({ value }) => commonformatDistanceToNow(value),
+      accessor: 'createdDate',
+      Cell: ({ value }) => customFormatDD_MM_YYYY_HH_mm(value),
     },
     {
       Header: 'Favourite',
       accessor: 'isFavourite',
       Cell: ({ value }) =>
-        value ? (
-          <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blue-600 bg-blue-200 last:mr-0 mr-1">
-            Yes
-          </span>
+        value ?(
+          <label className="inline-flex items-center cursor-pointer">
+            <input type="checkbox" checked disabled className="sr-only peer" />
+            <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+          </label>
         ) : (
-          <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-red-600 bg-red-200 last:mr-0 mr-1">
-            No
-          </span>
+          <label className="inline-flex items-center cursor-pointer">
+            <input type="checkbox" disabled className="sr-only peer" />
+            <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+          </label>
         ),
     },
     {
@@ -68,13 +67,15 @@ const App = () => {
       accessor: 'isRemembered',
       Cell: ({ value }) =>
         value ? (
-          <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-blue-600 bg-blue-200 last:mr-0 mr-1">
-            Yes
-          </span>
+          <label className="inline-flex items-center cursor-pointer">
+            <input type="checkbox" checked disabled className="sr-only peer" />
+            <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+          </label>
         ) : (
-          <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-red-600 bg-red-200 last:mr-0 mr-1">
-            No
-          </span>
+          <label className="inline-flex items-center cursor-pointer">
+            <input type="checkbox" disabled className="sr-only peer" />
+            <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+          </label>
         ),
     },
     {
@@ -82,7 +83,7 @@ const App = () => {
       accessor: 'deck.name',
     },
     {
-      Header: 'Actions',
+      Header: 'Action',
       Cell: ({ row }) => (
         <div>
           <button onClick={() => handleEdit(row.original.id)}><i class="fa-regular fa-pen-to-square"></i></button>

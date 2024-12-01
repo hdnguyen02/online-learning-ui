@@ -7,25 +7,25 @@ import useAuth from "../context/AuthContext"
 export default function InfoUser() {
 
 
-    const { auth, checkAuth } = useAuth()
+    const { auth, checkAuth } = useAuth(); 
 
-    const [user, setUser] = useState()
+    const [user, setUser] = useState(); 
     async function getUser() {
         setUser(auth)
     }
 
 
     async function handleChangeInfo(event) {
-        event.preventDefault()
-        const accessToken = localStorage.getItem('accessToken')
-        const url = `${baseUrl}/users/info`
-        const elFirstName = document.getElementById('first-name')
-        const elLastName = document.getElementById('last-name')
-        const elGender = document.getElementById('gender')
-        const elPhone = document.getElementById('phone')
-        const elDateOfBirth = document.getElementById('date-of-birth')
-        const elAvatar = document.getElementById('input-avatar')
-        const formData = new FormData()
+        event.preventDefault(); 
+        const accessToken = localStorage.getItem('accessToken'); 
+        const url = `${baseUrl}/users/info`; 
+        const elFirstName = document.getElementById('first-name'); 
+        const elLastName = document.getElementById('last-name'); 
+        const elGender = document.getElementById('gender');
+        const elPhone = document.getElementById('phone');
+        const elDateOfBirth = document.getElementById('date-of-birth');
+        const elAvatar = document.getElementById('input-avatar');
+        const formData = new FormData();
 
 
         formData.append('firstName', elFirstName.value)  

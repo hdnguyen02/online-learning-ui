@@ -45,6 +45,17 @@ import UsersTest from './component/admin/UsersTest.jsx'
 
 
 
+import GlobalDeckComponent from "feature/global-deck/global-deck.component.jsx";
+import GlobalDecksComponent from "feature/global-deck/global-decks.component.jsx";
+
+import ProfileUserComponent from "./feature/profile-user/profile-user.jsx";
+
+import SettingComponent from "./feature/setting/setting.component.jsx";
+import InfoUserComponent from "./feature/setting/info-user.component.jsx";
+
+
+
+
 
 
 
@@ -61,8 +72,8 @@ function App() {
             <Route path="statistics" element={<Statistics />}/>
           </Route>
 
-          <Route path="/decks" element={<GlobalDeck />}>
-            <Route path="" element={<GlobalDecks />} />
+          <Route path="/decks" element={<GlobalDeckComponent />}>
+            <Route path="" element={<GlobalDecksComponent />} />
           </Route>
 
           <Route path="/groups" element={<GlobalGroup />}>
@@ -130,14 +141,14 @@ function App() {
 
 
           {/* settings */}
-          <Route path="/settings" element={<Settings />}>
-            {/* <Route path="info" element={<InfoUser />} /> */}
-            <Route path="password" element={<ChangePW />} />
+          <Route path="/settings" element={<SettingComponent />}>
+            <Route path="profile" element={<InfoUserComponent />} />
+            {/* <Route path="password" element={<ChangePW />} /> */}
           </Route>
 
           {/* profile */}
 
-          <Route path="/users/:emailUser" element={<ProfileUser />}>
+          <Route path="/users/:id" element={<ProfileUserComponent />}>
             <Route path="decks" element={<DecksUser />} />
           </Route>
         </Route>

@@ -99,7 +99,7 @@ export default function YourProfile() {
                 </div>
             </a>
 
-            <Link to={'/settings/info'} className="h-10 flex items-center gap-x-3 border-b border-gray-100 font-semibold hover:text-black  uppercase text-xs">
+            <Link to={'/settings/profile'} className="h-10 flex items-center gap-x-3 border-b border-gray-100 font-semibold hover:text-black  uppercase text-xs">
                 <i className="fa-solid fa-gear"></i>
                 <span>Setting</span>
             </Link>

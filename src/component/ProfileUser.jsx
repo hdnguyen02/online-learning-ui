@@ -1,24 +1,23 @@
-import { Outlet, Link, useParams } from "react-router-dom";
-import { fetchData, showToastError } from "../global";
+import { useParams } from "react-router-dom";
+import { fetchData } from "../global";
 import { useEffect, useState } from "react";
 import Decks from "../component/profile-users/Decks"
-import { commonFormatddMMYYYYHHmm, commonformatDistanceToNow } from "../helper/common";
+import { customFormatDD_MM_YYYY_HH_mm } from "../global";
 export default function ProfileUser() {
   const params = useParams();
-  const emailUser = params.emailUser;
   const [user, setUser] = useState();
 
   async function getInfoUser() {
-    const subUrl = `/users/info?email=${emailUser}`;
-    const { data } = await fetchData(subUrl, "GET");
-    setUser(data);
+    const subUrl = `/users?id=${params.id}`;
+    const { data: rawData } = await fetchData(subUrl, "GET");
+    setUser(rawData);
   }
 
   useEffect(() => {
     getInfoUser();
   }, []);
 
-  return ( user &&
+  return (user &&
     <div className="mx-4 md:mx-48 mt-28 mb-28">
       <div className="flex items-center gap-x-6">
         <div className="h-20 w-20 rounded-full overflow-hidden cursor-pointer">
@@ -44,21 +43,21 @@ export default function ProfileUser() {
                   </span>
                 );
               })}
-             
+
             </div>
-            <div className="text-sm">Joined the system on {commonFormatddMMYYYYHHmm(user?.createAt)}</div>
+            <div className="text-sm">Joined the system on {customFormatDD_MM_YYYY_HH_mm(user?.createdDate)}</div>
           </div>
-         
+
         </div>
       </div>
-   
+
 
       <hr className="my-6" />
 
       <div className="">
 
-<span className='font-medium uppercase text-sm'>Card set</span>
-</div>
+        <span className='font-medium uppercase text-sm'>Card set</span>
+      </div>
 
       <Decks />
     </div>

@@ -73,7 +73,7 @@ const Decks = () => {
       Cell: ({ row }) => (
         <div className="flex gap-x-4">
           <button onClick={() => handleLearn(row.original.id)}>
-            <i className="fa-solid fa-graduation-cap"></i>
+            <img src="/src/assets/image/case-study.png" className="w-5 h-5" alt="" />
           </button>
           <button onClick={() => handleEdit(row.original.id)} className="ml-2">
             <i className="fa-regular fa-pen-to-square"></i>
