@@ -52,17 +52,17 @@ export default function SignIn() {
         <form onSubmit={handleSignIn} className="mt-12">
           {/* Email Input */}
           <div className="mb-6">
-            <label htmlFor="email" className="block text-gray-600 text-sm">
+            <label htmlFor="email" className="block text-gray-600 text-sm font-medium">
               Email<span className="text-red-500 ml-1">*</span>
             </label>
             <div className="relative mt-2">
               <input
                 onChange={e => setEmail(e.target.value)}
                 type="email"
-                className="w-full rounded-md py-2 px-3 pl-10"
+                className="block w-full rounded-md bg-white px-10 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                 required
               />
-              <span className="absolute left-3 top-2.5 text-gray-400">
+              <span className="absolute left-3 top-1.5 text-gray-400">
                 <i className="fa-regular fa-envelope font-light"></i>
               </span>
             </div>
@@ -70,20 +70,20 @@ export default function SignIn() {
 
           {/* Password Input */}
           <div className="mb-6">
-            <label htmlFor="password" className="block text-gray-600 mb-2 text-sm">
+            <label htmlFor="password" className="font-medium block text-gray-600 mb-2 text-sm">
             {t('LOGIN.PASSWORD')}
               <span className="text-red-500 ml-1">*</span>
             </label>
             <div className='relative'>
               {/* Biểu tượng khóa */}
-              <span className="absolute left-3 top-2.5 text-gray-400">
+              <span className="absolute left-3 top-1.5 text-gray-400">
                 <i className="fa-solid fa-lock"></i>
               </span>
               <input
                 onChange={e => setPassword(e.target.value)}
                 type={isShowPassword ? 'text' : 'password'} // Toggle between text and password
                 id="password"
-                className="w-full rounded-md py-2 px-10"
+                className="block w-full rounded-md bg-white px-10 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                 required
               />
               <span

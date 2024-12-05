@@ -3,10 +3,14 @@ import TableComponent from "./table.component";
 import { fetchData, showToastError, showToastMessage, customFormatDistanceToNow } from "../../../global";
 import { ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import ModalEditDeck from "../../../component/ModalEditDeck";
-import ModalConfirmDeleteDeck from "component/ModalConfirmDeleteDeck"
+import ModalEditDeck from "../../../component/ModalEditDeck"; 
 import deckService from "service/deck.service";
 import DeckDetailForm from "./deck-detail-form.component";
+import { useTranslation } from 'react-i18next';
+import DeckEditFormComponent from "./deck-edit-form.component";
+
+
+import Modal from "react-modal";
 
 
 const Decks = () => {
@@ -18,7 +22,6 @@ const Decks = () => {
   async function getDecks() {
     const rawData = await deckService.getDecks();
     setData(rawData);
-    console.log(rawData);
   }
 
 
@@ -78,8 +81,8 @@ const Decks = () => {
             <img src="/src/assets/image/case-study.png" className="w-5 h-5" alt="" />
           </button> */}
 
-          
-          
+
+
           <button
             onClick={() => handleLearn(row.original.id)}
             disabled={row.original.quantityCards === 0}
@@ -108,40 +111,54 @@ const Decks = () => {
             </span>
           </button>
 
-          <button onClick={() => handleEdit(row.original.id)} className="ml-2">
+          <button onClick={() => onOpenEditDeck(row.original.id)} className="ml-2">
             <i className="fa-regular fa-pen-to-square"></i>
           </button>
 
-          <button onClick={() => 
+          <button onClick={() =>
             onOpenDetailDeck(row.original.id)} className="">
             <img src="/src/assets/image/info.png" className="w-4 h-4" alt="" />
+          </button>
+
+          <button onClick={() => onDeleteDeck(row.original.id)}>
+            <img src="/src/assets/image/delete.png" className="w-4 h-4" />
           </button>
         </div>
       ),
     },
-  ], [handleLearn, onOpenDetailDeck
-    
+  ], [handleLearn, onOpenDetailDeck, onDeleteDeck, onOpenEditDeck
+
   ]);
 
 
   // lưu trữ deck. 
-  const [deck, setDeck] = useState(); 
+  const [deck, setDeck] = useState();
 
-  const [isOpenDetailDeck, setIsOpenDetailDeck] = useState(false); 
-  const [isOpenUpdateDeck, setIsOpenUpdateDeck] = useState(false);
+  const [isOpenDetailDeck, setIsOpenDetailDeck] = useState(false);
+
+
+
+  Modal.setAppElement("#root");
+
+  const [isOpenDeleteDeck, setIsOpenDeleteDeck] = useState(false);
+
+
+  const [idDeckSelected, setIdDeckSelected] = useState();
+
+
 
   const handleEdit = (idDeck) => {
     refModalEditDeck.current.show(idDeck);
   };
 
-  const getDeck = async (id) => { 
-    const rawData = await deckService.getDeck(id); 
-    console.log(rawData); 
-    setDeck(rawData); 
+  const getDeck = async (id) => {
+    const rawData = await deckService.getDeck(id);
+    setDeck(rawData);
   }
 
-  async function handleDelete(idDeck) {
-    alert(`Handle delete decks: ${idDeck}`);
+  async function onDeleteDeck(id) {
+    setIdDeckSelected(id);
+    setIsOpenDeleteDeck(true);
   }
 
   async function handleLearn(idDeck) {
@@ -149,67 +166,137 @@ const Decks = () => {
     navigate(url);
   }
 
-  async function onOpenDetailDeck(id) { 
-    // cho modal đó bật lên. 
-    
+  async function onOpenDetailDeck(id) {
+    alert("Open detail deck"); 
     setIsOpenDetailDeck(true);
-    getDeck(id); 
-
+    getDeck(id);
   }
 
-  async function onCloseDetailDeck() { 
-    setIsOpenDetailDeck(false); 
+  async function onCloseDetailDeck() {
+    setIsOpenDetailDeck(false);
   }
+
+  const onCloseDeleteDeck = () => {
+    setIsOpenDeleteDeck(false);
+  }
+
+
+  const [isOpenEditDeck, setIsOpenEditDeck] = useState(); 
+
+
+    async function onCloseEditDeck() {
+      setIsOpenEditDeck(false);  
+    }
+
+    const [idDeckUpdateSelected, setIdDeckUpdateSelected] = useState(); 
+  
+    async function onOpenEditDeck(id) {
+      setIsOpenEditDeck(true);
+      setIdDeckUpdateSelected(id); 
+    }
 
   
 
-  function handleCancelDeleteDeck() {
-    document.getElementById("popup-delete-deck").style.display = "none";
-    setIdDeckDelete(null);
-  }
+  const { t } = useTranslation();
 
-  function showModalConfirmDeleteDeck(idDeck) {
-    document.getElementById("popup-delete-deck").style.display = "flex";
-    setIdDeckDelete(idDeck);
-  }
-
-  async function handleDeleteDeck() {
-    const subUrl = `/decks/${idDeckDelete}`;
-    try {
-      await fetchData(subUrl, "DELETE");
-      await getDecks();
-      showToastMessage("Deleted card set successfully");
-    } catch (error) {
-      showToastError(error.message);
-    }
-    setIdDeckDelete(null);
+  async function onConfirmDeleteDeck() {
+    const isSuccess = await deckService.deleteDeck(idDeckSelected);
+    if (isSuccess) showToastMessage('Delete success!'); 
+    else showToastError('Delete fail!'); 
+    setIsOpenDeleteDeck(false);
+    getDecks();
   }
 
   return (
     <div>
-      {/* <h1>My Table</h1> */}
+      {/* Modal delete deck */}
+      <Modal
+        isOpen={isOpenDeleteDeck}
+        onRequestClose={onCloseDeleteDeck}
+        style={{
+          overlay: {
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+          },
+          content: {
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "540px",
+            height: "200px",
+            borderRadius: "8px",
+            boxShadow: "rgba(0, 0, 0, 0.4) 0px 30px 90px",
+            overflow: "visible",
+          },
+        }}
+      >
+        {/* Overlay to create dim background */}
+        {/* <div className="w-full h-full absolute z-10 inset-0"></div> */}
+
+        {/* Modal Content */}
+        <div className="bg-white rounded-lg max-w-md mx-auto p-4 relative">
+          {/* Header with icon */}
+          <div className="flex items-center">
+            <div className="rounded-full border border-gray-300 flex items-center justify-center w-16 h-16 flex-shrink-0 mx-auto md:mx-0">
+              <img src="/src/assets/image/alert.png" alt="" />
+            </div>
+            <div className="mt-4 text-center md:text-left md:ml-6">
+              <p className="font-bold text-lg">Delete your account</p>
+              <p className="text-sm text-gray-700 mt-1">
+                You will lose all of your data by deleting your account. This action cannot be undone.
+              </p>
+            </div>
+          </div>
+
+          {/* Footer with action buttons */}
+          <div className="text-center md:text-right mt-4 flex flex-col md:flex-row justify-end gap-2">
+            <button onClick={() => onCloseDeleteDeck()}
+
+              className="px-4 py-2 bg-gray-200 rounded-lg font-semibold text-sm"
+            >
+              Cancel
+            </button>
+            <button onClick={() => onConfirmDeleteDeck()}
+
+              className="px-4 py-2 bg-red-500 text-white rounded-lg font-semibold text-sm"
+            >
+              Delete Account
+            </button>
+          </div>
+        </div>
+      </Modal>  
 
 
-      <DeckDetailForm 
+
+
+     {/* Modal edit deck */}
+
+
+      <DeckEditFormComponent
+        getDecks={getDecks}
+        isOpenEditDeck={isOpenEditDeck} 
+        onCloseEditDeck={onCloseEditDeck}
+        idDeckUpdateSelected={idDeckUpdateSelected}
+      />
+
+
+
+
+
+      {/* Modal detail deck */}
+      <DeckDetailForm
         isOpenDetailDeck={isOpenDetailDeck}
         onCloseDetailDeck={onCloseDetailDeck}
         deck={deck}
       >
-
-        
-        </DeckDetailForm>
+      </DeckDetailForm>
       <ModalEditDeck ref={refModalEditDeck} getDecks={getDecks} />
-      <ModalConfirmDeleteDeck
-        idDeckDelete={idDeckDelete}
-        handleCancelDeleteDeck={handleCancelDeleteDeck}
-        handleDeleteDeck={handleDeleteDeck}
-      />
+
 
       <TableComponent
         columns={columns}
         handleEdit={handleEdit}
-        handleDelete={handleDelete}
-        handleStudy={handleDelete}
+
         data={data}
         getDecks={getDecks}
       />

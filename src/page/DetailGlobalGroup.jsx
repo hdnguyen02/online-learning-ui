@@ -3,7 +3,8 @@ import { useParams } from "react-router-dom"
 import { fetchData, showToastError, showToastMessage } from '../global'
 import { ToastContainer } from "react-toastify"
 import MembersGroup from "../component/MembersGroup"
-import { commonformatDistanceToNow } from "../helper/common"
+
+import { customFormatDistanceToNow } from "../global"
 
 export default function DetailGlobalClass() {
 
@@ -71,7 +72,7 @@ export default function DetailGlobalClass() {
                         }
                         {/* <span className="text-xs bg-[#EDEFFF] p-1 rounded-lg">Giáo viên</span> */}
                     </div>
-                    <span className="text-gray-400 text-xs font-light">{commonformatDistanceToNow(group.created)}</span>
+                    <span className="text-gray-400 text-xs font-light">{customFormatDistanceToNow(group.createdDate)}</span>
 
                 </div>
                 <div>

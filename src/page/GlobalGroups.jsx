@@ -3,7 +3,7 @@ import { fetchData, showToastError } from "../global";
 import { ToastContainer } from "react-toastify";
 import { Link } from "react-router-dom";
 import Empty from "../component/Empty";
-import {commonformatDistanceToNow} from '../helper/common'  
+import { customFormatDistanceToNow } from "../global";
 
 export default function GlobalGroups() {
   const [globalGroups, setGlobalGroups] = useState();
@@ -66,7 +66,7 @@ export default function GlobalGroups() {
           <div className="mb-12 grid grid-cols-2 gap-12">
             {globalGroups.map((globalGroup, index) => (
               <div key={index}>
-                <span className="uppercase text-xs">{commonformatDistanceToNow(globalGroup.created)}</span>
+                <span className="uppercase text-xs">{customFormatDistanceToNow(globalGroup.created)}</span>
                 <div key={index} className="bg-[#F0F6F6] p-6 rounded mt-2">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-x-4">

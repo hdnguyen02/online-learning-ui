@@ -10,7 +10,8 @@ import {
 import { useParams } from "react-router-dom";
 import { useLocation, Link } from "react-router-dom";
 import Empty from "./Empty";
-import { commonformatDistanceToNow } from "../helper/common";
+
+import { customFormatDistanceToNow } from "../global";
 
 export default function OwnerCommonDecks() {
   const appElement = document.getElementById("root");
@@ -275,17 +276,16 @@ export default function OwnerCommonDecks() {
 
   const stylesModalCreateCommonDeck = {
     content: {
-      width: "548px",
-      height: "400px",
-      top: "55%",
-      left: "50%",
-      transform: "translate(-50%, -50%)",
-      padding: "40px",
-      borderRadius: "8px",
-      backgroundColor: "while",
-      border: "0px",
-      boxShadow:
-        "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+      width: '600px',
+      height: '350px',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      padding: '20px 40px',
+      borderRadius: '8px',
+      backgroundColor: 'while',
+      border: '0px',
+      boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
     },
   };
 
@@ -322,26 +322,12 @@ export default function OwnerCommonDecks() {
 
       {/* hiển thị danh sách bộ thẻ ở đây. */}
 
-      {commonDecks && (
+      {/* {commonDecks && (
         <div className="">
           <div className="relative overflow-x-auto sm:rounded-lg">
             {commonDecks.length != 0 ? (
               <table className="w-full text-sm text-left rtl:text-right text-gray-500 mb-24">
-                {/* <thead className="text-sm text-gray-700 uppercase">
-                                <tr>
-                                  
-                                    <th scope="col" className="px-8 py-5 font-light">
-                                        Tên
-                                    </th>
-                                    <th scope="col" className="px-8 py-5 font-light">
-                                        Số thẻ
-                                    </th>
-                                    <th scope="col" className="px-8 py-5 font-light">
-                                        Ngày tạo
-                                    </th>
-                    
-                                </tr>   
-                            </thead> */}
+             
                 <tbody>
                   {commonDecks.map((commonDeck, index) => (
                     <tr
@@ -359,13 +345,13 @@ export default function OwnerCommonDecks() {
                         {commonDeck.name}
                       </th>
                       <td className="font-medium px-8 py-5">
-                        
+
                         <span class="text-xs font-semibold inline-block py-1 px-2 rounded text-emerald-600 bg-emerald-200 uppercase last:mr-0 mr-1">
-                        {commonDeck.quantityCards} card
+                          {commonDeck.quantityCards} card
                         </span>
                       </td>
                       <td className="px-8 py-5">
-                        {commonformatDistanceToNow(commonDeck.createAt)}
+                        {customFormatDistanceToNow(commonDeck.createAt)}
                       </td>
                       {location.pathname.includes("owner") && (
                         <td className="font-medium px-8 py-5">
@@ -400,12 +386,72 @@ export default function OwnerCommonDecks() {
             ) : (
               <Empty />
             )}
-            {/* <hr className='my-4' /> */}
+
           </div>
 
-          {/* ))} */}
         </div>
-      )}
+      )} */}
+
+
+
+{commonDecks ? (
+    <div className="mb-8 grid grid-cols-2 gap-8">
+        {commonDecks.map((commonDeck, index) => (
+                <div key={index} className="flex justify-between gap-x-6 p-5 border rounded-lg">
+                    <div className="flex min-w-0 gap-x-4">
+                        <img
+                            className="h-12 w-12 flex-none rounded-full bg-gray-50"
+                            src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                            alt=""
+                        />
+                        <div className="min-w-0 flex-auto">
+                            <p className="text-sm font-semibold leading-6 text-gray-900">
+                                {commonDeck.name}
+                            </p>
+                            {/* <p className="mt-1 truncate text-xs leading-5 text-gray-500">
+                                {ownerClass.owner.email}
+                            </p> */}
+                            <span className="text-gray-800 text-sm">
+                    {customFormatDistanceToNow(commonDeck.createdDate)}
+                </span>
+                        </div>
+                    </div>
+                    <div className="flex gap-x-4 items-center">
+
+                    <span class="text-xs font-semibold inline-block py-1 px-2 rounded text-white bg-green-600">
+                          {commonDeck.quantityCards} card
+                        </span>
+                        <button>
+                            <img
+                                src="/src/assets/image/delete.png"
+                                className="w-4 h-4"
+                                alt=""
+                            />
+                        </button>
+                        <button className="text-sm leading-6 text-gray-900">
+                            <span className="underline">Edit</span>
+                        </button>
+                        <button
+                            
+                            className="text-sm leading-6 text-gray-900"
+                        >
+                            <span className="underline">Detail</span>
+                        </button>
+                    </div>
+                </div>
+        ))}
+    </div>
+) : (
+    <Empty />
+)}
+
+
+
+
+
+
+
+
 
       {/* edit common Deck */}
       <Modal
@@ -438,7 +484,7 @@ export default function OwnerCommonDecks() {
                 defaultValue={detailCommonDeck?.name}
                 id="edit-common-deck-name"
                 type="text"
-                className="h-10 px-4 rounded-lg"
+                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                 required
               />
             </div>
@@ -451,7 +497,7 @@ export default function OwnerCommonDecks() {
                 defaultValue={detailCommonDeck?.description}
                 id="edit-common-deck-description"
                 type="text"
-                className="h-10 px-4 rounded-lg"
+                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                 required
               />
             </div>
@@ -479,7 +525,7 @@ export default function OwnerCommonDecks() {
       >
         <form onSubmit={handleCreateCommonDeck} className="">
           <div className="flex justify-between">
-            <h3 className="text-gray-800 text-2xl font-bold">
+            <h3 className="text-gray-800 text-lg font-medium">
               Create common card set
             </h3>
             <button
@@ -501,7 +547,7 @@ export default function OwnerCommonDecks() {
                 onChange={(e) => setName(e.target.value)}
                 value={name}
                 type="text"
-                className="h-10 px-4 rounded-lg"
+                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                 required
               />
             </div>
@@ -514,13 +560,13 @@ export default function OwnerCommonDecks() {
                 onChange={(e) => setDescription(e.target.value)}
                 value={description}
                 type="text"
-                className="h-10 px-4 rounded-lg"
+                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                 required
               />
             </div>
           </div>
 
-          <hr className="my-4" />
+          {/* <hr className="my-4" /> */}
           <div className="mt-4 flex justify-end items-center">
             {/* checkbox public => công khai lớp hay không */}
 
@@ -543,7 +589,7 @@ export default function OwnerCommonDecks() {
       >
         <form onSubmit={handleCreateCommonDeck} className="">
           <div className="flex justify-between">
-            <h3 className="text-gray-800 text-2xl font-bold">
+            <h3 className="text-gray-800 text-lg font-medium">
               Create common card set
             </h3>
             <button
@@ -554,7 +600,7 @@ export default function OwnerCommonDecks() {
             </button>
           </div>
 
-          <hr className="my-4" />
+          {/* <hr className="my-4" /> */}
 
           <div className="mt-6">
             <div className="flex flex-col gap-y-2 w-full">
@@ -565,7 +611,7 @@ export default function OwnerCommonDecks() {
                 onChange={(e) => setName(e.target.value)}
                 value={name}
                 type="text"
-                className="h-10 px-4 rounded-lg"
+                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                 required
               />
             </div>
@@ -578,7 +624,7 @@ export default function OwnerCommonDecks() {
                 onChange={(e) => setDescription(e.target.value)}
                 value={description}
                 type="text"
-                className="h-10 px-4 rounded-lg"
+                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                 required
               />
             </div>
@@ -668,7 +714,7 @@ export default function OwnerCommonDecks() {
                     <input
                       onChange={handleCheckAllCards}
                       type="checkbox"
-                      className="w-4 h-4"
+                      className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                     />
                   </th>
                   <th scope="col" className="px-6 py-5">
@@ -691,7 +737,7 @@ export default function OwnerCommonDecks() {
                         data-id-card
                         value={card.id}
                         type="checkbox"
-                        className="w-4 h-4"
+                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                       />
                     </th>
                     <td className="px-6 py-5 font-medium">{card.term}</td>
@@ -744,8 +790,9 @@ export default function OwnerCommonDecks() {
                       <label htmlFor="card-term">Term</label>
                       <input
                         id="card-term"
-                        className="bg-transparent h-10 px-4"
+
                         type="text"
+                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                       />
                     </div>
 
@@ -773,7 +820,7 @@ export default function OwnerCommonDecks() {
                         readOnly
                         value={detailCommonDeck?.name}
                         type="text"
-                        className="bg-transparent h-10 px-4"
+                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                       />
                     </div>
                   </div>

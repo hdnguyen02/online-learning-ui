@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, Outlet, useParams, useLocation } from "react-router-dom";
 import { fetchData } from "../global"
-import { commonformatDistanceToNow } from "../helper/common";
+
+import { customFormatDistanceToNow } from "../global";
 
 export default function DetailClass() {
 
@@ -31,8 +32,8 @@ export default function DetailClass() {
       <div>
 
         <h3 className="font-medium text-2xl text-[#282E3E]">{detailClass.name}</h3>
-        <p className="text-sm text-[#282E3E]">{detailClass.description}</p>
-        <div className="flex items-center gap-x-3 mt-2">
+        {/* <p className="text-sm text-[#282E3E]">{detailClass.description}</p> */}
+        {/* <div className="flex items-center gap-x-3 mt-2">
           <div onClick={() => setShowProfile(!showProfile)} className='h-10 w-10 rounded-full overflow-hidden cursor-pointer'>
             <img src={detailClass.owner.avatar ? detailClass.owner.avatar : '/user.png'} loading="lazy" className='w-full h-full' alt='' />
           </div>
@@ -50,108 +51,110 @@ export default function DetailClass() {
               }
 
             </div>
-            <span className="text-gray-400 text-xs font-light">{commonformatDistanceToNow(detailClass.created)}</span>
+            <span className="text-gray-400 text-xs font-light">{customFormatDistanceToNow(detailClass.created)}</span>
 
           </div>
-        </div>
-       
+        </div> */}
+
 
 
         <div className="mt-8">
           <div className="flex gap-x-8">
             <div className={location.pathname.includes('members') ? "link-active" : ""}>
 
-           
-            {location.pathname.includes("owner") ? (
-              <Link
-                to={`/groups/detail-owner/${params.id}/members`}
-                className="font-medium flex gap-x-2"
-              >
-                <i className="fa-solid fa-users flex items-center"></i>
-                <span>Member</span>
-              </Link>
-            ) : (
-              <Link
-                to={`/groups/detail-attendance/${params.id}/members`}
-                className="font-medium flex gap-x-2"
-              >
-                <i className="fa-solid fa-users flex items-center"></i>
-                <span>Member</span>
-              </Link>
-            )}
-             </div>
+
+              {location.pathname.includes("owner") ? (
+                <Link
+                  to={`/groups/detail-owner/${params.id}/members`}
+                  className="font-medium flex gap-x-2"
+                >
+                  <i className="fa-solid fa-users flex items-center"></i>
+                  <span>Member</span>
+                </Link>
+              ) : (
+                <Link
+                  to={`/groups/detail-attendance/${params.id}/members`}
+                  className="font-medium flex gap-x-2"
+                >
+                  <i className="fa-solid fa-users flex items-center"></i>
+                  <span>Member</span>
+                </Link>
+              )}
+            </div>
 
             <div className={location.pathname.includes('decks') ? "link-active" : ""}>
 
+
+              {location.pathname.includes("owner") ? (
+                <Link
+                  to={`/groups/detail-owner/${params.id}/decks`}
+                  className="font-medium flex gap-x-2"
+                >
+                  <i className="fa-regular fa-folder flex items-center"></i>
+                  <span>Card set</span>
+                </Link>
+              ) : (
+                <Link
+                  to={`/groups/detail-attendance/${params.id}/decks`}
+                  className="font-medium flex gap-x-2"
+                >
+                  <i className="fa-regular fa-folder flex items-center"></i>
+                  <span>Card set</span>
+                </Link>
+              )}
+            </div>
+
+            {/* <div className={location.pathname.includes('assignments') ? "link-active" : ""}>
+
+
+{location.pathname.includes("owner") ? (
+  <Link
+    to={`/groups/detail-owner/${params.id}/assignments`}
+    className="font-medium flex gap-x-2"
+  >
+    <i className="fa-regular fa-file flex items-center"></i>
+    <span>assignment</span>
+  </Link>
+) : (
+  <Link
+    to={`/groups/detail-attendance/${params.id}/assignments`}
+    className="font-medium flex gap-x-2"
+  >
+    <i className="fa-regular fa-file flex items-center"></i>
+    <span>assignment</span>
+  </Link>
+)}
+</div> */}
+
+
+            <div className={location.pathname.includes('comments') ? "link-active" : ""}>
+
+              {location.pathname.includes("owner") ? (
+                <Link
+                  to={`/groups/detail-owner/${params.id}/comments`}
+                  className="font-medium flex gap-x-2 "
+                >
+                  <i className="fa-regular fa-comment flex items-center"></i>
+                  <span>Comment</span>
+                </Link>
+              ) : (
+                <Link
+                  to={`/groups/detail-attendance/${params.id}/comments`}
+                  className="font-medium flex gap-x-2"
+                >
+                  <i className="fa-regular fa-comment flex items-center"></i>
+                  <span>Comment</span>
+                </Link>
+              )}
+            </div>
            
-            {location.pathname.includes("owner") ? (
-              <Link
-                to={`/groups/detail-owner/${params.id}/decks`}
-                className="font-medium flex gap-x-2"
-              >
-                <i className="fa-regular fa-folder flex items-center"></i>
-                <span>Common card set</span>
-              </Link>
-            ) : (
-              <Link
-                to={`/groups/detail-attendance/${params.id}/decks`}
-                className="font-medium flex gap-x-2"
-              >
-                <i className="fa-regular fa-folder flex items-center"></i>
-                <span>Common card set</span>
-              </Link>
-            )}
-             </div>
-         
-
-<div className={location.pathname.includes('comments') ? "link-active" : ""}>
-
-            {location.pathname.includes("owner") ? (
-              <Link
-                to={`/groups/detail-owner/${params.id}/comments`}
-                className="font-medium flex gap-x-2 "
-              >
-                <i className="fa-regular fa-comment flex items-center"></i>
-                <span>Comment</span>
-              </Link>
-            ) : (
-              <Link
-                to={`/groups/detail-attendance/${params.id}/comments`}
-                className="font-medium flex gap-x-2"
-              >
-                <i className="fa-regular fa-comment flex items-center"></i>
-                <span>Comment</span>
-              </Link>
-            )}
           </div>
-            <div  className={location.pathname.includes('assignments') ? "link-active" : ""}>
+        </div>
 
-          
-            {location.pathname.includes("owner") ? (
-              <Link
-                to={`/groups/detail-owner/${params.id}/assignments`}
-                className="font-medium flex gap-x-2"
-              >
-                <i className="fa-regular fa-file flex items-center"></i>
-                <span>assignment</span>
-              </Link>
-            ) : (
-              <Link
-                to={`/groups/detail-attendance/${params.id}/assignments`}
-                className="font-medium flex gap-x-2"
-              >
-                <i className="fa-regular fa-file flex items-center"></i>
-                <span>assignment</span>
-              </Link>
-            )}
-            </div>
-            </div>
-            </div>
+        <hr className="my-8" />
 
-          <hr className="my-8" />
+        <Outlet />
 
-          <Outlet />
- 
       </div>
     )
   );

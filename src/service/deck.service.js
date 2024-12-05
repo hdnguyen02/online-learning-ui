@@ -50,14 +50,69 @@ class DeckService {
       return true;
     } catch (error) {
       console.error("An error occurred during the creation process:", error);
-      return false; s
+      return false; 
     }
   }
+  
+
+  async update(data) { 
+
+    const { deck, cards } = data;
+
+    try {
+      for (const card of cards) {
+        // Check và upload audio nếu cần
+        if (typeof card.audio === "string" && card.audio?.startsWith("blob:")) {
+          const blob = await this.convertBlobUrlToBlob(card.audio);
+          card.audio = await firebaseService.uploadBlob(blob, '/audio');
+        }
+
+        // Check và upload image nếu cần
+        if (card.image?.startsWith("blob:")) {
+          const blob = await this.convertBlobUrlToBlob(card.image);
+          card.image = await firebaseService.uploadBlob(blob, '/image');
+        }
+      }
 
 
+      const cardsToSend = cards.map(card => { 
+        if (card.isOrigin == true) { 
+          return { 
+            id: card.id, 
+            term: card.term,
+            definition: card.definition,
+            example: card.example,
+            image: card.image,
+            audio: card.audio,
+          }
+        } 
+        return { 
+            term: card.term,
+            definition: card.definition,
+            example: card.example,
+            image: card.image,
+            audio: card.audio,
+        } 
+      })
+  
+      const dataToSend = {
+        id: deck.id,
+        name: deck.name,
+        description: deck.description,
+        isPublic: deck.isPublic,
+        configLanguage: deck.configLanguage,
+        cards: cardsToSend
+      };
 
-
-
+      await fetchData('/decks', 'PUT', dataToSend);
+      return true;
+    } catch (error) {
+      console.error("An error occurred during the creation process:", error);
+      return false; 
+    }
+    
+  }
+  
   async searchImages(query) {
     try {
       const response = await fetch(
@@ -132,6 +187,16 @@ class DeckService {
     }
     catch (error) {
       return null;
+    }
+  }
+
+  async deleteDeck(id) { 
+    const subUrl = '/decks/' + id;
+    try {
+      await fetchData(subUrl, "DELETE");
+      return true;
+    } catch (error) {
+      return false; 
     }
   }
 }

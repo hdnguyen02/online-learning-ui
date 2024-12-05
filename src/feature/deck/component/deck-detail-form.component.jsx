@@ -106,12 +106,12 @@ const DeckDetailForm = ({ isOpenDetailDeck, onCloseDetailDeck, deck }) => {
                     backgroundColor: "rgba(0, 0, 0, 0.5)",
                 },
                 content: {
-                    top: "80px",
+                    top: "90px",
                     left: "0",
                     right: "0",
                     bottom: "auto",
-                    height: "calc(100% - 100px)",
-                    maxWidth: "96%",
+                    height: "calc(100% - 120px)",
+                    maxWidth: "90%",
                     margin: "0 auto",
                     padding: "20px 40px",
                     borderRadius: "8px",
@@ -125,7 +125,13 @@ const DeckDetailForm = ({ isOpenDetailDeck, onCloseDetailDeck, deck }) => {
                 {/* title */}
                 <div className="flex items-center justify-between">
                     <h1 className="text-lg font-medium">Chi tiết bộ thẻ</h1>
-                    <i onClick={onCloseDetailDeck} className="fa-solid fa-xmark text-2xl cursor-pointer"></i>
+                   
+                    <button onClick={onCloseDetailDeck}  className="px-4">
+                    <i  className="fa-solid fa-xmark text-3xl cursor-pointer"></i>
+                    </button>
+                
+                
+                
                 </div>
                 <hr className="mt-4" />
 
@@ -241,7 +247,7 @@ const DeckDetailForm = ({ isOpenDetailDeck, onCloseDetailDeck, deck }) => {
                     </div>}
 
                     {step == 1 && <div>
-                        <div className="mt-6 relative overflow-y-scroll max-h-[360px] h-[360px]">
+                        <div className="mt-6 relative overflow-y-scroll max-h-[340px] h-[340px]">
 
                             <div id="container-form-card" className="flex flex-col gap-y-6">
                                 {

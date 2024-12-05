@@ -2,9 +2,6 @@
 import React from 'react'
 
 function ModalConfirmDeleteDeck({handleCancelDeleteDeck, handleDeleteDeck}) {
-
-
-
     return <div id="popup-delete-deck" className="fixed top-0 left-0 w-full h-full hidden">
         <div className="absolute top-1/2 left-1/2 bg-white px-8 py-10 rounded-lg"
             style={{

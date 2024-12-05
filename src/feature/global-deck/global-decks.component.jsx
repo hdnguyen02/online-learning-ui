@@ -5,6 +5,7 @@ import Modal from 'react-modal';
 import Empty from 'component/Empty';
 import { Link } from 'react-router-dom';
 import globalDeckService from 'service/global-deck.service';
+import { useTranslation } from 'react-i18next';
 
 export default function GlobalDecksComponent() {
   const [isShowDetailDeck, setIsShowDetailDeck] = useState(false);
