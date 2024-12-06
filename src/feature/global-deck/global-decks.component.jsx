@@ -46,7 +46,8 @@ export default function GlobalDecksComponent() {
   }
 
   useEffect(() => {
-    getGlobalDecks()
+    getGlobalDecks();
+    console.log("chạy vào nè");
   }, [])
 
   useEffect(() => {

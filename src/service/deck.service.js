@@ -32,6 +32,8 @@ class DeckService {
         }
       }
 
+      console.log("decks: ", deck);
+
       const dataToSend = {
         name: deck.name,
         description: deck.description,
@@ -130,8 +132,6 @@ class DeckService {
       console.log(error);
     }
   };
-
-  // lấy text voice. 
 
 
   async getVoice(text, languageCode) {

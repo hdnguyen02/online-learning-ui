@@ -11,23 +11,20 @@ import { v4 as uuidv4 } from 'uuid'; // Import v4 từ thư viện uuid
 import { ToastContainer } from "react-toastify";
 import { handleActionResult } from "../../../global"; 
 import Empty from "component/Empty";
+import commonDeckService from "service/common-deck.service";
 
-const DeckEditFormComponent = ({getDecks, isOpenEditDeck, onCloseEditDeck, idDeckUpdateSelected}) => {
+const CommonDeckUpdateFormComponent = ({getCommonDecks, isOPenUpdateCommonDeck, onCloseUpdateCommonDeck, idCommonDeckUpdateSelected}) => {
 
 
     Modal.setAppElement("#root");
 
     const { t } = useTranslation();
     const [step, setStep] = useState(0);
-    const [isOpen, setIsOpen] = useState(false);
-    const openModal = () => setIsOpen(true);
-    const closeModal = () => setIsOpen(false);
-
 
     const [querySearchImage, setQuerySearchImage] = useState('');
     const [searchedImage, setSearchedImage] = useState([]);
 
-    const [languages, setLanguages] = useState([])
+    const [languages, setLanguages] = useState([]); 
     const [idCardSelected, setIdCardSelected] = useState(null);
 
 
@@ -60,28 +57,17 @@ const DeckEditFormComponent = ({getDecks, isOpenEditDeck, onCloseEditDeck, idDec
         setStep(0);
     }
 
-    const resetData = () => { 
-        setDeckUpdate({
-            id: null, 
-            name: null, 
-            description: null,
-            isPublic: false,
-            configLanguage: ""
-        }); 
-        setCardUpdates([]); 
-        setStep(0); 
-    }
 
     const onSubmit = async (e) => {
         e.preventDefault();
         const data = { 
-            deck: deckUpdate, cards: cardUpdates   
+            commonDeck: commonDeckUpdate, commonCards: commonCardUpdates   
         }
-        const isSuccess = await deckService.update(data);
+        const isSuccess = await commonDeckService.update(data);
 
         handleActionResult(isSuccess, 'UPDATE', t); 
-        getDecks(); 
-        onCloseEditDeck(); 
+        getCommonDecks(); 
+        onCloseUpdateCommonDeck();
         // resetData(); 
     }
 
@@ -116,27 +102,28 @@ const DeckEditFormComponent = ({getDecks, isOpenEditDeck, onCloseEditDeck, idDec
         fetchLanguages();
     }, []);
 
-    const [deckUpdate, setDeckUpdate] =  useState(); 
+    // const [deckUpdate, setDeckUpdate] =  useState(); 
     
-    const [cardUpdates, setCardUpdates] = useState(); 
+    // const [cardUpdates, setCardUpdates] = useState(); 
+    
 
+    const [commonDeckUpdate, setCommonDeckUpdate] = useState(); 
+    const [commonCardUpdates, setCommonCardUpdates] = useState(); 
 
 
     useEffect(() => {
         const fetchData = async () => {
           try {
-            const rawData = await deckService.getDeck(idDeckUpdateSelected);
-            setDeckUpdate({ 
+            const rawData = await commonDeckService.getCommonDeck(idCommonDeckUpdateSelected);
+            setCommonDeckUpdate({ 
                 id: rawData.id, 
                 name: rawData.name, 
                 description: rawData.description, 
-                isPublic: rawData.isPublic, 
                 configLanguage: rawData.configLanguage
             })
 
-            console.log("isPublic: ", rawData.isPublic);
 
-            setCardUpdates(rawData.cards.map(originCard => { 
+            setCommonCardUpdates(rawData.cards.map(originCard => { 
                 return { ...originCard, isOrigin: true }
             })); 
         
@@ -148,10 +135,10 @@ const DeckEditFormComponent = ({getDecks, isOpenEditDeck, onCloseEditDeck, idDec
           }
         };
       
-        if (idDeckUpdateSelected) {
+        if (idCommonDeckUpdateSelected) {
           fetchData();
         }
-      }, [idDeckUpdateSelected]);
+      }, [idCommonDeckUpdateSelected]);
       
 
     const settings = {
@@ -178,18 +165,7 @@ const DeckEditFormComponent = ({getDecks, isOpenEditDeck, onCloseEditDeck, idDec
         ],
     };
 
-    const [infoDeck, setInfoDeck] = useState({
-        name: null, 
-        description: null,
-        isPublic: false,
-        configLanguage: ""
-    });
-
-
-    const [cards, setCards] = useState([]);
-
-
-    const isButtonContinueDisabled = !( deckUpdate?.name.trim() && deckUpdate?.configLanguage.trim());
+    const isButtonContinueDisabled = !( commonDeckUpdate?.name.trim() && commonDeckUpdate?.configLanguage.trim());
 
 
     const onAddCard = () => {
@@ -203,18 +179,14 @@ const DeckEditFormComponent = ({getDecks, isOpenEditDeck, onCloseEditDeck, idDec
             isOrigin: false // card được thêm vào sau
         };
 
-        setCardUpdates(prevCards => [...prevCards, newCard]);
+        setCommonCardUpdates(prevCards => [...prevCards, newCard]);
     };
 
 
     const onSelectImage = (imageUrl) => {
-        setCardUpdates(prevCards => prevCards.map(card =>
+        setCommonCardUpdates(prevCards => prevCards.map(card =>
             card.id === idCardSelected ? { ...card, image: imageUrl } : card
-        ));
-        setTimeout(() => { 
-            console.log("debug images"); 
-            console.log(cardUpdates); 
-        }, 2000)
+        ))
         setIsOpenChooseImage(false);
     };
 
@@ -227,11 +199,11 @@ const DeckEditFormComponent = ({getDecks, isOpenEditDeck, onCloseEditDeck, idDec
         setQueryTransferAudio(queryTransferAudio.trim());
     
         try {
-            const rawData = await deckService.getVoice(queryTransferAudio, deckUpdate.configLanguage);
+            const rawData = await deckService.getVoice(queryTransferAudio, commonDeckUpdate.configLanguage);
             const audio = new Audio(rawData);
             audio.play();
 
-            setCardUpdates(prevCards => prevCards.map(card =>
+            setCommonCardUpdates(prevCards => prevCards.map(card =>
                 card.id === idCardSelected ? { ...card, audio: rawData } : card
             ));
         } catch (error) {
@@ -249,11 +221,10 @@ const DeckEditFormComponent = ({getDecks, isOpenEditDeck, onCloseEditDeck, idDec
         } else if (field === "audio") {
             fileUrl = URL.createObjectURL(file);
             setIsOpenChooseAudio(false); 
-            console.log(fileUrl);
         }
         
 
-        setCardUpdates((prevCards) =>
+        setCommonCardUpdates((prevCards) =>
             prevCards.map((card) =>
                 card.id === cardId ? { ...card, [field]: fileUrl } : card
             )
@@ -272,29 +243,23 @@ const DeckEditFormComponent = ({getDecks, isOpenEditDeck, onCloseEditDeck, idDec
 
 
     const onPlayAudio = () => { 
-        const selectedCard = cardUpdates.find(cardUpdate => cardUpdate.id === idCardSelected);
+        const selectedCard = commonCardUpdates.find(commonCardUpdate => commonCardUpdate.id === idCardSelected);
         if (!selectedCard.audio) return
         const audio = new Audio(selectedCard.audio); // Tạo đối tượng Audio với URL blob
         audio.play();
     }
 
     const onDeleteCard = (cardId) => { 
-        setCardUpdates(cardUpdates.filter(cardUpdate => cardUpdate.id !== cardId));
+        setCommonCardUpdates(commonCardUpdates.filter(commonCardUpdate => commonCardUpdate.id !== cardId));
     }
 
 
     return <div>
 
         <ToastContainer/>
-
-        {/* <button onClick={openModal} type="button" className="flex gap-x-2 items-center text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-lg text-sm px-5 py-2 text-center">
-            <i className="fa-solid fa-plus"></i>
-            <span>{t('ACTION.CREATE')}</span>
-        </button> */}
-
         <Modal
-            isOpen={isOpenEditDeck}
-            onRequestClose={onCloseEditDeck}
+            isOpen={isOPenUpdateCommonDeck}
+            onRequestClose={onCloseUpdateCommonDeck}
             style={{
                 overlay: {
                     backgroundColor: "rgba(0, 0, 0, 0.5)",
@@ -320,7 +285,7 @@ const DeckEditFormComponent = ({getDecks, isOpenEditDeck, onCloseEditDeck, idDec
                 <div className="flex items-center justify-between">
                     <h1 className="text-lg font-medium">Hiệu chỉnh bộ thẻ</h1>
                    
-                    <button onClick={onCloseEditDeck} className="px-4">
+                    <button onClick={onCloseUpdateCommonDeck} className="px-4">
                     <i  className="fa-solid fa-xmark text-3xl cursor-pointer"></i>
                     </button>
                 
@@ -390,8 +355,8 @@ const DeckEditFormComponent = ({getDecks, isOpenEditDeck, onCloseEditDeck, idDec
                                 </label>
 
                                 <input
-                                    onChange={(e) => setDeckUpdate({ ... deckUpdate, name: e.target.value })}
-                                    value={deckUpdate?.name}
+                                    onChange={(e) => setCommonDeckUpdate({ ... commonDeckUpdate, name: e.target.value })}
+                                    value={commonDeckUpdate?.name}
                                     className="appearance-none border  w-full py-2 px-3 text-gray-700 leading-tight" id="username" type="text"
                                     required
                                 />
@@ -401,23 +366,19 @@ const DeckEditFormComponent = ({getDecks, isOpenEditDeck, onCloseEditDeck, idDec
                                     {t('DECK.DESCRIPTION')}
                                 </label>
                                 <input
-                                    onChange={(e) => setDeckUpdate({ ... deckUpdate, description: e.target.value })}
-                                    value={deckUpdate?.description}
+                                    onChange={(e) => setCommonDeckUpdate({ ... commonDeckUpdate, description: e.target.value })}
+                                    value={commonDeckUpdate?.description}
                                     className=" appearance-none border  w-full py-2 px-3 text-gray-700 mb-3 leading-tight" id="description" type="text" />
                             </div>
 
 
                             <div className="flex gap-x-8">
-                                {/* <div>
-                                    <select id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                                        
-                                    </select>
-                                </div> */}
+                              
 
                                 <div className="relative">
                                     <select
-                                        onChange={(e) => setDeckUpdate({ ... deckUpdate, configLanguage: e.target.value })}
-                                        value={deckUpdate?.configLanguage}
+                                        onChange={(e) => setCommonDeckUpdate({ ... commonDeckUpdate, configLanguage: e.target.value })}
+                                        value={commonDeckUpdate?.configLanguage}
                                         required
                                         className="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow-md appearance-none cursor-pointer">
                                         <option value="" disabled>Choose a language</option>
@@ -429,7 +390,7 @@ const DeckEditFormComponent = ({getDecks, isOpenEditDeck, onCloseEditDeck, idDec
                                 </div>
 
 
-                                <div className="flex gap-x-3">
+                                {/* <div className="flex gap-x-3">
                                     <label className="inline-flex items-center cursor-pointer">
                                         <input
                                             onChange={(e) => setDeckUpdate({ ...deckUpdate, isPublic: e.target.checked })}
@@ -440,7 +401,7 @@ const DeckEditFormComponent = ({getDecks, isOpenEditDeck, onCloseEditDeck, idDec
                                         <span className="ms-3 text-sm font-medium text-gray-900">Public</span>
                                     </label>
 
-                                </div>
+                                </div> */}
                             </div>
 
 
@@ -457,10 +418,10 @@ const DeckEditFormComponent = ({getDecks, isOpenEditDeck, onCloseEditDeck, idDec
 
                             <div id="container-form-card" className="flex flex-col gap-y-6">
                                 {
-                                cardUpdates?.length != 0 ? (cardUpdates?.map(cardUpdate => (
+                                commonCardUpdates?.length != 0 ? (commonCardUpdates?.map(commonCardUpdate => (
 
-                                    <div key={cardUpdate.id} className="py-3 mr-4 flex items-center gap-x-8">
-                                        <button type="button" onClick={() => onDeleteCard(cardUpdate.id)}>
+                                    <div key={commonCardUpdate.id} className="py-3 mr-4 flex items-center gap-x-8">
+                                        <button type="button" onClick={() => onDeleteCard(commonCardUpdate.id)}>
                                             <img src="/src/assets/image/delete.png" alt="" />
                                         </button>
                                         <div className="mt-1 flex gap-x-12 justify-between items-center w-full">
@@ -468,10 +429,10 @@ const DeckEditFormComponent = ({getDecks, isOpenEditDeck, onCloseEditDeck, idDec
                                                 <div className="flex gap-x-12">
                                                     <div className="flex flex-col flex-1">
                                                         <input
-                                                            value={cardUpdate.term}
+                                                            value={commonCardUpdate.term}
                                                             onChange={(e) => {
-                                                                setCardUpdates(cardUpdates.map(c =>
-                                                                    c.id === cardUpdate.id ? { ...c, term: e.target.value } : c
+                                                                setCommonCardUpdates(commonCardUpdates.map(c =>
+                                                                    c.id === commonCardUpdate.id ? { ...c, term: e.target.value } : c
                                                                 ));
                                                             }}
                                                             className="bg-transparent py-1 rounded-none border-0 border-b-2 focus:border-green-500 border-gray-500 outline-none w-full"
@@ -482,10 +443,10 @@ const DeckEditFormComponent = ({getDecks, isOpenEditDeck, onCloseEditDeck, idDec
                                                     </div>
                                                     <div className="flex flex-col flex-1">
                                                         <input
-                                                            value={cardUpdate.definition}
+                                                            value={commonCardUpdate.definition}
                                                             onChange={(e) => {
-                                                                setCardUpdates(cardUpdates.map(c =>
-                                                                    c.id === cardUpdate.id ? { ...c, definition: e.target.value } : c
+                                                                setCommonCardUpdates(commonCardUpdates.map(c =>
+                                                                    c.id === commonCardUpdate.id ? { ...c, definition: e.target.value } : c
                                                                 ));
                                                             }}
                                                             required
@@ -499,10 +460,10 @@ const DeckEditFormComponent = ({getDecks, isOpenEditDeck, onCloseEditDeck, idDec
                                                     <input
                                                         className="bg-transparent py-1 rounded-none border-0 border-b-2 border-gray-500 focus:border-green-500 outline-none w-full"
                                                         type="text"
-                                                        value={cardUpdate.example}
+                                                        value={commonCardUpdate.example}
                                                         onChange={(e) => {
-                                                            setCardUpdates(cardUpdates.map(c =>
-                                                                c.id === cardUpdate.id ? { ...c, example: e.target.value } : c
+                                                            setCommonCardUpdates(commonCardUpdates.map(c =>
+                                                                c.id === commonCardUpdate.id ? { ...c, example: e.target.value } : c
                                                             ));
                                                         }}
                                                     />
@@ -528,38 +489,38 @@ const DeckEditFormComponent = ({getDecks, isOpenEditDeck, onCloseEditDeck, idDec
 
                                                 {/* file upload */}
                                                 {/* upload image */}
-                                                <input type="file" id={`imageInput-${cardUpdate.id}`} accept="image/*" onChange={(e) =>
-                                                    handleFileChange(e.target.files[0], cardUpdate.id, "image")
+                                                <input type="file" id={`imageInput-${commonCardUpdate.id}`} accept="image/*" onChange={(e) =>
+                                                    handleFileChange(e.target.files[0], commonCardUpdate.id, "image")
                                                 }
                                                 className="hidden" 
                                                 />
 
                                                 {/* upload audio */}
-                                                <input type="file" id={`audioInput-${cardUpdate.id}`} accept="mp3/*" onChange={(e) =>
-                                                    handleFileChange(e.target.files[0], cardUpdate.id, "audio")
+                                                <input type="file" id={`audioInput-${commonCardUpdate.id}`} accept="mp3/*" onChange={(e) =>
+                                                    handleFileChange(e.target.files[0], commonCardUpdate.id, "audio")
                                                 }
                                                 className="hidden" 
                                                 />
 
-                                            { cardUpdate.audio && <audio id={`audio-${cardUpdate.id}`} controls className="hidden">
-                                                                <source src={cardUpdate.audio} type="audio/mp3" />
+                                            {/* { cardUpdate.audio && <audio id={`audio-${commonCardUpdate.id}`} controls className="hidden">
+                                                                <source src={commonCardUpdate.audio} type="audio/mp3" />
                                                                 Your browser does not support the audio element.
                                                             </audio>
-                                            }
+                                            } */}
 
 
                                             </div>
                                             <div className="flex gap-x-3">
                                             
                                                 <button
-                                                    onClick={() => openChooseImage(cardUpdate.id)}
+                                                    onClick={() => openChooseImage(commonCardUpdate.id)}
                                                     type="button"
-                                                    className={`w-16 h-16 ${cardUpdate.image ? '' : 'border border-dashed border-gray-500'} rounded flex items-center justify-center`}
+                                                    className={`w-16 h-16 ${commonCardUpdate.image ? '' : 'border border-dashed border-gray-500'} rounded flex items-center justify-center`}
                                                 >
-                                                    {cardUpdate.image ? (
+                                                    {commonCardUpdate.image ? (
                                                         // Nếu có image, thay thế button bằng hình ảnh
                                                         <img
-                                                            src={cardUpdate.image}
+                                                            src={commonCardUpdate.image}
                                                             alt="Card image"
                                                             className="w-16 h-16 object-cover" // Đảm bảo hình ảnh vừa với button
                                                         />
@@ -573,7 +534,7 @@ const DeckEditFormComponent = ({getDecks, isOpenEditDeck, onCloseEditDeck, idDec
                                                 </button>
 
                                                 <button
-                                                    onClick={() => openChooseAudio(cardUpdate.id)}
+                                                    onClick={() => openChooseAudio(commonCardUpdate.id)}
                                                     type="button"
                                                     className="w-16 h-16 border rounded border-dashed border-gray-500 flex items-center justify-center"
                                                 >
@@ -734,4 +695,4 @@ const DeckEditFormComponent = ({getDecks, isOpenEditDeck, onCloseEditDeck, idDec
 }
 
 
-export default DeckEditFormComponent; 
+export default CommonDeckUpdateFormComponent; 

@@ -12,6 +12,7 @@ class GlobalDeckService {
             return rawData;
 
         } catch (error) {
+            console.log(error);
             return [];
         }
     }

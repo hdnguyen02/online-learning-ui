@@ -10,6 +10,9 @@ import {
 import { useParams } from "react-router-dom";
 import { useLocation, Link } from "react-router-dom";
 import Empty from "./Empty";
+import deckService from "service/deck.service";
+
+import CommonDeckUpdateFormComponent from "feature/common-deck/component/common-deck-update-form.component";
 
 import { customFormatDistanceToNow } from "../global";
 
@@ -20,23 +23,25 @@ export default function OwnerCommonDecks() {
   const location = useLocation();
 
   const params = useParams();
-  const [isOpenDetailCommonDeck, setIsOpenDetailCommonDeck] = useState(false);
   const [isOpenCreateCommonDeck, setIsOpenCreateCommonDeck] = useState(false);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [commonDecks, setCommonDecks] = useState();
-  const [isOpenCreateCard, setIsOpenCreateCard] = useState(false);
-  const [isOpenEditCard, setIsOpenEditCard] = useState(false);
+  const [configLanguage, setConfigLanguage] = useState(""); 
 
   async function handleCreateCommonDeck(event) {
     event.preventDefault();
     const subUrl = "/common-decks";
-    const body = { name, description, idGroup: params.id };
+    const body = { 
+      name, 
+      description, 
+      configLanguage:configLanguage,
+      idGroup: params.id 
+    
+    };
 
-    // tiếp tục thêm vào
     try {
       const { message } = await fetchData(subUrl, "POST", body);
-      // load lại dữ liệu
       await getCommonDecks();
       showToastMessage(message);
       setName("");
@@ -48,204 +53,43 @@ export default function OwnerCommonDecks() {
   }
 
   async function getCommonDecks() {
-    const subUrl = "/common-decks?idGroup=" + params.id;
+    const subUrl = "/common-decks?idGroup=" + params.id;  
     try {
+      console.log("chạy vào")
       const { data } = await fetchData(subUrl, "GET");
+      console.log(data);
       setCommonDecks(data);
     } catch (error) {
       showToastError(error.message);
     }
   }
 
-  const [detailCommonDeck, setDetailCommonDeck] = useState();
-
-  // viêt hàm lấy ra chi tiết => gọi tới id.
-  async function getDetailCommonDeck(idCommonDeck) {
-    const subUrl = `/common-decks/${idCommonDeck}`;
-    try {
-      const { data } = await fetchData(subUrl, "GET");
-      setDetailCommonDeck(data);
-    } catch (error) {
-      showToastError(error.message);
-    }
-  }
-
-  async function handleCreateCard(event) {
-    event.preventDefault();
-    const inputTermCard = document.getElementById("card-term");
-    const inputDefinitionCard = document.getElementById("card-definition");
-    const inputExampleCard = document.getElementById("card-example");
-    const inputImageCard = document.getElementById("card-image");
-    const inputAudioCard = document.getElementById("card-audio");
-
-    const formData = new FormData();
-    formData.append("idCommonDeck", detailCommonDeck.id);
-    formData.append("term", inputTermCard.value);
-    formData.append("definition", inputDefinitionCard.value);
-    formData.append("example", inputExampleCard.value);
-
-    const accessToken = localStorage.getItem("accessToken");
-    const url = `${baseUrl}/common-cards`;
-    if (inputAudioCard.files.length > 0) {
-      formData.append("audio", inputAudioCard.files[0]);
-    }
-    if (inputImageCard.files.length > 0) {
-      formData.append("image", inputImageCard.files[0]);
-    }
-    try {
-      const jsonRp = await fetch(url, {
-        method: "POST",
-        body: formData,
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      const response = await jsonRp.json();
-
-      if (!jsonRp.ok) {
-        throw new Error(response.message);
-      }
-
-      // load lại card cho người dùng
-      await getDetailCommonDeck(detailCommonDeck.id);
-
-      inputTermCard.value = "";
-      inputDefinitionCard.value = "";
-      inputExampleCard.value = "";
-      inputAudioCard.value = null;
-      inputImageCard.value = null;
-      showToastMessage(response.message);
-    } catch (error) {
-      showToastError(error.message);
-    }
-
-    // setIsOpenCreateCard(false)
-  }
-
-  async function handleDeleteCard() {
-    // thực hiện xóa đi =>
-
-    const eCheckboxCards = document.querySelectorAll("[data-id-card]");
-    const checkedCheckboxes = Array.from(eCheckboxCards).filter(
-      (checkbox) => checkbox.checked
-    );
-    const idCards = checkedCheckboxes.map(
-      (checkedCheckbox) => checkedCheckbox.value
-    );
-    console.log(idCards);
-    if (idCards.length == 0) {
-      showToastError("You have not selected any card yet!");
-      return;
-    }
-
-    const queryString = idCards
-      .map((id) => `ids=${encodeURIComponent(id)}`)
-      .join("&");
-    const subUrl = `/cards?${queryString}`;
-    try {
-      const { message } = await fetchData(subUrl, "DELETE");
-      // sau khi xóa xong => load lại
-      await getDetailCommonDeck(detailCommonDeck.id); // load lại bộ thẻ hiện tại.
-      showToastMessage(message);
-    } catch (error) {
-      showToastError("Delete card failed");
-    }
-  }
-
-  function handleCheckAllCards(event) {
-    const checked = event.target.checked;
-    // truy vấn ra toàn bộ những thẻ đang tồn tại có data-id-card và xét giá trị theo checked
-    const eCheckboxCards = document.querySelectorAll("[data-id-card]");
-    eCheckboxCards.forEach((eCheckboxCard) => {
-      eCheckboxCard.checked = checked;
-    });
-  }
-  const [card, setCard] = useState();
-
-  async function getCard(idCard) {
-    const subUrl = `/cards/${idCard}`;
-    try {
-      const { data } = await fetchData(subUrl, "GET");
-      setCard(data);
-      console.log(data);
-    } catch (error) {
-      showToastError(error.message);
-    }
-  }
-
-  async function handleEditCard(event, idCard) {
-    // show lên modal hiệu chỉnh card => copy về
-    // trước tiên cần lấy thẻ về => sau đó hiệu chỉnh thoải mái
-    /// trước tiên cần đợi để lấy về => khi nhấn vào submit +> hàm mới được gọi.
-    event.preventDefault();
-    const accessToken = localStorage.getItem("accessToken");
-
-    const url = `${baseUrl}/cards/${card.id}`; // dựa vào id
-    const formData = new FormData();
-
-    const inputTermCard = document.getElementById("edit-card-term");
-    const inputDefinitionCard = document.getElementById("edit-card-definition");
-    const inputExampleCard = document.getElementById("edit-card-example");
-    const inputImageCard = document.getElementById("edit-card-image");
-    const inputAudioCard = document.getElementById("edit-card-audio");
-
-    formData.append("term", inputTermCard.value);
-    formData.append("definition", inputDefinitionCard.value);
-    formData.append("example", inputExampleCard.value);
-
-    if (inputAudioCard.files.length > 0) {
-      formData.append("audio", inputAudioCard.files[0]);
-    }
-    if (inputImageCard.files.length > 0) {
-      formData.append("image", inputImageCard.files[0]);
-    }
-
-    try {
-      const jsonRp = await fetch(url, {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-        body: formData,
-      });
-      const { message } = await jsonRp.json();
-      if (!jsonRp.ok) {
-        throw new Error(message);
-      }
-      await getDetailCommonDeck(detailCommonDeck.id);
-      setIsOpenEditCard(false);
-      showToastMessage(message);
-    } catch (error) {
-      const { message } = error;
-      showToastError(message);
-    }
-  }
-
   useEffect(() => {
     getCommonDecks();
-
-    // load lên dữ liệu
   }, []);
 
-  const [isOpenEditCommonDeck, setIsOpenEditCommonDeck] = useState(false);
+  const [languages, setLanguages] = useState([]);
 
-  async function handleEditCommonDeck(event) {
-    event.preventDefault(); // ngăn chặn không cho nó submit
-    const subUrl = `/common-decks/${detailCommonDeck.id}`;
-    try {
-      const body = {
-        name: document.getElementById("edit-common-deck-name").value,
-        description: document.getElementById("edit-common-deck-description")
-          .value,
-      };
-      console.log(body);
-      const { message } = await fetchData(subUrl, "PUT", body);
-      await getCommonDecks();
-      showToastMessage(message);
-    } catch (error) {
-      showToastError(error.message);
-    }
-  }
+
+  useEffect(() => {
+    const fetchLanguages = async () => {
+        try {
+            const rawData = await deckService.getAllLanguage();
+            const languages = rawData.map(data => {
+                return {
+                    hl: data.code,
+                    value: data.nameInternational
+                };
+            });
+
+            setLanguages(languages);
+        } catch (error) {
+            setLanguages([])
+            console.error("Error fetching languages:", error);
+        }
+    };
+    fetchLanguages();
+}, []);
 
   async function handleDeleteCommonDeck(idCommonDeck) {
     const subUrl = `/common-decks/${idCommonDeck}`;
@@ -258,26 +102,10 @@ export default function OwnerCommonDecks() {
     }
   }
 
-  const stylesModalParent = {
-    content: {
-      width: "1000px",
-      height: "580px",
-      top: "55%",
-      left: "50%",
-      transform: "translate(-50%, -50%)",
-      padding: "40px",
-      borderRadius: "8px",
-      backgroundColor: "while",
-      border: "0px",
-      boxShadow:
-        "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
-    },
-  };
-
   const stylesModalCreateCommonDeck = {
     content: {
-      width: '600px',
-      height: '350px',
+      width: '620px',
+      height: '400px',
       top: '50%',
       left: '50%',
       transform: 'translate(-50%, -50%)',
@@ -289,24 +117,33 @@ export default function OwnerCommonDecks() {
     },
   };
 
-  const stylesModalCard = {
-    content: {
-      width: "1000px",
-      height: "580px",
-      top: "55%",
-      left: "50%",
-      transform: "translate(-50%, -50%)",
-      padding: "40px",
-      borderRadius: "8px",
-      backgroundColor: "while",
-      border: "0px",
-      boxShadow:
-        "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
-    },
-  };
+  const [idCommonDeckUpdateSelected, setIdCommonDeckUpdateSelected] = useState();
+
+
+
+  // code thêm vào chỗ này. 
+  const [isOPenUpdateCommonDeck, setIsOpenUpdateCommonDeck] = useState();
+  const onOpenUpdateCommonDeck = (id) => {
+    setIdCommonDeckUpdateSelected(id);
+    setIsOpenUpdateCommonDeck(true);
+  }
+
+  const onCloseUpdateCommonDeck = () => {
+    setIsOpenUpdateCommonDeck(false);
+  }
 
   return (
     <div>
+
+
+
+      <CommonDeckUpdateFormComponent
+        idCommonDeckUpdateSelected={idCommonDeckUpdateSelected}
+        getCommonDecks={getCommonDecks}
+        onCloseUpdateCommonDeck={onCloseUpdateCommonDeck}
+        isOPenUpdateCommonDeck={isOPenUpdateCommonDeck}
+      />
+
       {location.pathname.includes("owner") && (
         <div className="flex justify-end">
           <button className="mb-4">
@@ -320,130 +157,57 @@ export default function OwnerCommonDecks() {
         </div>
       )}
 
-      {/* hiển thị danh sách bộ thẻ ở đây. */}
 
-      {/* {commonDecks && (
-        <div className="">
-          <div className="relative overflow-x-auto sm:rounded-lg">
-            {commonDecks.length != 0 ? (
-              <table className="w-full text-sm text-left rtl:text-right text-gray-500 mb-24">
-             
-                <tbody>
-                  {commonDecks.map((commonDeck, index) => (
-                    <tr
-                      onClick={() => {
-                        setIsOpenDetailCommonDeck(true);
-                        getDetailCommonDeck(commonDeck.id);
-                      }}
-                      key={index}
-                      className="odd:bg-gray-100 even:bg-white"
-                    >
-                      <th
-                        scope="row"
-                        className="px-8 py-5 text-gray-900 text-sm uppercase whitespace-nowrap"
-                      >
-                        {commonDeck.name}
-                      </th>
-                      <td className="font-medium px-8 py-5">
-
-                        <span class="text-xs font-semibold inline-block py-1 px-2 rounded text-emerald-600 bg-emerald-200 uppercase last:mr-0 mr-1">
-                          {commonDeck.quantityCards} card
-                        </span>
-                      </td>
-                      <td className="px-8 py-5">
-                        {customFormatDistanceToNow(commonDeck.createAt)}
-                      </td>
-                      {location.pathname.includes("owner") && (
-                        <td className="font-medium px-8 py-5">
-                          <button
-                            onClick={(event) => {
-                              event.stopPropagation();
-                              handleDeleteCommonDeck(commonDeck.id);
-                            }}
-                          >
-                            <i className="fa-solid fa-trash"></i>
-                          </button>
-                        </td>
-                      )}
-
-                      {location.pathname.includes("owner") && (
-                        <td className="font-medium px-8 py-5">
-                          <button
-                            onClick={(event) => {
-                              event.stopPropagation();
-                              setIsOpenEditCommonDeck(true);
-                              getDetailCommonDeck(commonDeck.id);
-                            }}
-                          >
-                            <i className="fa-solid fa-pen"></i>
-                          </button>
-                        </td>
-                      )}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            ) : (
-              <Empty />
-            )}
-
-          </div>
-
-        </div>
-      )} */}
-
-
-
-{commonDecks ? (
-    <div className="mb-8 grid grid-cols-2 gap-8">
-        {commonDecks.map((commonDeck, index) => (
-                <div key={index} className="flex justify-between gap-x-6 p-5 border rounded-lg">
-                    <div className="flex min-w-0 gap-x-4">
-                        <img
-                            className="h-12 w-12 flex-none rounded-full bg-gray-50"
-                            src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                            alt=""
-                        />
-                        <div className="min-w-0 flex-auto">
-                            <p className="text-sm font-semibold leading-6 text-gray-900">
-                                {commonDeck.name}
-                            </p>
-                            {/* <p className="mt-1 truncate text-xs leading-5 text-gray-500">
+      {commonDecks ? (
+        <div className="mb-8 grid grid-cols-2 gap-8">
+          {commonDecks.map((commonDeck, index) => (
+            <div key={index} className="flex justify-between gap-x-6 p-5 border rounded-lg">
+              <div className="flex min-w-0 gap-x-4">
+                <img
+                  className="h-12 w-12 flex-none rounded-full bg-gray-50"
+                  src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                  alt=""
+                />
+                <div className="min-w-0 flex-auto">
+                  <p className="text-sm font-semibold leading-6 text-gray-900">
+                    {commonDeck.name}
+                  </p>
+                  {/* <p className="mt-1 truncate text-xs leading-5 text-gray-500">
                                 {ownerClass.owner.email}
                             </p> */}
-                            <span className="text-gray-800 text-sm">
+                  <span className="text-gray-800 text-sm">
                     {customFormatDistanceToNow(commonDeck.createdDate)}
-                </span>
-                        </div>
-                    </div>
-                    <div className="flex gap-x-4 items-center">
-
-                    <span class="text-xs font-semibold inline-block py-1 px-2 rounded text-white bg-green-600">
-                          {commonDeck.quantityCards} card
-                        </span>
-                        <button>
-                            <img
-                                src="/src/assets/image/delete.png"
-                                className="w-4 h-4"
-                                alt=""
-                            />
-                        </button>
-                        <button className="text-sm leading-6 text-gray-900">
-                            <span className="underline">Edit</span>
-                        </button>
-                        <button
-                            
-                            className="text-sm leading-6 text-gray-900"
-                        >
-                            <span className="underline">Detail</span>
-                        </button>
-                    </div>
+                  </span>
                 </div>
-        ))}
-    </div>
-) : (
-    <Empty />
-)}
+              </div>
+              <div className="flex gap-x-4 items-center">
+
+                <span class="text-xs font-semibold inline-block py-1 px-2 rounded text-white bg-green-600">
+                  {commonDeck.quantityCards} card
+                </span>
+                <button>
+                  <img
+                    src="/src/assets/image/delete.png"
+                    className="w-4 h-4"
+                    alt=""
+                  />
+                </button>
+                <button onClick={() => onOpenUpdateCommonDeck(commonDeck.id)} className="text-sm leading-6 text-gray-900">
+                  <span className="underline">Edit</span>
+                </button>
+                <button
+
+                  className="text-sm leading-6 text-gray-900"
+                >
+                  <span className="underline">Detail</span>
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <Empty />
+      )}
 
 
 
@@ -454,7 +218,7 @@ export default function OwnerCommonDecks() {
 
 
       {/* edit common Deck */}
-      <Modal
+      {/* <Modal
         isOpen={isOpenEditCommonDeck}
         onRequestClose={() => setIsOpenEditCommonDeck(false)}
         contentLabel="Custom Modal"
@@ -505,7 +269,7 @@ export default function OwnerCommonDecks() {
 
           <hr className="my-4" />
           <div className="mt-4 flex justify-end items-center">
-            {/* checkbox public => công khai lớp hay không */}
+
 
             <button
               type="submit"
@@ -515,7 +279,7 @@ export default function OwnerCommonDecks() {
             </button>
           </div>
         </form>
-      </Modal>
+      </Modal> */}
 
       <Modal
         isOpen={isOpenCreateCommonDeck}
@@ -564,6 +328,7 @@ export default function OwnerCommonDecks() {
                 required
               />
             </div>
+            
           </div>
 
           {/* <hr className="my-4" /> */}
@@ -580,7 +345,7 @@ export default function OwnerCommonDecks() {
         </form>
       </Modal>
 
-      {/* modal detail common deck */}
+      {/* modal create common deck */}
       <Modal
         isOpen={isOpenCreateCommonDeck}
         onRequestClose={() => setIsOpenCreateCommonDeck(false)}
@@ -628,6 +393,23 @@ export default function OwnerCommonDecks() {
                 required
               />
             </div>
+            <div className="mt-8">
+            <div className="relative">
+                                    <select
+                                        onChange={(e) => setConfigLanguage(e.target.value)}
+                                        value={configLanguage}
+                                        required
+                                        className="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow-md appearance-none cursor-pointer">
+                                        <option value="" disabled>Choose a language</option>
+                                        {languages.map((language, index) => (<option key={index} value={language.hl}>{language.value}</option>))}
+                                    </select>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.2" stroke="currentColor" className="h-5 w-5 ml-1 absolute top-2.5 right-2.5 text-slate-700">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                                    </svg>
+                                </div>
+                                </div>
+
+            
           </div>
 
           <hr className="my-5" />
@@ -644,294 +426,6 @@ export default function OwnerCommonDecks() {
         </form>
       </Modal>
 
-      <Modal
-        isOpen={isOpenDetailCommonDeck}
-        onRequestClose={() => setIsOpenDetailCommonDeck(false)}
-        contentLabel="Custom Modal"
-        style={stylesModalParent}
-      >
-        {detailCommonDeck && (
-          <div className="">
-            {/* Hiển thị thông tin bộ thẻ */}
-
-            <div className="flex items-center gap-x-4">
-              {/* <div className='rounded-full h-10 w-10 overflow-hidden cursor-pointer'>
-                        <img src={detailCommonDeck.user.avatar ? detailDeck.user.avatar : '/user.png'} loading="lazy" className='w-full h-full' alt='' />
-                    </div> */}
-              <div className="flex flex-col gap-y-2 flex-1">
-                <div className="flex gap-x-2 items-center">
-                  <span className="font-bold text-xl">
-                    {detailCommonDeck.name}
-                  </span>
-                  <span>({detailCommonDeck.quantityCards} card)</span>
-                </div>
-
-                <div className="flex items-center gap-x-3">
-                  <span className="font-light text-sm">
-                    {detailCommonDeck.group.name}
-                  </span>
-                  {/* <span className="text-xs bg-gray-300 p-1 rounded-lg">Giáo viên</span> */}
-                </div>
-                <div className="mt-2 text-gray-700 text-sm text-ellipsis overflow-hidden whitespace-nowrap">
-                  {detailCommonDeck.description}
-                </div>
-              </div>
-
-              <div className="flex gap-x-4">
-                <button
-                  onClick={() => setIsOpenCreateCard(true)}
-                  className="w-32 flex items-center justify-center gap-x-2 h-8 text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-3 text-center"
-                >
-                  <span>create card</span>
-
-                  <i className="fa-solid fa-download"></i>
-                </button>
-                <button
-                  onClick={handleDeleteCard}
-                  className="w-32 flex items-center justify-center gap-x-2 h-8 text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-3 text-center"
-                >
-                  <span>delete card</span>
-
-                  <i className="fa-solid fa-trash"></i>
-                </button>
-                <Link
-                  to={`/common-decks/${detailCommonDeck.id}/learn-cards`}
-                  className="w-32 flex items-center justify-center gap-x-2 h-8 text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-3 text-center"
-                >
-                  <span>Study card</span>
-                  {/* chuyển người dùng tới phần học thẻ */}
-                  <i className="fa-solid fa-graduation-cap"></i>
-                </Link>
-              </div>
-            </div>
-
-            <hr className="my-4" />
-
-            <table className="w-full text-sm text-left rtl:text-right text-gray-500">
-              <thead className="text-sm text-gray-700 uppercase">
-                <tr>
-                  <th className="px-3">
-                    <input
-                      onChange={handleCheckAllCards}
-                      type="checkbox"
-                      className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                    />
-                  </th>
-                  <th scope="col" className="px-6 py-5">
-                    Term
-                  </th>
-                  <th scope="col" className="px-6 py-5">
-                    Definition
-                  </th>
-                  <th scope="col" className="px-6 py-5">
-                    Example
-                  </th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody className="">
-                {detailCommonDeck.cards.map((card, index) => (
-                  <tr key={index} className="odd:bg-gray-100 even:bg-white">
-                    <th className="px-3">
-                      <input
-                        data-id-card
-                        value={card.id}
-                        type="checkbox"
-                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                      />
-                    </th>
-                    <td className="px-6 py-5 font-medium">{card.term}</td>
-                    <td className="px-6 py-5">{card.definition}</td>
-                    <td className="px-6 py-5">
-                      {card.example ? card.example : "None"}
-                    </td>
-                    <th className="px-6 py-5">
-                      <button
-                        onClick={async () => {
-                          await getCard(card.id);
-                          setIsOpenEditCard(true);
-                        }}
-                      >
-                        <i className="fa-solid fa-pen"></i>
-                      </button>
-                    </th>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-
-        {/* Thêm card vào */}
-        <Modal
-          isOpen={isOpenCreateCard}
-          onRequestClose={() => setIsOpenCreateCard(false)}
-          contentLabel="Custom Modal"
-          style={stylesModalCard}
-        >
-          {/* <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40"> */}
-          <div>
-            <div className="p-6">
-              <button
-                onClick={() => setIsOpenCreateCard(false)}
-                className="pr-2"
-              >
-                <i className="fa-solid fa-arrow-left text-3xl"></i>
-              </button>
-            </div>
-            <form
-              onSubmit={handleCreateCard}
-              className="site-create rounded-lg p-6"
-            >
-              <div className="flex items-center justify-between gap-x-8">
-                <div className="w-full border-r pr-6 border-gray-400">
-                  <div className="flex-col md:flex-row flex justify-between gap-x-16 mt-4">
-                    <div className="flex flex-col w-full gap-y-3">
-                      <label htmlFor="card-term">Term</label>
-                      <input
-                        id="card-term"
-
-                        type="text"
-                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                      />
-                    </div>
-
-                    <div className="mt-4 md:mt-0 flex flex-col w-full gap-y-3">
-                      <label htmlFor="">Definition</label>
-                      <input
-                        id="card-definition"
-                        className="bg-transparent h-10 px-4"
-                        type="text"
-                      />
-                    </div>
-                  </div>
-                  <div className="flex-col md:flex-row flex justify-between gap-x-16 mt-4">
-                    <div className="flex flex-col w-full gap-y-3">
-                      <label htmlFor="">Example</label>
-                      <input
-                        id="card-example"
-                        className="bg-transparent h-10 px-4"
-                        type="text"
-                      />
-                    </div>
-                    <div className="mt-4 md:mt-0 flex flex-col w-full gap-y-3">
-                      <label>Deck</label>
-                      <input
-                        readOnly
-                        value={detailCommonDeck?.name}
-                        type="text"
-                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="site-file flex flex-col gap-y-3">
-                  <span>Iamge</span>
-                  <input id="card-image" type="file" />
-                  <span>Audio</span>
-                  <input id="card-audio" type="file" />
-                </div>
-              </div>
-
-              <hr className="my-12"></hr>
-              <div className="flex justify-endD items-center">
-                {/* chỉ có chủ của gr mới tạo được */}
-                {/* owner */}
-
-                <button className="bg-green-500 hover:bg-green-400 text-white h-10 w-24 justify-center border-b-4 border-green-700 hover:border-green-500 rounded flex items-center gap-x-2">
-                  {/* <span className='text-sm'>Create card</span> */}
-                  {/* <i className="hidden md:block fa-solid fa-plus"></i> */}
-                  Submit
-                </button>
-              </div>
-            </form>
-          </div>
-          {/* </div> */}
-        </Modal>
-
-        {/* Hiệu chỉnh card */}
-
-        <Modal
-          isOpen={isOpenEditCard}
-          onRequestClose={() => setIsOpenEditCard(false)}
-          contentLabel="Custom Modal"
-          style={stylesModalCard}
-        >
-          {/* <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40"> */}
-
-          <div>
-            <div className="p-6">
-              <button onClick={() => setIsOpenEditCard(false)} className="pr-2">
-                <i className="fa-solid fa-arrow-left text-3xl"></i>
-              </button>
-            </div>
-            <form
-              onSubmit={handleEditCard}
-              className="site-create rounded-lg p-6"
-            >
-              <div className="flex items-center justify-between gap-x-8">
-                <div className="w-full border-r pr-6 border-gray-400">
-                  <div className="flex-col md:flex-row flex justify-between gap-x-16 mt-4">
-                    <div className="flex flex-col w-full gap-y-3">
-                      <label htmlFor="card-term">Term</label>
-                      <input
-                        defaultValue={card?.term}
-                        id="edit-card-term"
-                        className="bg-transparent h-10 px-4"
-                        type="text"
-                      />
-                    </div>
-
-                    <div className="mt-4 md:mt-0 flex flex-col w-full gap-y-3">
-                      <label htmlFor="">Definition</label>
-                      <input
-                        defaultValue={card?.definition}
-                        id="edit-card-definition"
-                        className="bg-transparent h-10 px-4"
-                        type="text"
-                      />
-                    </div>
-                  </div>
-                  <div className="flex-col md:flex-row flex justify-between gap-x-16 mt-4">
-                    <div className="flex flex-col w-full gap-y-3">
-                      <label htmlFor="">Example</label>
-                      <input
-                        defaultValue={card?.example}
-                        id="edit-card-example"
-                        className="bg-transparent h-10 px-4"
-                        type="text"
-                      />
-                    </div>
-                    <div className="mt-4 md:mt-0 flex flex-col w-full gap-y-3">
-                      <label>Deck</label>
-                      <input
-                        readOnly
-                        value={detailCommonDeck?.name}
-                        type="text"
-                        className="bg-transparent h-10 px-4"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="site-file flex flex-col gap-y-3">
-                  <span>Image</span>
-                  <input id="edit-card-image" type="file" />
-                  <span>Audio</span>
-                  <input id="edit-card-audio" type="file" />
-                </div>
-              </div>
-
-              <hr className="my-12"></hr>
-              <div className="flex justify-between items-center">
-                <button className="bg-green-500 hover:bg-green-400 text-white h-10 w-24 justify-center border-b-4 border-green-700 hover:border-green-500 rounded flex items-center gap-x-2">
-                  <span className="text-sm">Edit</span>
-                  <i className="hidden md:block fa-solid fa-plus"></i>
-                </button>
-              </div>
-            </form>
-          </div>
-        </Modal>
-      </Modal>
 
       <ToastContainer />
     </div>
