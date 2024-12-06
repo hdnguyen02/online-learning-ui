@@ -22,24 +22,26 @@ export default function ProfileUserComponent() {
 
         <div className='flex flex-col gap-y-1'>
           <div className='flex flex-col gap-y-1'>
+        
             <div className='flex gap-x-3 items-center'>
-              <div className='h-8 w-8 rounded-full overflow-hidden cursor-pointer'>
+              <div className='h-12 w-12 rounded-full overflow-hidden cursor-pointer'>
                 <img
                   src={user?.avatar ? user.avatar : '/user.png'}
                   loading='lazy'
                   className='w-full h-full'
                   alt=''
                 />
+                
               </div>
-
-              <p className='text-sm'>
+              <div> 
+              <p className='font-bold'>
                 {user?.firstName || user?.lastName ? `${user?.firstName || ''} ${user?.lastName || ''}`.trim() : user?.email}
               </p>
+              <div className='text-sm text-gray-600'>Joined the system on {customFormatDD_MM_YYYY_HH_mm(user?.createdDate)}</div>
 
 
-
-
-              {user?.roles.map((role, index) => {
+              </div>
+              {/* {user?.roles.map((role, index) => {
                 return (
                   <span key={index}>
                     <span className='text-white lowercase text-xs bg-green-600 py-1 px-2 rounded-lg'>
@@ -47,7 +49,7 @@ export default function ProfileUserComponent() {
                     </span>
                   </span>
                 );
-              })}
+              })} */}
 
             </div>
 
@@ -55,16 +57,16 @@ export default function ProfileUserComponent() {
            
           </div>
 
-          <div className='text-sm'>Joined the system on {customFormatDD_MM_YYYY_HH_mm(user?.createdDate)}</div>
+          {/* <div className='text-sm'>Joined the system on {customFormatDD_MM_YYYY_HH_mm(user?.createdDate)}</div> */}
 
 
       </div>
       <hr className='my-6' />
 
-      <div className=''>
+      {/* <div className=''>
 
         <span className='font-medium uppercase text-sm'>Card set</span>
-      </div>
+      </div> */}
 
       <DecksProfileUserComponent />
     </div>

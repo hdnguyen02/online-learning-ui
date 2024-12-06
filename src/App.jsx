@@ -33,7 +33,7 @@ import GlobalGroups from "./page/GlobalGroups.jsx";
 import GlobalDecks from "./component/GlobalDecks.jsx";
 import GlobalDeck from "./page/GlobalDeck.jsx";
 import LearnCommonDeck from "./page/LearnCommonDeck.jsx";
-import OwnerCommonDecks from "./component/OwnerCommonDeck.jsx";
+// import OwnerCommonDecks from "./component/OwnerCommonDeck.jsx";
 import Admin from "./page/Admin.jsx";
 import Invoices from "./component/admin/Invoices.jsx";
 import Statistics from "./component/admin/Statistics.jsx";
@@ -48,11 +48,13 @@ import UsersTest from './component/admin/UsersTest.jsx'
 import GlobalDeckComponent from "feature/global-deck/global-deck.component.jsx";
 import GlobalDecksComponent from "feature/global-deck/global-decks.component.jsx";
 
-import ProfileUserComponent from "./feature/profile-user/profile-user.jsx";
+import ProfileUserComponent from "feature/profile-user/profile-user.jsx";
 
-import SettingComponent from "./feature/setting/setting.component.jsx";
-import InfoUserComponent from "./feature/setting/info-user.component.jsx";
+import SettingComponent from "feature/setting/setting.component.jsx";
+import InfoUserComponent from "feature/setting/info-user.component.jsx";
 
+
+import CommonDecksComponent from "feature/common-deck/common-decks.component.jsx";
 
 
 
@@ -102,7 +104,7 @@ function App() {
             </Route>
 
             <Route path="detail-owner/:id" element={<DetailClass></DetailClass>}>
-              <Route path="decks" element={<OwnerCommonDecks />} />
+              <Route path="decks" element={<CommonDecksComponent />} />
               <Route path="add-member" element={<AddMember />} />
               <Route path="members" element={<MembersOwnerClass />} />
               <Route path="comments" element={<CommentClass />} />
@@ -113,7 +115,7 @@ function App() {
               path="detail-attendance/:id"
               element={<DetailClass></DetailClass>}
             >
-              <Route path="decks" element={<OwnerCommonDecks />} />
+              <Route path="decks" element={<CommonDecksComponent />} />
               <Route path="members" element={<MembersAttendanceClass />} />
               <Route path="comments" element={<CommentClass />} />
               <Route path="assignments" element={<Assignments />} />

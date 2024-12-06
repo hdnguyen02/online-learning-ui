@@ -4,9 +4,12 @@ import { fetchData, showToastMessage, showToastError, customFormatDistanceToNow 
 import { ToastContainer } from "react-toastify"
 import Empty from './Empty'
 import Modal from 'react-modal'
+import { useTranslation } from "react-i18next"
 
 
 export default function MembersOwnerClass() {
+
+  const { t } = useTranslation(); 
 
   const [userGroups, setUserGroups] = useState();
 
@@ -90,14 +93,20 @@ export default function MembersOwnerClass() {
 
         <div className="flex justify-end">
           {location.pathname.includes("owner") && (
-            <button className="mb-4">
-              <img
-                onClick={() => setIsOpenModalInviteUser(true)}
-                src='/plus.png'
-                className='w-9'
-                alt=''
-              />
-            </button>
+      
+
+            <button onClick={() => setIsOpenModalInviteUser(true)} type="button" className="flex gap-x-2 items-center text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-lg text-sm px-5 py-2 text-center">
+              <i className="fa-solid fa-plus"></i>
+              <span>{t('ACTION.CREATE')}</span>
+            </button> 
+            
+
+
+
+
+            
+
+            
 
           )}
         </div>

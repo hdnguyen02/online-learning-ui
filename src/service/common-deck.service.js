@@ -4,6 +4,17 @@ import firebaseService from "./firebase.service";
 
 class CommonDeckService {
 
+    async deleteCommonDeck(id) { 
+        try { 
+            const subUrl = '/common-decks/' + id;
+            const {data: rawData} = await fetchData(subUrl, 'DELETE'); 
+            return rawData;
+        }
+        catch(error){ 
+            return null; 
+        }
+    }
+
 
     async getCommonDeck(id) {
         try {
@@ -72,6 +83,8 @@ class CommonDeckService {
         }
         
       }
+
+      
 
 }
 

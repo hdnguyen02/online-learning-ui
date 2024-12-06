@@ -72,7 +72,7 @@ export default function DecksProfileUserComponent() {
     decks && (
       <>
         {decks.length != 0 ? (
-          <div className="mt-4 mb-12 grid grid-cols-2 gap-12">
+          <div className="mt-4 mb-12 grid grid-cols-1 gap-12">
             {decks.map((deck, index) => (
               <div key={index}>
 
@@ -80,7 +80,7 @@ export default function DecksProfileUserComponent() {
                   {customFormatDistanceToNow(deck.createdDate)}
                 </span>
 
-                <div className="bg-gray-100 p-6 rounded-lg shadow mt-2 border">
+                <div className="bg-white p-6 rounded-lg shadow mt-2 border">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-x-4">
                       <div className="flex flex-col gap-y-2">

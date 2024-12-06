@@ -17,13 +17,13 @@ function Navbar() {
     !location.pathname.includes("admin")
   ) {
     return (
-      <nav className="bg-[#F0F6F6] h-16 px-4 md:px-48 flex justify-between items-center fixed left-0 right-0 top-0 z-10">
+      <nav className="bg-white h-16 px-4 md:px-48 flex justify-between items-center fixed left-0 right-0 top-0 z-10 border border-t">
         <div className="flex items-center gap-x-8 py-2">
           <Link
             to={"/"}
             className="text-blue-700 text-xl md:text-3xl font-bold"
           >
-            Quezlot
+            Online learning
           </Link>
 
           {/* dropdown */}
@@ -76,7 +76,7 @@ function Navbar() {
         </div>
     </div> */}
 
-          <div className="md:flex gap-x-4 lg:gap-x-8 text-xs uppercase font-medium">
+          <div className="md:flex gap-x-4 lg:gap-x-8 text-xs uppercase font-bold">
             <Link
               to={"/"}
               className={location.pathname === "/" ? "link-active flex items-center" : "flex items-center"}

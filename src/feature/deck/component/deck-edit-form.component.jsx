@@ -297,7 +297,8 @@ const DeckEditFormComponent = ({getDecks, isOpenEditDeck, onCloseEditDeck, idDec
             onRequestClose={onCloseEditDeck}
             style={{
                 overlay: {
-                    backgroundColor: "rgba(0, 0, 0, 0.5)",
+                    backgroundColor: "rgba(0, 0, 0, 0.6)",
+                    zIndex: 1000
                 },
                 content: {
                     top: "90px",
@@ -400,7 +401,7 @@ const DeckEditFormComponent = ({getDecks, isOpenEditDeck, onCloseEditDeck, idDec
                                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="description">
                                     {t('DECK.DESCRIPTION')}
                                 </label>
-                                <input
+                                <textarea
                                     onChange={(e) => setDeckUpdate({ ... deckUpdate, description: e.target.value })}
                                     value={deckUpdate?.description}
                                     className=" appearance-none border  w-full py-2 px-3 text-gray-700 mb-3 leading-tight" id="description" type="text" />

@@ -260,7 +260,8 @@ const DeckCreateForm = ({ getDecks }) => {
             onRequestClose={closeModal}
             style={{
                 overlay: {
-                    backgroundColor: "rgba(0, 0, 0, 0.5)",
+                    backgroundColor: "rgba(0, 0, 0, 0.6)",
+                    zIndex: 1000
                 },
                 content: {
                     top: "90px",
@@ -361,7 +362,7 @@ const DeckCreateForm = ({ getDecks }) => {
                                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="description">
                                     {t('DECK.DESCRIPTION')}
                                 </label>
-                                <input
+                                <textarea
                                     onChange={(e) => setInfoDeck({ ...infoDeck, description: e.target.value })}
                                     value={infoDeck.description}
                                     className=" appearance-none border  w-full py-2 px-3 text-gray-700 mb-3 leading-tight" id="description" type="text" />

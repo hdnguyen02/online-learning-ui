@@ -111,7 +111,10 @@ export default function CommentClass() {
         ></input> */}
         
 {/* <label for="message" class="block mb-2 text-sm font-medium text-gray-900">Your message</label> */}
-<textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..."></textarea>
+<textarea
+  onChange={e => setContentComment(e.target.value)}
+  value={contentComment}
+id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..."></textarea>
 
         <div className="flex justify-end">
           {/* <button
@@ -168,13 +171,13 @@ export default function CommentClass() {
                         {comment.user.email}
                       </span>
                       {/* content */}
-                      <div className="text-gray-800 font-medium flex gap-x-4">
+                      <div className="text-sm text-gray-800 font-medium flex gap-x-4">
                         <span>{comment.content}</span>{" "}
                         <button
                           onClick={() => showReplyComment(comment.id)}
                           className="flex gap-x-2 items-center"
                         >
-                          <span className="text-sm font-medium">Reply</span>
+                          <span className="text-sm">Reply</span>
                           <i className="fa-regular fa-message text-xs mt-1"></i>
                         </button>
                       </div>
@@ -188,7 +191,7 @@ export default function CommentClass() {
                     </div>
                   </div>
                   {/* Child comment */}
-                  <div className="ml-6">
+                  <div className="ml-4">
                     {comment.commentsChild.map((commentChild, index) => {
                       return (
                         <div key={index} className="mt-4">

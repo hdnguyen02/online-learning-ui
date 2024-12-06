@@ -167,7 +167,6 @@ const Decks = () => {
   }
 
   async function onOpenDetailDeck(id) {
-    alert("Open detail deck"); 
     setIsOpenDetailDeck(true);
     getDeck(id);
   }

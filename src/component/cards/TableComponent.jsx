@@ -139,14 +139,14 @@ const TableComponent = ({
               <div className="-m-1.5 overflow-x-auto">
                 <div className="p-1.5 min-w-full inline-block align-middle">
                   <div className="">
-                    <table {...getTableProps()} className="min-w-full">
+                    <table {...getTableProps()} className="min-w-full bg-white">
                       <thead>
                         {headerGroups.map((headerGroup) => (
                           <tr {...headerGroup.getHeaderGroupProps()}>
                             {headerGroup.headers.map((column) => (
                               <th
                                 {...column.getHeaderProps(column.getSortByToggleProps())}
-                                className={`py-2 px-3 bg-gray-50 ${column.width}`} // Áp dụng chiều rộng từ column.width
+                                className="py-4 px-3 bg-gray-200" // Áp dụng chiều rộng từ column.width
                               >
                                 <div className="flex items-center space-x-4 font-medium text-[14px]">
                                   { column.Header != "Action" && <span>{column.render("Header")}</span> }
@@ -199,7 +199,7 @@ const TableComponent = ({
                       gotoPage(0);
                       setCurrentPage(0);
                     }}
-                    className="h-9 w-full bg-transparent placeholder:text-slate-400 text-sm border border-slate-200 pl-3 pr-8 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 appearance-none cursor-pointer"
+                    className="h-9 w-full bg-white placeholder:text-slate-400 text-sm border border-slate-200 pl-3 pr-8 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 appearance-none cursor-pointer"
                   >
                     {[5, 10, 15, 20, 25].map((size) => (
                       <option key={size} value={size}>

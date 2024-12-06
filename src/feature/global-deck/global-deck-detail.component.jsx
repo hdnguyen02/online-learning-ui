@@ -1,26 +1,32 @@
 
+
+
 import Modal from "react-modal";
 import { useState } from "react"
 import { useTranslation } from 'react-i18next';
-import deckService from "../../../service/deck.service";
-import Slider from 'react-slick';
+import deckService from "service/deck.service";
 import { useEffect } from "react";
-import { v4 as uuidv4 } from 'uuid'; // Import v4 từ thư viện uuid
 import { ToastContainer } from "react-toastify";
-import { handleActionResult } from "../../../global";
 import Empty from "component/Empty";
+import { showToastMessage } from "../../global";
 
-const DeckDetailForm = ({ isOpenDetailDeck, onCloseDetailDeck, deck }) => {
-
+const GlobalDeckDetailComponent = ({ isOpenDetailDeck, onCloseDetailDeck, idDeckDetailSelected }) => {
 
     Modal.setAppElement("#root");
 
     const { t } = useTranslation();
     const [step, setStep] = useState(0);
 
-    const [languages, setLanguages] = useState([])
+    const [languages, setLanguages] = useState([]);
+
+    const [deck, setDeck] = useState();
 
 
+    const onCloneDeck = async () => { 
+        const isSuccess = deckService.cloneDeck(idDeckDetailSelected);
+        if (isSuccess) showToastMessage('Clone thành công!'); 
+        else showToastMessage('Đã có lỗi xảy ra');         
+    }
 
     const handleContinue = () => {
         setStep(1);
@@ -30,8 +36,8 @@ const DeckDetailForm = ({ isOpenDetailDeck, onCloseDetailDeck, deck }) => {
         setStep(0);
     }
 
-    const onPlayAudio = (id) => { 
-        const audio = document.getElementById(`audio-${id}`); 
+    const onPlayAudio = (id) => {
+        const audio = document.getElementById(`audio-${id}`);
         audio?.play();
     }
 
@@ -56,43 +62,26 @@ const DeckDetailForm = ({ isOpenDetailDeck, onCloseDetailDeck, deck }) => {
     }, []);
 
 
+    // viết hàm clone. 
 
 
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const rawData = await deckService.getDeck(idDeckDetailSelected);
+                setDeck(rawData);
+                setStep(0);
 
 
-    const settings = {
-        dots: true,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 5,
-        slidesToScroll: 5,
-        responsive: [
-            {
-                breakpoint: 1024,
-                settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 3,
-                },
-            },
-            {
-                breakpoint: 600,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                },
-            },
-        ],
-    };
+            } catch (error) {
+                console.error("Error fetching deck:", error);
+            }
+        };
 
-    const [infoDeck, setInfoDeck] = useState({
-        name: null,
-        description: null,
-        isPublic: false,
-        configLanguage: ""
-    });
-
-
-    const [cards, setCards] = useState([]);
+        if (idDeckDetailSelected) {
+            fetchData();
+        }
+    }, [idDeckDetailSelected]);
 
 
     return <div>
@@ -126,13 +115,13 @@ const DeckDetailForm = ({ isOpenDetailDeck, onCloseDetailDeck, deck }) => {
                 {/* title */}
                 <div className="flex items-center justify-between">
                     <h1 className="text-lg font-medium">Chi tiết bộ thẻ</h1>
-                   
-                    <button onClick={onCloseDetailDeck}  className="px-4">
-                    <i  className="fa-solid fa-xmark text-3xl cursor-pointer"></i>
+
+                    <button onClick={onCloseDetailDeck} className="px-4">
+                        <i className="fa-solid fa-xmark text-3xl cursor-pointer"></i>
                     </button>
-                
-                
-                
+
+
+
                 </div>
                 <hr className="mt-4" />
 
@@ -208,7 +197,7 @@ const DeckDetailForm = ({ isOpenDetailDeck, onCloseDetailDeck, deck }) => {
                                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="description">
                                     {t('DECK.DESCRIPTION')}
                                 </label>
-                                <textarea
+                                <input
 
                                     value={deck?.description}
                                     disabled
@@ -231,18 +220,13 @@ const DeckDetailForm = ({ isOpenDetailDeck, onCloseDetailDeck, deck }) => {
                                     </svg>
                                 </div>
 
+                                <button onClick={onCloneDeck} type="button" className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center">
+                                    <svg className="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z" /></svg>
+                                    <span>Clone</span>
+                                </button>
 
-                                <div className="flex gap-x-3">
-                                    <label className="inline-flex items-center cursor-pointer">
-                                        <input
-                                            checked={deck?.isPublic}
 
-                                            type="checkbox" className="sr-only peer" />
-                                        <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-                                        <span className="ms-3 text-sm font-medium text-gray-900">Public</span>
-                                    </label>
 
-                                </div>
                             </div>
                         </div>
                     </div>}
@@ -262,12 +246,7 @@ const DeckDetailForm = ({ isOpenDetailDeck, onCloseDetailDeck, deck }) => {
                                                         <div className="flex flex-col flex-1">
                                                             <input
                                                                 value={card.term}
-                                                                onChange={(e) => {
-                                                                    const updatedCards = cards.map(c =>
-                                                                        c.id === card.id ? { ...c, term: e.target.value } : c
-                                                                    );
-                                                                    setCards(updatedCards);
-                                                                }}
+
                                                                 className="bg-transparent py-1 rounded-none border-0 border-b-2 focus:border-green-500 border-gray-500 outline-none w-full"
                                                                 type="text"
                                                                 required
@@ -277,12 +256,7 @@ const DeckDetailForm = ({ isOpenDetailDeck, onCloseDetailDeck, deck }) => {
                                                         <div className="flex flex-col flex-1">
                                                             <input
                                                                 value={card.definition}
-                                                                onChange={(e) => {
-                                                                    const updatedCards = cards.map(c =>
-                                                                        c.id === card.id ? { ...c, definition: e.target.value } : c
-                                                                    );
-                                                                    setCards(updatedCards);
-                                                                }}
+
                                                                 required
                                                                 className="bg-transparent py-1 rounded-none border-0 border-b-2 border-gray-500 focus:border-green-500 outline-none w-full"
                                                                 type="text"
@@ -295,12 +269,7 @@ const DeckDetailForm = ({ isOpenDetailDeck, onCloseDetailDeck, deck }) => {
                                                                 className="bg-transparent py-1 rounded-none border-0 border-b-2 border-gray-500 focus:border-green-500 outline-none w-full"
                                                                 type="text"
                                                                 value={card.example}
-                                                                onChange={(e) => {
-                                                                    const updatedCards = cards.map(c =>
-                                                                        c.id === card.id ? { ...c, example: e.target.value } : c
-                                                                    );
-                                                                    setCards(updatedCards);
-                                                                }}
+
                                                             />
                                                             <label className="mt-2 text-xs uppercase text-gray-800 font-medium">Example</label>
                                                         </div>
@@ -393,4 +362,4 @@ const DeckDetailForm = ({ isOpenDetailDeck, onCloseDetailDeck, deck }) => {
 }
 
 
-export default DeckDetailForm; 
+export default GlobalDeckDetailComponent; 

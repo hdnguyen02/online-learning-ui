@@ -6,6 +6,17 @@ import { fetchData } from '../global';
 class DeckService {
 
 
+  async cloneDeck(id) {
+    try {
+      const subUrl = `/decks/${id}/clone`;
+      await fetchData(subUrl, 'POST');
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+
   async convertBlobUrlToBlob(blobUrl) {
     const response = await fetch(blobUrl);  // Tải dữ liệu từ URL blob
     const blob = await response.blob();     // Tạo Blob object từ response
@@ -52,12 +63,12 @@ class DeckService {
       return true;
     } catch (error) {
       console.error("An error occurred during the creation process:", error);
-      return false; 
+      return false;
     }
   }
-  
 
-  async update(data) { 
+
+  async update(data) {
 
     const { deck, cards } = data;
 
@@ -77,26 +88,26 @@ class DeckService {
       }
 
 
-      const cardsToSend = cards.map(card => { 
-        if (card.isOrigin == true) { 
-          return { 
-            id: card.id, 
+      const cardsToSend = cards.map(card => {
+        if (card.isOrigin == true) {
+          return {
+            id: card.id,
             term: card.term,
             definition: card.definition,
             example: card.example,
             image: card.image,
             audio: card.audio,
           }
-        } 
-        return { 
-            term: card.term,
-            definition: card.definition,
-            example: card.example,
-            image: card.image,
-            audio: card.audio,
-        } 
+        }
+        return {
+          term: card.term,
+          definition: card.definition,
+          example: card.example,
+          image: card.image,
+          audio: card.audio,
+        }
       })
-  
+
       const dataToSend = {
         id: deck.id,
         name: deck.name,
@@ -110,11 +121,11 @@ class DeckService {
       return true;
     } catch (error) {
       console.error("An error occurred during the creation process:", error);
-      return false; 
+      return false;
     }
-    
+
   }
-  
+
   async searchImages(query) {
     try {
       const response = await fetch(
@@ -190,13 +201,13 @@ class DeckService {
     }
   }
 
-  async deleteDeck(id) { 
+  async deleteDeck(id) {
     const subUrl = '/decks/' + id;
     try {
       await fetchData(subUrl, "DELETE");
       return true;
     } catch (error) {
-      return false; 
+      return false;
     }
   }
 }
