@@ -86,7 +86,7 @@ const Decks = () => {
           <button
             onClick={() => handleLearn(row.original.id)}
             disabled={row.original.quantityCards === 0}
-            className={`relative px-4 py-0.5 overflow-hidden font-medium text-indigo-600 bg-indigo-50 border border-gray-100 rounded-lg shadow-inner group 
+            className={`relative px-4 py-0.5 overflow-hidden font-medium text-indigo-600 bg-indigo-100 border border-gray-100 rounded shadow-inner group 
             ${row.original.quantityCards === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
             <span
@@ -110,6 +110,15 @@ const Decks = () => {
               Ôn tập
             </span>
           </button>
+
+          {/* <button
+            onClick={() => handleLearn(row.original.id)}
+            disabled={row.original.quantityCards === 0}
+            className="rounded-md bg-slate-800 py-0.5 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-2">
+              Ôn tập
+          </button> */}
+
+
 
           <button onClick={() => onOpenEditDeck(row.original.id)} className="ml-2">
             <i className="fa-regular fa-pen-to-square"></i>
@@ -214,7 +223,8 @@ const Decks = () => {
         onRequestClose={onCloseDeleteDeck}
         style={{
           overlay: {
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            backgroundColor: "rgba(0, 0, 0, 0.6)",
+            zIndex: 1000
           },
           content: {
             position: "absolute",

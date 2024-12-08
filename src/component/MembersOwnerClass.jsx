@@ -66,7 +66,11 @@ export default function MembersOwnerClass() {
     }
   }
 
-  const stylesModalInviteUser = {
+  const styleModal = {
+    overlay: {
+      backgroundColor: "rgba(0, 0, 0, 0.6)",
+      zIndex: 1000
+    },
     content: {
       width: '600px',
       height: '240px',
@@ -116,7 +120,7 @@ export default function MembersOwnerClass() {
           isOpen={isOpenModalInviteUser}
           onRequestClose={() => setIsOpenModalInviteUser(false)}
           contentLabel='Custom Modal'
-          style={stylesModalInviteUser}
+          style={styleModal}
         >
           <form onSubmit={handleInviteUser} className=''>
             <div className='flex justify-between items-center'>
@@ -144,9 +148,9 @@ export default function MembersOwnerClass() {
                 <input id='email' type="text" name="first-name" autocomplete="given-name" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
               </div>
 
-              {/* <hr className='my-4' /> */}
+
               <div className='mt-4 flex justify-end items-center'>
-                {/* checkbox public => công khai lớp hay không */}
+
                 <button
                   type='submit'
                   className='h-10 w-full items-center gap-x-2 px-8 text-sm text-center text-white font-bold rounded-md bg-primary sm:w-fit hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300'
@@ -156,6 +160,8 @@ export default function MembersOwnerClass() {
               </div>
             </div>
           </form>
+
+          
         </Modal>
 
         {userGroups.length != 0 ? (

@@ -6,6 +6,18 @@ import { fetchData } from '../global';
 class DeckService {
 
 
+  async getJoinCards(id, isOnlyFavorite) {
+    try {
+      const subUrl = `/decks/${id}/join-cards?isOnlyFavorite=${isOnlyFavorite}`;
+      const { data: rawData } = await fetchData(subUrl, 'GET');
+      return rawData;
+    }
+    catch (error) {
+      return null;
+    }
+  }
+
+
   async cloneDeck(id) {
     try {
       const subUrl = `/decks/${id}/clone`;

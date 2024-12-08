@@ -12,7 +12,7 @@ export default function YourLibrary() {
     return auth &&  <div className="group relative cursor-pointer">
 
         <div className="flex items-center justify-between space-x-2 bg-transparent">
-            <span className="menu-hover font-bold text-black uppercase text-xs">
+            <span className="menu-hover font-bold uppercase text-xs">
                 {t('NAVBAR.YOUR_LIBRARY')}
             </span>
             <span>

@@ -30,7 +30,7 @@ function GlobalFilter({ globalFilter, setGlobalFilter, getDecks }) {
 <div className="flex" aria-label="Breadcrumb">
   <ol className="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse cursor-pointer">
     <li className="inline-flex items-center">
-      <span className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
+      <span className="inline-flex items-center text-sm font-medium text-gray-700 dark:text-white hover:text-blue-600">
         <svg className="w-3 h-3 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
           <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z"/>
         </svg>
@@ -42,7 +42,7 @@ function GlobalFilter({ globalFilter, setGlobalFilter, getDecks }) {
         <svg className="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
           <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4"/>
         </svg>
-        <span className="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2">Bộ thẻ</span>
+        <span className="ms-1 text-sm font-medium text-gray-700 dark:text-white hover:text-blue-600 md:ms-2">Bộ thẻ</span>
       </div>
     </li>
    
@@ -75,7 +75,7 @@ function GlobalFilter({ globalFilter, setGlobalFilter, getDecks }) {
               value={globalFilter || ""}
               onChange={(e) => setGlobalFilter(e.target.value || undefined)}
               placeholder="Type to search..."
-              className="block w-full  px-4 h-10 ps-10 text-sm border border-gray-300 rounded-md bg-white focus:ring-blue-500 focus:border-blue-500"
+              className="block w-full  px-4 h-10 ps-10 text-sm border border-gray-300 rounded-md bg-white focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />
           </div>
         </div>
@@ -145,14 +145,14 @@ const TableComponent = ({
               <div className="-m-1.5 overflow-x-auto">
                 <div className="p-1.5 min-w-full inline-block align-middle">
                   <div className="">
-                    <table {...getTableProps()} className="min-w-full bg-white">
+                    <table {...getTableProps()} className="min-w-full bg-white dark:dark:bg-[#2E3856]">
                       <thead>
                         {headerGroups.map((headerGroup) => (
                           <tr {...headerGroup.getHeaderGroupProps()}>
                             {headerGroup.headers.map((column) => (
                               <th
                                 {...column.getHeaderProps(column.getSortByToggleProps())}
-                                className="py-4 px-3 bg-gray-200" // Áp dụng chiều rộng từ column.width
+                                className="py-4 px-3 bg-gray-200 dark:bg-[#ADD8E6]" // Áp dụng chiều rộng từ column.width
                               >
                                 <div className="flex items-center space-x-4 font-medium text-[14px]">
                                   { column.Header != "Action" && <span>{column.render("Header")}</span> }
@@ -167,13 +167,13 @@ const TableComponent = ({
                         ))}
                       </thead>
 
-                      <tbody {...getTableBodyProps()} className="divide-y divide-gray-200 min-h-[240px]">
+                      <tbody {...getTableBodyProps()} className="divide-y divide-gray-200 dark:divide-none min-h-[240px]">
                         {page.map((row) => {
                           prepareRow(row);
                           return (
                             <tr {...row.getRowProps()} className="hover:bg-gray-100 h-12 divide-y divide-gray-100">
                               {row.cells.map((cell) => (
-                                <td {...cell.getCellProps()} className="whitespace-nowrap text-sm text-gray-800 h-12 px-3">
+                                <td {...cell.getCellProps()} className="whitespace-nowrap text-sm h-12 px-3">
                                   {cell.render("Cell")}
                                 </td>
                               ))}

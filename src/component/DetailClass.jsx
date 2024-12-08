@@ -31,8 +31,9 @@ export default function DetailClass() {
     detailClass && (
       <div>
 
-        <h3 className="font-medium text-2xl text-[#282E3E]">{detailClass.name}</h3>
-        {/* <p className="text-sm text-[#282E3E]">{detailClass.description}</p> */}
+        <h3 className="font-bold text-2xl">{detailClass.name}</h3>
+        <p className="mt-4 text-sm">Create by {detailClass.owner.email}</p>
+        <p className="mt-4 text-sm text-gray-600">Mô tả: {detailClass.description}</p> 
         {/* <div className="flex items-center gap-x-3 mt-2">
           <div onClick={() => setShowProfile(!showProfile)} className='h-10 w-10 rounded-full overflow-hidden cursor-pointer'>
             <img src={detailClass.owner.avatar ? detailClass.owner.avatar : '/user.png'} loading="lazy" className='w-full h-full' alt='' />

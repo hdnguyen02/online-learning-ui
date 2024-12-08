@@ -316,10 +316,10 @@ const DeckEditFormComponent = ({getDecks, isOpenEditDeck, onCloseEditDeck, idDec
             }}
         >
 
-            <form onSubmit={onSubmit}>
+            <form onSubmit={onSubmit} className="">
                 {/* title */}
                 <div className="flex items-center justify-between">
-                    <h1 className="text-lg font-medium">Hiệu chỉnh bộ thẻ</h1>
+                    <h1 className="text-lg font-medium dark:text-white">Hiệu chỉnh bộ thẻ</h1>
                    
                     <button onClick={onCloseEditDeck} className="px-4">
                     <i  className="fa-solid fa-xmark text-3xl cursor-pointer"></i>
@@ -643,7 +643,8 @@ const DeckEditFormComponent = ({getDecks, isOpenEditDeck, onCloseEditDeck, idDec
                 onRequestClose={closeChooseImage}
                 style={{
                     overlay: {
-                        backgroundColor: "rgba(0, 0, 0, 0.5)",
+                        backgroundColor: "rgba(0, 0, 0, 0.6)",
+                        zIndex: 10000
                     },
                     content: {
                         top: "214px",
@@ -696,7 +697,8 @@ const DeckEditFormComponent = ({getDecks, isOpenEditDeck, onCloseEditDeck, idDec
                 onRequestClose={closeChooseAudio}
                 style={{
                     overlay: {
-                        backgroundColor: "rgba(0, 0, 0, 0.5)",
+                        backgroundColor: "rgba(0, 0, 0, 0.6)",
+                        zIndex: 10000
                     },
                     content: {
                         top: "214px",

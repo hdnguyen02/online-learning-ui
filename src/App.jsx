@@ -55,10 +55,8 @@ import InfoUserComponent from "feature/setting/info-user.component.jsx";
 
 
 import CommonDecksComponent from "feature/common-deck/common-decks.component.jsx";
-
-
-
-
+import PrepareCardComponent from "feature/card/prepare-card.component.jsx";
+import JoinCardComponent from "feature/card/join-card.component.jsx";
 
 
 function App() {
@@ -134,8 +132,12 @@ function App() {
 
           <Route path="/my-decks" element={<Deck />}>
             <Route path="" element={<Decks />} />
-            <Route path=":id/learn-cards" element={<FlipCard />} />
+            <Route path=":id/learn-cards" element={<PrepareCardComponent />} />
+            {/* <Route path=":id/learn-cards/join" element={<JoinCardComponent />} /> */}
           </Route>
+
+          <Route path="/my-decks/:id/learn-cards/join" element={<JoinCardComponent />} />
+
 
           <Route path="/my-cards" element={<Card />}>
             <Route path="" element={<Cards />} />
