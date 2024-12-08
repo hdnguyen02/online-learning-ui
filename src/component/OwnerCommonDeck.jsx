@@ -159,7 +159,7 @@ export default function OwnerCommonDecks() {
 
 
       {commonDecks ? (
-        <div className="mb-8 grid grid-cols-2 gap-8">
+        <div className="mb-8 grid grid-cols-2 gap-8 bg-white dark:bg-[#2E3856]">
           {commonDecks.map((commonDeck, index) => (
             <div key={index} className="flex justify-between gap-x-6 p-5 border rounded-lg">
               <div className="flex min-w-0 gap-x-4">

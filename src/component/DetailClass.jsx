@@ -33,7 +33,7 @@ export default function DetailClass() {
 
         <h3 className="font-bold text-2xl">{detailClass.name}</h3>
         <p className="mt-4 text-sm">Create by {detailClass.owner.email}</p>
-        <p className="mt-4 text-sm text-gray-600">Mô tả: {detailClass.description}</p> 
+        <p className="mt-4 text-sm text-gray-600 dark:text-gray-300">Mô tả: {detailClass.description}</p> 
         {/* <div className="flex items-center gap-x-3 mt-2">
           <div onClick={() => setShowProfile(!showProfile)} className='h-10 w-10 rounded-full overflow-hidden cursor-pointer'>
             <img src={detailClass.owner.avatar ? detailClass.owner.avatar : '/user.png'} loading="lazy" className='w-full h-full' alt='' />
@@ -152,7 +152,7 @@ export default function DetailClass() {
           </div>
         </div>
 
-        <hr className="my-8" />
+        <hr className="my-8 dark:opacity-10" />
 
         <Outlet />
 

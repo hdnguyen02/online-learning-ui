@@ -81,17 +81,17 @@ export default function GlobalDecksComponent() {
     },
   }
 
-  const [isOpenDetailDeck, setIsOpenDetailDeck] = useState(); 
+  const [isOpenDetailDeck, setIsOpenDetailDeck] = useState();
 
-  const onCloseDetailDeck = () => { 
-    setIsOpenDetailDeck(false); 
+  const onCloseDetailDeck = () => {
+    setIsOpenDetailDeck(false);
   }
 
   const onOpenDetailDeck = (id) => {
-    setIdDeckDetailSelected(id); 
+    setIdDeckDetailSelected(id);
     setIsOpenDetailDeck(true);
   }
-  const [idDeckDetailSelected, setIdDeckDetailSelected] = useState(); 
+  const [idDeckDetailSelected, setIdDeckDetailSelected] = useState();
 
   return (
     globalDecks && (
@@ -100,7 +100,7 @@ export default function GlobalDecksComponent() {
           <div className="flex" aria-label="Breadcrumb">
             <ol className="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse cursor-pointer">
               <li className="inline-flex items-center">
-                <span className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
+                <span className="dark:text-white inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
                   <svg className="w-3 h-3 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                     <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z" />
                   </svg>
@@ -112,7 +112,7 @@ export default function GlobalDecksComponent() {
                   <svg className="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4" />
                   </svg>
-                  <span className="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2">Bộ thẻ</span>
+                  <span className="dark:text-white ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2">Bộ thẻ</span>
                 </div>
               </li>
 
@@ -123,7 +123,7 @@ export default function GlobalDecksComponent() {
               <div className='relative'>
                 <div className='absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none'>
                   <svg
-                    className='w-4 h-4 text-gray-500'
+                    className='w-4 h-4 text-gray-500 dark:text-white'
                     aria-hidden='true'
                     xmlns='http://www.w3.org/2000/svg'
                     fill='none'
@@ -144,7 +144,7 @@ export default function GlobalDecksComponent() {
                   }}
                   type='search'
                   id='globalDecks-search'
-                  className='block w-full  px-4 h-10 ps-10 text-sm text-gray-900 border border-gray-300 rounded-md bg-gray-50 focus:ring-blue-500 focus:border-blue-500'
+                  className='dark:text-white dark:bg-gray-700 dark:border-none dark:outline-none block w-full  px-4 h-10 ps-10 text-sm text-gray-900 border border-gray-300 rounded-md bg-gray-50 focus:ring-blue-500 focus:border-blue-500'
                   placeholder='Name, description...'
                 />
               </div>
@@ -152,23 +152,26 @@ export default function GlobalDecksComponent() {
           </div>
         </div>
 
-        <hr className='my-8'></hr>
+        <hr className='my-8 dark:opacity-10'></hr>
 
         {globalDecks.length != 0 ? (
           <div className='mb-12 grid grid-cols-2 gap-12'>
             {globalDecks.map((deck, index) => (
-              <div index={index}>
-                <span className='text-sm text-gray-800'>{customFormatDistanceToNow(deck.createdDate)}</span>
-                <div className="shadow mt-3 flex justify-between gap-x-6 py-5 border p-4 rounded-lg bg-white">
+              <div index={index} className=''>
+                <span className='text-sm text-gray-800 dark:text-white'>{customFormatDistanceToNow(deck.createdDate)}</span>
+                <div className="shadow mt-3 flex justify-between gap-x-6 py-5 border dark:border-none p-4 rounded-lg bg-white  dark:bg-[#2E3856]">
                   <div className="flex min-w-0 gap-x-4">
                     <img className="size-12 flex-none rounded-full bg-gray-50" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
                     <div className="min-w-0 flex-auto">
-                      <p className="text-sm/6 font-semibold text-gray-900 uppercase">{deck.name}</p>
+                      <p className="text-sm/6 font-semibold text-gray-900 dark:text-white uppercase truncate">
+                        {deck.name}
+                      </p>
 
-                      <Link className="mt-1 truncate text-xs/5 text-gray-500 underline" to={`/users/${deck.user.id}`}
+
+                      <p className="mt-1 truncate text-xs/5 text-gray-500 dark:text-white" to={`/users/${deck.user.id}`}
                       >
                         {deck.user.email}
-                      </Link>
+                      </p>
                     </div>
                   </div>
                   <div className="flex gap-x-3 items-center font-medium">
@@ -177,18 +180,20 @@ export default function GlobalDecksComponent() {
 
                       <div className="mt-1 flex gap-x-2 items-center">
                         {deck.quantityClones}
-                        <img src="/src/assets/image/download.png" className='w-3 h-3' alt="" />
+                        {/* <img src="/src/assets/image/download.png" className='w-3 h-3' alt="" /> */}
+                        <i class="fa-solid fa-download"></i>
                       </div>
 
                       <div className="mt-1 flex gap-x-2 items-center">
                         {deck.quantityCards}
-                        <img src="/src/assets/image/money.png" className='w-4 h-4' alt="" />
+                        {/* <img src="/src/assets/image/money.png" className='w-4 h-4' alt="" /> */}
+                        <i class="fa-regular fa-id-card"></i>
                       </div>
 
                     </div>
 
 
-                    <button onClick={() => onOpenDetailDeck(deck.id)} type='button' className='rounded-md bg-slate-800 py-1.5 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-2'>
+                    <button onClick={() => onOpenDetailDeck(deck.id)} type='button' className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-1.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800'>
                       Detail
                     </button>
 
@@ -224,9 +229,9 @@ export default function GlobalDecksComponent() {
 
         <GlobalDeckDetailComponent
 
-        isOpenDetailDeck={isOpenDetailDeck}
-        onCloseDetailDeck={onCloseDetailDeck}
-        idDeckDetailSelected={idDeckDetailSelected}
+          isOpenDetailDeck={isOpenDetailDeck}
+          onCloseDetailDeck={onCloseDetailDeck}
+          idDeckDetailSelected={idDeckDetailSelected}
         />
 
 

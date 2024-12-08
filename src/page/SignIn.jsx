@@ -52,14 +52,14 @@ export default function SignIn() {
         <form onSubmit={handleSignIn} className="mt-12">
           {/* Email Input */}
           <div className="mb-6">
-            <label htmlFor="email" className="block text-gray-600 text-sm font-medium">
-              Email<span className="text-red-500 ml-1">*</span>
+            <label htmlFor="email" className="block dark:text-white text-gray-600 text-sm font-medium">
+              Email<span className=" text-red-500 ml-1">*</span>
             </label>
             <div className="relative mt-2">
               <input
                 onChange={e => setEmail(e.target.value)}
                 type="email"
-                className="block w-full rounded-md bg-white px-10 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                className="dark:bg-[#2E3856] dark:text-white dark:outline-none dark:border-none block w-full rounded-md bg-white px-10 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
                 required
               />
               <span className="absolute left-3 top-1.5 text-gray-400">
@@ -70,7 +70,7 @@ export default function SignIn() {
 
           {/* Password Input */}
           <div className="mb-6">
-            <label htmlFor="password" className="font-medium block text-gray-600 mb-2 text-sm">
+            <label htmlFor="password" className="font-medium block dark:text-white text-gray-600 mb-2 text-sm">
             {t('LOGIN.PASSWORD')}
               <span className="text-red-500 ml-1">*</span>
             </label>
@@ -83,7 +83,7 @@ export default function SignIn() {
                 onChange={e => setPassword(e.target.value)}
                 type={isShowPassword ? 'text' : 'password'} // Toggle between text and password
                 id="password"
-                className="block w-full rounded-md bg-white px-10 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                className="dark:bg-[#2E3856] dark:text-white dark:outline-none dark:border-none block w-full rounded-md bg-white px-10 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
                 required
               />
               <span
@@ -91,7 +91,7 @@ export default function SignIn() {
                 className='cursor-pointer absolute top-1/2 right-4 transform -translate-y-1/2 text-gray-400'
               >
                 {isShowPassword ? (
-                  <i className="fa-solid fa-eye-slash"></i>
+                  <i className="fa-solid fa-eye-slash text-xs"></i>
                 ) : (
                   <i className="fa-solid fa-eye"></i>
                 )}
@@ -108,7 +108,7 @@ export default function SignIn() {
                 name="remember"
                 className="text-blue-500"
               />
-              <label htmlFor="remember" className="text-gray-600 ml-2 text-sm">
+              <label htmlFor="remember" className="text-gray-600 dark:text-white ml-2 text-sm">
                 Remember me
               </label>
             </div>

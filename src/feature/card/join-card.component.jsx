@@ -1,6 +1,6 @@
 import cardService from "service/card.service"
 import deckService from "service/deck.service";
-import { useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import { useEffect, useRef, useState } from "react";
 import Modal from "react-modal";
 
@@ -207,7 +207,7 @@ export default function JoinCardComponent() {
                     {isAudio ? <i className="fa-solid fa-volume-high"></i> : <i className="fa-solid fa-volume-xmark"></i>}
                 </button>
                 <button onClick={onOpenSetting} className="border py-2 px-3 rounded-lg">Tùy chọn</button>
-                <button className="border py-2 rounded-lg px-4"><i className="fa-solid fa-xmark"></i></button>
+                <Link to={`/my-decks/${params.id}/learn-cards`} className="border py-2 rounded-lg px-4"><i className="fa-solid fa-xmark"></i></Link>
             </div>
 
         </div>
@@ -217,7 +217,7 @@ export default function JoinCardComponent() {
                 <img src="/src/assets/image/match_hero.webp" className="w-32" alt="" />
                 <span className="text-2xl font-bold">Bạn đã sẵn sàng?</span>
                 <span className="w-80 text-center">Hãy ghép tất cả thuật ngữ với định nghĩa của chúng nhanh nhất có thể. Tránh ghép sai, vì bạn sẽ bị phạt thêm thời gian!</span>
-                <button onClick={onStart} type="button" className="rounded-lg bg-[#423ED8] font-medium px-32 py-6">Bắt đầu chơi</button>
+                <button onClick={onStart} type="button" className="rounded-lg bg-[#423ED8] font-medium px-32 py-6 text-white">Bắt đầu chơi</button>
             </div>
         }
 
@@ -228,7 +228,7 @@ export default function JoinCardComponent() {
                         {joinCardElements.map((joinCardElement, index) => {
                             return (
                                 <div key={index} onClick={() => onClickElement(joinCardElement.id)} id={`join-card-element-${joinCardElement.id}`}
-                                    className={`cursor-pointer dark:bg-[#2E3856] w-full h-44 flex items-center justify-center rounded-lg ${joinCardElement.isCorrect ? "join-card-is-correct" : ""} ${joinCardElement.isSelected ? "join-card-is-selected" : ""}`}
+                                    className={`cursor-pointer bg-gray-100 dark:bg-[#2E3856] w-full h-44 flex items-center justify-center rounded-lg ${joinCardElement.isCorrect ? "join-card-is-correct" : ""} ${joinCardElement.isSelected ? "join-card-is-selected" : ""}`}
                                 >
                                     <span className="text-xl">{joinCardElement.content}</span>
 
@@ -249,7 +249,7 @@ export default function JoinCardComponent() {
                 <div className="flex flex-col gap-y-6">
                     <span className="text-3xl font-bold">Bạn thật cừ! Liệu bạn có thể ghép nhanh hơn nữa?</span>
                     <span className="font-medium">Hãy thử đánh bại kỷ lục <em>{showTime} giây</em> của bản thân.</span>
-                    <button onClick={onRePlay} className="rounded-lg bg-[#423ED8] font-medium px-6 py-3 w-40">
+                    <button onClick={onRePlay} className="text-white rounded-lg bg-[#423ED8] font-medium px-6 py-3 w-40">
                         Chơi lại
                     </button>
                 

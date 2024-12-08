@@ -135,13 +135,13 @@ const TableComponent = ({
         setGlobalFilter={setGlobalFilter}
         getDecks={getDecks}
       />
-      <hr className="my-8"></hr>
+      <hr className="my-8 dark:opacity-10"></hr>
 
       {
         data.length != 0 ? (
           <div className="">
 
-            <div className="flex flex-col border rounded">
+            <div className="flex flex-col border dark:border-none rounded">
               <div className="-m-1.5 overflow-x-auto">
                 <div className="p-1.5 min-w-full inline-block align-middle">
                   <div className="">
@@ -152,12 +152,12 @@ const TableComponent = ({
                             {headerGroup.headers.map((column) => (
                               <th
                                 {...column.getHeaderProps(column.getSortByToggleProps())}
-                                className="py-4 px-3 bg-gray-200 dark:bg-[#ADD8E6]" // Áp dụng chiều rộng từ column.width
+                                className="py-4 px-3 bg-gray-200 dark:bg-gray-700" // Áp dụng chiều rộng từ column.width
                               >
                                 <div className="flex items-center space-x-4 font-medium text-[14px]">
                                   { column.Header != "Action" && <span>{column.render("Header")}</span> }
                                   {
-                                    column.Header != "Action" && <img src="/src/assets/image/sort.png" className="w-4 h-4" alt="Sort icon" />
+                                    column.Header != "Action" && <i class="fa-solid fa-arrows-up-down"></i>
                                   }
 
                                 </div>
@@ -171,7 +171,7 @@ const TableComponent = ({
                         {page.map((row) => {
                           prepareRow(row);
                           return (
-                            <tr {...row.getRowProps()} className="hover:bg-gray-100 h-12 divide-y divide-gray-100">
+                            <tr {...row.getRowProps()} className="hover:bg-gray-100 dark:hover:bg-[#0A092D] h-12 divide-y divide-gray-100 dark:divide-y-0">
                               {row.cells.map((cell) => (
                                 <td {...cell.getCellProps()} className="whitespace-nowrap text-sm h-12 px-3">
                                   {cell.render("Cell")}
@@ -205,7 +205,7 @@ const TableComponent = ({
                       gotoPage(0);
                       setCurrentPage(0);
                     }}
-                    className="h-9 w-full bg-white placeholder:text-slate-400 text-sm border border-slate-200 pl-3 pr-8 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 appearance-none cursor-pointer"
+                    className="dark:bg-[#2E3856] dark:border-none h-9 w-full bg-white placeholder:text-slate-400 text-sm border border-slate-200 pl-3 pr-8 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 appearance-none cursor-pointer"
                   >
                     {[5, 10, 15, 20, 25].map((size) => (
                       <option key={size} value={size}>
@@ -213,27 +213,17 @@ const TableComponent = ({
                       </option>
                     ))}
                   </select>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.2"
-                    stroke="currentColor"
-                    className="h-5 w-5 absolute top-2 right-4 text-slate-700"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
-                    />
-                  </svg>
+                  <svg className="absolute h-5 w-5 top-[8.5px] right-4 fa-solid fa-circle-chevron-down" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
+                    stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                </svg>
                 </div>
                 <ul className="inline-flex -space-x-px text-sm">
                   <li>
                     <button
                       onClick={() => previousPage()}
                       disabled={!canPreviousPage}
-                      className="flex items-center justify-center px-3 h-9 ms-0 leading-tight bg-white border border-e-0 border-gray-300 hover:bg-gray-100 hover:text-gray-700"
+                      className="flex items-center justify-center px-3 h-9 ms-0 leading-tight bg-white dark:bg-[#2E3856] dark:border-none dark:hover:bg-[#2E3856] dark:hover:text-white border border-e-0 border-gray-300 hover:bg-gray-100 hover:text-gray-700"
                     >
                       Previous
                     </button>
@@ -244,7 +234,7 @@ const TableComponent = ({
                         onClick={() => handlePageClick(index)}
                         className={`flex items-center justify-center px-4 h-9 leading-tight border 
                     ${currentPage === index
-                            ? "bg-blue-500 text-white border-blue-500"
+                            ? "bg-blue-500 text-white border-blue-500 dark:border-none"
                             : "bg-white border-gray-300 hover:bg-gray-100 hover:text-gray-700"
                           }`}
                       >
@@ -258,7 +248,7 @@ const TableComponent = ({
                     <button
                       onClick={() => nextPage()}
                       disabled={!canNextPage}
-                      className="flex items-center justify-center px-3 h-9 leading-tight  bg-white border border-gray-300  hover:bg-gray-100 hover:text-gray-700"
+                      className="flex items-center justify-center px-3 h-9 ms-0 leading-tight bg-white dark:bg-[#2E3856] dark:border-none dark:hover:bg-[#2E3856] dark:hover:text-white border  border-gray-300 hover:bg-gray-100 hover:text-gray-700"
                     >
                       Next
                     </button>

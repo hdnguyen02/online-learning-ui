@@ -24,7 +24,7 @@ function GlobalFilter({ globalFilter, setGlobalFilter, getCards, decks }) {
         <div className="flex" aria-label="Breadcrumb">
           <ol className="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse cursor-pointer">
             <li className="inline-flex items-center">
-              <span className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
+              <span className="dark:text-white inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
                 <svg className="w-3 h-3 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                   <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z" />
                 </svg>
@@ -36,7 +36,7 @@ function GlobalFilter({ globalFilter, setGlobalFilter, getCards, decks }) {
                 <svg className="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
                 </svg>
-                <span className="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2">Thẻ</span>
+                <span className="dark:text-white ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2">Thẻ</span>
               </div>
             </li>
 
@@ -51,7 +51,7 @@ function GlobalFilter({ globalFilter, setGlobalFilter, getCards, decks }) {
           <div className='relative'>
             <div className='absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none'>
               <svg
-                className='w-4 h-4 text-gray-500'
+                className='w-4 h-4 text-gray-500 dark:text-white'
                 aria-hidden='true'
                 xmlns='http://www.w3.org/2000/svg'
                 fill='none'
@@ -70,7 +70,7 @@ function GlobalFilter({ globalFilter, setGlobalFilter, getCards, decks }) {
               value={globalFilter || ''}
               onChange={(e) => setGlobalFilter(e.target.value || undefined)}
               placeholder='Type to search...'
-              className='block w-full  px-4 h-10 ps-10 text-sm text-gray-900 border border-gray-300 rounded-md bg-gray-50 focus:ring-blue-500 focus:border-blue-500'
+              className='dark:bg-gray-700 dark:outline-none dark:border-none dark:text-white block w-full  px-4 h-10 ps-10 text-sm text-gray-900 border border-gray-300 rounded-md bg-gray-50 focus:ring-blue-500 focus:border-blue-500'
             />
           </div>
         </div>

@@ -32,7 +32,8 @@ export default function ForgotPW() {
             }
             console.log(body)
             const {message} = await fetchData(subUrl, 'POST', body)
-            showToastMessage(message)
+            showToastMessage(message); 
+            
             }
             catch (error) {
                 const {message} = error
@@ -47,21 +48,21 @@ export default function ForgotPW() {
                 <h1 className='font-medium text-3xl'>Reset your password</h1>
                 <p>Reset password and confirm password, please do not share this link with anyone!</p>
                 <div>
-                    <label className='text-sm' htmlFor="email">Password</label>
+                    <label className='text-sm' htmlFor="email">Password<span className='text-red-500'>*</span></label>
                     <input
                         onChange={event => setNewPassword(event.target.value)}
                         type="password"
-                        className="w-full rounded-md py-2 px-3 mt-2"
+                        className="mt-2 dark:bg-[#2E3856] dark:text-white dark:outline-none dark:border-none block w-full rounded-md bg-white px-4 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
                         required
                         minLength={6}
                     />
                 </div>
                 <div>
-                    <label className='text-sm' htmlFor="email">Confirm password</label>
+                    <label className='text-sm' htmlFor="email">Confirm password<span className='text-red-500'>*</span></label>
                     <input
                         onChange={event => setConfirmPassword(event.target.value)}
                         type="password"
-                        className="w-full rounded-md py-2 px-3 mt-2"
+                        className="mt-2 dark:bg-[#2E3856] dark:text-white dark:outline-none dark:border-none block w-full rounded-md bg-white px-4 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
                         required
                         minLength={6}
                     />

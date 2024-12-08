@@ -47,7 +47,7 @@ export default function PrepareCardComponent() {
         <h3 className="font-bold text-gray-700 dark:text-[#F6F7FB] text-3xl">{deck?.name}</h3>
         <div className="mt-8 font-medium">
             <div>
-                <span>Trò chơi và hoạt động</span>
+                <span className="text-gray-800 dark:text-white">Trò chơi và hoạt động</span>
                 <div style={{ fontWeight: "400" }} className="mt-6 flex gap-x-5 text-sm">
                     <Link to={`/my-decks/${params.id}/learn-cards/join`} className="bg-[#F6F7FB] dark:bg-[#2E3856] py-6 px-14 flex items-center flex-col rounded-lg cursor-pointer">
                         <img src="/src/assets/image/digital_14210185.png" className="w-9 h-9" alt="" />
@@ -68,16 +68,16 @@ export default function PrepareCardComponent() {
             </div>
 
             <div className="mt-12">
-                <span className="font-bold">Thuật ngữ cho học phần này ({deck?.quantityCards})</span>
+                <span className="font-bold text-gray-800 dark:text-white">Thuật ngữ cho học phần này ({deck?.quantityCards})</span>
 
 
 
-                <div className="mt-6 bg-[#F6F7FB] dark:bg-[#0A092D]">
+                <div className="mt-6 bg-[#F6F7FB] dark:bg-[#0A092D] p-4 dark:p-0">
 
 
                     {
                         deck?.cards.map((card, index) => {
-                            return <div key={index} className="h-16 mt-3 px-6 py-1 bg-white dark:bg-[#2E3856] rounded flex items-center">
+                            return <div key={index} className="h-16 mt-3 px-6 py-1 bg-white dark:bg-[#2E3856] text-gray-800 dark:text-white rounded flex items-center">
                                 <div style={{ fontWeight: "400" }} className="w-1/5 border-r border-gray-300">
                                     {card.term}
                                 </div>

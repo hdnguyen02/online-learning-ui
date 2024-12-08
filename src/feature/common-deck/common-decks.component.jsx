@@ -248,7 +248,7 @@ export default function CommonDecksComponent() {
             />
           </button> */}
 
-          <button onClick={() => setIsOpenCreateCommonDeck(true)} type="button" className="flex gap-x-2 items-center text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-lg text-sm px-5 py-2 text-center">
+          <button onClick={() => setIsOpenCreateCommonDeck(true)} type="button" className="dark:text-white dark:border-white flex gap-x-2 items-center text-blue-700 border border-blue-700 focus:outline-none font-medium rounded-lg text-sm px-5 py-2 text-center">
             <i className="fa-solid fa-plus"></i>
             <span>{t('ACTION.CREATE')}</span>
           </button> 
@@ -259,7 +259,7 @@ export default function CommonDecksComponent() {
       {commonDecks ? (
         <div className="mb-8 grid grid-cols-2 gap-8">
           {commonDecks.map((commonDeck, index) => (
-            <div key={index} className="flex justify-between gap-x-6 p-5 border rounded-lg">
+            <div key={index} className="flex justify-between gap-x-6 p-5 border rounded-lg bg-white dark:bg-[#2E3856] dark:border-none">
               <div className="flex min-w-0 gap-x-4">
                 <img
                   className="h-12 w-12 flex-none rounded-full bg-gray-50"
@@ -267,13 +267,13 @@ export default function CommonDecksComponent() {
                   alt=""
                 />
                 <div className="min-w-0 flex-auto">
-                  <p className="text-sm font-semibold leading-6 text-gray-900">
+                  <p className="text-sm font-semibold leading-6 text-gray-900 dark:text-white">
                     {commonDeck.name}
                   </p>
                   {/* <p className="mt-1 truncate text-xs leading-5 text-gray-500">
                                 {ownerClass.owner.email}
                             </p> */}
-                  <span className="text-gray-800 text-sm">
+                  <span className="text-gray-800 dark:text-white text-sm">
                     {customFormatDistanceToNow(commonDeck.createdDate)}
                   </span>
                 </div>
@@ -284,18 +284,19 @@ export default function CommonDecksComponent() {
                   {commonDeck.quantityCards} card
                 </span>
                 <button onClick={() => onDeleteCommonDeck(commonDeck.id)}>
-                  <img
+                  {/* <img
                     src="/src/assets/image/delete.png"
                     className="w-4 h-4"
                     alt=""
-                  />
+                  /> */}
+                  <i class="fa-solid fa-trash"></i>
                 </button>
                 <button onClick={() => onOpenUpdateCommonDeck(commonDeck.id)} className="text-sm leading-6 text-gray-900">
-                  <span className="underline">Edit</span>
+                  <span className="underline dark:text-white">Edit</span>
                 </button>
                 <button onClick={() => onOPenDetailCommonDeck(commonDeck.id)}
 
-                  className="text-sm leading-6 text-gray-900"
+                  className="text-sm leading-6 text-gray-900 dark:text-white"
                 >
                   <span className="underline">Detail</span>
                 </button>

@@ -35,16 +35,14 @@ function SignUpComponent() {
 
   return (
     <div className="flex justify-center items-center h-screen overflow-y-hidden">
-      <div className="w-2/3 lg:block h-screen">
-        <img src="https://cdn.pixabay.com/photo/2016/02/16/21/07/books-1204029_1280.jpg" alt="login" loading="lazy" className="object-cover w-full h-full" />
-      </div>
+      
       <div className="lg:p-36 md:p-52 sm:20 p-8 w-full lg:w-1/2">
         <h1 className="text-3xl font-semibold mb-4 text-center">Sign up</h1>
         <form onSubmit={handleSignUp} className='mt-12'>
       
           {/* Email Input */}
           <div className="mb-6">
-            <label htmlFor="email" className="block text-gray-600 text-sm mb-1">
+            <label htmlFor="email" className="dark:text-white block text-gray-600 text-sm mb-1">
               Email <span className="text-red-500">*</span>
             </label>
             <div className="relative mt-2">
@@ -52,10 +50,10 @@ function SignUpComponent() {
                 onChange={e => setEmail(e.target.value)}
                 type="email"
                 id="email"
-                className="w-full rounded-md py-2 px-3 pl-10"
+                className="dark:bg-[#2E3856] dark:text-white dark:outline-none dark:border-none block w-full rounded-md bg-white px-10 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
                 required
               />
-              <span className="absolute left-3 top-2.5 text-gray-400">
+              <span className="absolute left-3 top-1.5 text-gray-400">
                 <i className="fa-regular fa-envelope"></i>
               </span>
             </div>
@@ -63,18 +61,18 @@ function SignUpComponent() {
 
           {/* Password Input */}
           <div className="mb-6">
-            <label htmlFor="password" className="block text-gray-600 text-sm mb-1">
-              Password <span className="text-red-500">*</span>
+            <label htmlFor="password" className="dark:text-white block text-gray-600 text-sm mb-1">
+              Mật khẩu <span className="text-red-500">*</span>
             </label>
             <div className="relative mt-2">
               <input
                 onChange={e => setPassword(e.target.value)}
                 type="password"
                 id="password"
-                className="w-full rounded-md py-2 px-3 pl-10"
+                className="dark:bg-[#2E3856] dark:text-white dark:outline-none dark:border-none block w-full rounded-md bg-white px-10 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
                 required
               />
-              <span className="absolute left-3 top-2.5 text-gray-400">
+              <span className="absolute left-3 top-1.5 text-gray-400">
                 <i className="fa-solid fa-lock"></i>
               </span>
             </div>
@@ -91,7 +89,7 @@ function SignUpComponent() {
                 id="isRemember" 
                 className="text-blue-500" 
               />
-              <label htmlFor="isRemember" className="text-gray-600 ml-2 text-sm">Remember me</label>
+              <label htmlFor="isRemember" className="text-gray-600 dark:text-white ml-2 text-sm">Remember me</label>
             </div>
             <Link to='/forgot-password' className="hover:underline text-sm text-blue-500">Forgot password</Link>
           </div>
@@ -110,6 +108,9 @@ function SignUpComponent() {
         Sign in
       </Link>
     </div>
+      </div>
+      <div className="w-2/3 lg:block h-screen">
+        <img src="https://cdn.pixabay.com/photo/2016/02/16/21/07/books-1204029_1280.jpg" alt="login" loading="lazy" className="object-cover w-full h-full" />
       </div>
       
       <ToastContainer />

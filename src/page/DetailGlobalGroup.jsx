@@ -47,7 +47,7 @@ export default function DetailGlobalClass() {
         {/* Chi tiết lớp học */}
 
 
-        <h3 className="font-medium text-2xl text-[#282E3E]">{group.name}</h3>
+        <h3 className="font-medium text-2xl">{group.name}</h3>
 
 
         <div className="mt-8 flex justify-between items-center">
@@ -62,15 +62,7 @@ export default function DetailGlobalClass() {
                     <span className="text-gray-400 text-xs font-light">Created by</span>
                     <div className="flex gap-x-2 items-center">
                         <span className="font-medium">{group.owner.firstName + " " + group.owner.lastName}</span>
-                        {/* roles */}
-                        { 
-                            group.owner.roles.map((role, index) => { 
-                            return <span className="lowercase text-xs bg-gray-300 p-1 rounded-lg">
-                                    {role}
-                                </span>
-                            })
-                        }
-                        {/* <span className="text-xs bg-[#EDEFFF] p-1 rounded-lg">Giáo viên</span> */}
+                       
                     </div>
                     <span className="text-gray-400 text-xs font-light">{customFormatDistanceToNow(group.createdDate)}</span>
 
@@ -81,12 +73,7 @@ export default function DetailGlobalClass() {
 
             </div>
             <div>
-                <button type="button" className="h-10 text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-3 text-center me-2 mb-2">
-                    <i className="fa-regular fa-share-from-square"></i>
-                    <span className="ml-1">Share</span>
-
-
-                </button>
+                
                 <button onClick={handleJoinGroup} type="button" className="w-22  text-white bg-[#1D4ED8] hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">
                     Join
                 </button>
@@ -106,14 +93,9 @@ export default function DetailGlobalClass() {
 
             <div>
                 <div className="flex flex-col gap-y-3">
-                    <span className="text-sm uppercase text-gray-700">Invitation link</span>
-                    <div className="flex gap-x-3 items-center">
-                        <span className="text-blue-600 bg-[#F0F6F6] rounded-lg px-2 py-2">
-                            onlinelearning.com/invite/a2g2d
-                        </span>
-                        <img src="/copy.png" className="w-6 h-6" alt="" />
-                    </div>
-                    <span className="mt-2 text-sm uppercase text-gray-700">Group detail</span>
+                    
+                   
+                    <span className="mt-2 text-gray-700 dark:text-white font-bold">Group detail</span>
                     <div className="flex gap-x-3 items-center">
                         <span className="w-4"><i className="fa-solid fa-users"></i></span>
                         

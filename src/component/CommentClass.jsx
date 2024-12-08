@@ -114,7 +114,8 @@ export default function CommentClass() {
 <textarea
   onChange={e => setContentComment(e.target.value)}
   value={contentComment}
-id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..."></textarea>
+  required
+id="message" rows="4" class="dark:bg-[#2E3856] dark:text-white dark:border-none dark:outline-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Write your thoughts here..."></textarea>
 
         <div className="flex justify-end">
           {/* <button
@@ -124,7 +125,7 @@ id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50
           </button> */}
 
 
-          <button
+          {/* <button
                       className="relative px-5 py-1 overflow-hidden font-medium text-indigo-600 bg-indigo-50 border border-gray-100 rounded-lg shadow-inner group">
                       <span
                         className="absolute top-0 left-0 w-0 h-0 transition-all duration-200 border-t-2 border-indigo-600 group-hover:w-full ease"></span>
@@ -139,6 +140,10 @@ id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50
                       <span
                         className="relative text-base font-semibold transition-colors duration-300 delay-100 group-hover:text-white ease">
                         Comment</span>
+                    </button> */}
+
+                    <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-1.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                          Comment
                     </button>
 
 
@@ -154,7 +159,7 @@ id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50
                 <div key={index} className="mt-6">
                   <div className="flex items-center gap-x-2">
                     {/* avatar */}
-                    <div className="dropdown-btn h-9 w-9 rounded-full overflow-hidden cursor-pointer">
+                    <div className="dropdown-btn h-[38px] w-[38px] rounded-full overflow-hidden cursor-pointer">
                       <img
                         src={
                           comment.user.avatar
@@ -167,11 +172,11 @@ id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50
                     </div>
                     <div className="flex flex-col gap-y-0.5">
                       {/* fullname email */}
-                      <span className="text-sm text-gray-800">
+                      <span className="text-sm text-gray-800 dark:text-white">
                         {comment.user.email}
                       </span>
                       {/* content */}
-                      <div className="text-sm text-gray-800 font-medium flex gap-x-4">
+                      <div className="text-sm text-gray-800 dark:text-white font-medium flex gap-x-4">
                         <span>{comment.content}</span>{" "}
                         <button
                           onClick={() => showReplyComment(comment.id)}
@@ -246,7 +251,7 @@ id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50
               onChange={handleChangeContentCommentReply}
               required
               type="text"
-              className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+              className="dark:bg-[#2E3856] dark:text-white block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
             />
             <div className="flex justify-end">
               {/* <button type="submit"

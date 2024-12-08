@@ -107,22 +107,25 @@ const DeckDetailForm = ({ isOpenDetailDeck, onCloseDetailDeck, deck }) => {
                     zIndex: 1000
                 },
                 content: {
-                    top: "90px",
+                    top: "0",
                     left: "0",
                     right: "0",
                     bottom: "auto",
-                    height: "calc(100% - 120px)",
-                    maxWidth: "90%",
+                    height: "100vh",
+                    maxWidth: "100%",
                     margin: "0 auto",
-                    padding: "20px 40px",
-                    borderRadius: "8px",
+                    // padding: "20px 40px",
+                    borderRadius: "0px",
+                    padding: "0px", 
+
                     display: "flex",
                     flexDirection: "column",
+                    borderWidth: "0px"
                 },
             }}
         >
 
-            <form>
+            <form className="bg-white dark:bg-[#0A092D] h-full px-10 py-8">
                 {/* title */}
                 <div className="flex items-center justify-between">
                     <h1 className="text-lg font-medium">Chi tiết bộ thẻ</h1>
@@ -134,10 +137,10 @@ const DeckDetailForm = ({ isOpenDetailDeck, onCloseDetailDeck, deck }) => {
                 
                 
                 </div>
-                <hr className="mt-4" />
+                {/* <hr className="mt-4" /> */}
 
                 {/*  steps */}
-                <div className="mt-3 relative">
+                <div className="mt-12 relative">
                     <ol className="flex items-center w-full justify-between relative">
                         {/* Step 1 */}
                         <li className={`flex items-center w-full relative z-10 ${step === 0 ? 'text-blue-600' : 'text-gray-500'}`}>
@@ -186,33 +189,34 @@ const DeckDetailForm = ({ isOpenDetailDeck, onCloseDetailDeck, deck }) => {
 
 
                 {/* content */}
-                <div className="flex-1 mt-4">
+                <div className="flex-1 mt-8">
 
                     {step == 0 && <div>
 
                         <div className="relative rounded-md">
 
                             <div className="mb-4">
-                                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
+                                <label className="dark:text-white block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
                                     {t('DECK.NAME')} <span className="text-red-500">*</span>
                                 </label>
 
                                 <input
                                     value={deck?.name}
                                     disabled
-                                    className="appearance-none border  w-full py-2 px-3 text-gray-700 leading-tight" id="username" type="text"
+                                    className="dark:border-none dark:rounded-md dark:text-white appearance-none border  w-full py-2 px-3 text-gray-700 leading-tight" id="username" type="text"
                                     required
+                                    autoComplete="off"
                                 />
                             </div>
                             <div className="mb-6">
-                                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="description">
+                                <label className="dark:text-white block text-gray-700 text-sm font-bold mb-2" htmlFor="description">
                                     {t('DECK.DESCRIPTION')}
                                 </label>
                                 <textarea
 
                                     value={deck?.description}
                                     disabled
-                                    className=" appearance-none border  w-full py-2 px-3 text-gray-700 mb-3 leading-tight" id="description" type="text" />
+                                    className="dark:border-none dark:rounded-md dark:text-white appearance-none border  w-full py-2 px-3 text-gray-700 mb-3 leading-tight" id="description" type="text" />
                             </div>
 
 
@@ -222,7 +226,7 @@ const DeckDetailForm = ({ isOpenDetailDeck, onCloseDetailDeck, deck }) => {
                                         value={deck?.configLanguage}
                                         required
                                         disabled
-                                        className="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow-md appearance-none cursor-pointer">
+                                        className="dark:text-white dark:border-none dark:bg-[#2E3856] w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow-md appearance-none cursor-pointer">
                                         <option value="" disabled>Choose a language</option>
                                         {languages.map((language, index) => (<option key={index} value={language.hl}>{language.value}</option>))}
                                     </select>
@@ -248,7 +252,7 @@ const DeckDetailForm = ({ isOpenDetailDeck, onCloseDetailDeck, deck }) => {
                     </div>}
 
                     {step == 1 && <div>
-                        <div className="mt-6 relative overflow-y-scroll max-h-[340px] h-[340px]">
+                        <div className="mt-6 relative overflow-y-scroll max-h-[380px] h-[380px]">
 
                             <div id="container-form-card" className="flex flex-col gap-y-6">
                                 {
@@ -272,7 +276,7 @@ const DeckDetailForm = ({ isOpenDetailDeck, onCloseDetailDeck, deck }) => {
                                                                 type="text"
                                                                 required
                                                             />
-                                                            <label className="mt-2 text-xs text-gray-800 font-medium uppercase">Thuật ngữ<span className="text-red-500">*</span></label>
+                                                            <label className="dark:text-white mt-2 text-xs text-gray-800 font-medium uppercase">Thuật ngữ<span className="text-red-500">*</span></label>
                                                         </div>
                                                         <div className="flex flex-col flex-1">
                                                             <input
@@ -287,7 +291,7 @@ const DeckDetailForm = ({ isOpenDetailDeck, onCloseDetailDeck, deck }) => {
                                                                 className="bg-transparent py-1 rounded-none border-0 border-b-2 border-gray-500 focus:border-green-500 outline-none w-full"
                                                                 type="text"
                                                             />
-                                                            <label className="mt-2 text-xs uppercase text-gray-800 font-medium">Định nghĩa<span className="text-red-500">*</span></label>
+                                                            <label className="dark:text-white mt-2 text-xs uppercase text-gray-800 font-medium">Định nghĩa<span className="text-red-500">*</span></label>
                                                         </div>
 
                                                         <div className="flex flex-col flex-1">
@@ -302,7 +306,7 @@ const DeckDetailForm = ({ isOpenDetailDeck, onCloseDetailDeck, deck }) => {
                                                                     setCards(updatedCards);
                                                                 }}
                                                             />
-                                                            <label className="mt-2 text-xs uppercase text-gray-800 font-medium">Example</label>
+                                                            <label className="dark:text-white mt-2 text-xs uppercase text-gray-800 font-medium">Example</label>
                                                         </div>
 
 
@@ -362,7 +366,7 @@ const DeckDetailForm = ({ isOpenDetailDeck, onCloseDetailDeck, deck }) => {
                 </div>
 
                 {/* footer */}
-                <div className="flex justify-end mt-auto pt-4 border-t absolute bottom-4 left-0 right-4">
+                <div className="px-6 pb-6 flex justify-end mt-auto pt-4 border-none absolute bottom-4 left-0 right-4">
                     <div className="flex gap-x-3">
                         {
                             step == 0 && <button onClick={handleContinue}

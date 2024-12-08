@@ -2,7 +2,7 @@ import Empty from "./Empty";
 export default function MembersGroup({ members }) {
   return (
     <div>
-      <h3 className="uppercase text-sm text-gray-700">Member</h3>
+      <h3 className="text-sm text-gray-700 dark:text-white">Member</h3>
 
       {/*  danh sách thành viên */}
 

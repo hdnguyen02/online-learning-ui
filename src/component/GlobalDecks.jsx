@@ -122,7 +122,7 @@ export default function GlobalDecks() {
           </div>
         </div>
 
-        <hr className='my-8'></hr>
+        <hr className='my-8 dark:opacity-10'></hr>
 
         {decks.length != 0 ? (
           <div className='mb-12 grid grid-cols-2 gap-12'>
@@ -260,7 +260,7 @@ export default function GlobalDecks() {
                 </div>
               </div>
 
-              <hr className='my-4' />
+              <hr className='my-4 dark:opacity-10' />
 
               <table className='w-full text-sm text-left rtl:text-right text-gray-500 h-[100px] overflow-y-scroll'>
                 <thead className='text-sm text-gray-700 uppercase'>

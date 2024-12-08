@@ -17,12 +17,12 @@ function Navbar() {
     !location.pathname.includes("admin") && 
     !location.pathname.includes("learn-cards/join")
   ) {
-    return (
-      <nav className="dark:bg-[#0A092D] h-16 px-4 md:px-48 flex justify-between items-center fixed left-0 right-0 top-0 z-10 border border-t dark:border-none">
+    return (  
+      <nav className="dark:bg-[#0A092D] bg-white h-16 px-4 md:px-48 flex justify-between items-center fixed left-0 right-0 top-0 z-10 border border-t dark:border-none">
         <div className="flex items-center gap-x-8 py-2">
           <Link
             to={"/"}
-            className="text-xl md:text-2xl font-bold dark:text-[#FF7043]"
+            className="text-xl md:text-2xl font-bold text-blue-600 dark:text-[#FF7043]"
           >
             Online learning
           </Link>
@@ -132,13 +132,13 @@ function Navbar() {
             <div className="mr-14 md:mr-0 flex gap-x-3">
               <Link
                 to="sign-in"
-                className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+                className="dark:text-white dark:border-white bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
               >
                 Sign in
               </Link>
               <Link
                 to="sign-up"
-                className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
+                className="dark:bg-blue-600 dark:text-white dark:border-none bg-white text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
               >
                 Sign up
               </Link>

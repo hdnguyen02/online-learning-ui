@@ -52,15 +52,7 @@ function SignUp() {
 
 
   return (<div className="flex justify-center items-center h-screen overflow-y-hidden">
-    {/* Left: Image */}
-    <div className="w-1/2 hidden lg:block h-screen">
-      <img
-        src="/touann-gatouillat-vergos-dSBJv66Yjlk-unsplash.jpg"
-        alt="login image"
-        loading="lazy"
-        className="object-cover w-full h-full"
-      />
-    </div>
+   
     {/* Right: Login Form */}
     <div className="lg:p-36 md:p-52 sm:20 p-8 w-full lg:w-1/2">
       <h1 className="text-2xl font-semibold mb-4">Sign up</h1>
@@ -71,7 +63,7 @@ function SignUp() {
         <div className='flex gap-x-8'>
           {/* Firstname Input */}
           <div className="mb-4 w-full">
-            <label htmlFor="password" className="block text-gray-600 mb-2">
+            <label htmlFor="password" className="block text-gray-600">
               Firstname
             </label>
             <div className='relative'>
@@ -181,6 +173,15 @@ function SignUp() {
           Sign in
         </Link>
       </div>
+    </div>
+     {/* Left: Image */}
+     <div className="w-1/2 hidden lg:block h-screen">
+      <img
+        src="/touann-gatouillat-vergos-dSBJv66Yjlk-unsplash.jpg"
+        alt="login image"
+        loading="lazy"
+        className="object-cover w-full h-full"
+      />
     </div>
     <ToastContainer />
   </div>)

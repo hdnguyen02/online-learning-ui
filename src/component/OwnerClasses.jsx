@@ -203,7 +203,7 @@ export default function OwnerClasses() {
                 {ownerClasses.map((ownerClass, index) => (
 
 
-                    <div key={index} className=" bg-white shadow flex justify-between gap-x-6 p-5 border rounded-lg">
+                    <div key={index} className=" bg-white dark:bg-[#2E3856] dark:border-none shadow flex justify-between gap-x-6 p-5 border rounded-lg">
                         <div className="flex min-w-0 gap-x-4">
                             <img
                                 className="h-12 w-12 flex-none rounded-full bg-gray-50"
@@ -211,13 +211,13 @@ export default function OwnerClasses() {
                                 alt=""
                             />
                             <div className="min-w-0 flex-auto">
-                                <p className="text-sm font-semibold leading-6 text-gray-900">
+                                <p className="text-sm font-semibold leading-6 text-gray-800 dark:text-white">
                                     {ownerClass.name}
                                 </p>
                                 {/* <p className="mt-1 truncate text-xs leading-5 text-gray-500">
                                 {ownerClass.owner.email}
                             </p> */}
-                                <span className="text-gray-600 text-sm">
+                                <span className="text-gray-600 dark:text-gray-200 text-sm">
                                     {customFormatDistanceToNow(ownerClass.createdDate)}
                                 </span>
                             </div>
@@ -231,18 +231,18 @@ export default function OwnerClasses() {
                                 />
                             </button> */}
 
-                            <button onClick={() => onDeleteGroup(ownerClass.id)} type="button" class="flex gap-x-2 items-center focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded text-sm px-5 py-1.5 me-2">
+                            <button onClick={() => onDeleteGroup(ownerClass.id)} type="button" class="flex gap-x-2 items-center focus:outline-none text-white focus:ring-4 focus:ring-red-300 font-medium rounded text-sm px-5 py-2.5 me-2">
                                 <i className="fa-solid fa-trash"></i>
-                                <span>Delete</span>
+                                {/* <span>Delete</span> */}
                                 
                             </button>
                             <button onClick={() => onOpenUpdateGroup(ownerClass.id)}
-                                className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-4 border border-blue-500 hover:border-transparent rounded">
+                                className="dark:border-white  dark:text-white dark:hover:bg-transparent bg-transparent hover:bg-blue-500 text-blue-700 text-sm hover:text-white py-1 px-4 border border-blue-500  rounded">
                                 Edit
                             </button>
                             <Link
                                 to={"/groups/detail-owner/" + ownerClass.id + "/members"}
-                                className="rounded-md bg-slate-800 py-1.5 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-2"
+                                className="rounded-md bg-blue-800 py-1.5 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-blue-700 focus:shadow-none active:bg-blue-700 hover:bg-blue-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-2"
                             >
                                 Detail
                             </Link>
@@ -258,7 +258,7 @@ export default function OwnerClasses() {
 
 
 
-        <button onClick={onOpenCreateGroup} type="button" className="flex gap-x-2 items-center text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-lg text-sm px-5 py-2 text-center">
+        <button onClick={onOpenCreateGroup} type="button" className="dark:border-white dark:text-white dark:hover:bg-transparent flex gap-x-2 items-center text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-lg text-sm px-5 py-2 text-center">
             <i className="fa-solid fa-plus"></i>
             <span>{t('ACTION.CREATE')}</span>
         </button>
