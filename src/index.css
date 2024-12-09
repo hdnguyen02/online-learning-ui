@@ -151,3 +151,21 @@ html {
 }
 
 /* Định nghĩa animation shake */
+
+
+/* custom.css */
+:root {
+  --color-x-axis: #333333; /* Light Mode */
+  --color-y-axis: #333333;
+  --tooltip-bg: #ffffff;
+  --tooltip-text: #000000;
+  --legend-text: #333333;
+}
+
+.dark {
+  --color-x-axis: #ffffff; /* Dark Mode */
+  --color-y-axis: #ffffff;
+  --tooltip-bg: #1f2937; /* Dark Gray */
+  --tooltip-text: #ffffff;
+  --legend-text: #ffffff;
+}

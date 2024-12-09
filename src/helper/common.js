@@ -11,3 +11,7 @@ export function commonFormatddMMYYYYHHmm(isoDateString) {
     const date = parseISO(isoDateString)
     return format(date, ' HH:mm dd/MM/yyyy')
 }
+
+export function commonFormatYYYYMMdd(isoDateString) { 
+    
+}

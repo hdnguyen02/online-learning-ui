@@ -41,15 +41,7 @@ export default function ProfileUserComponent() {
 
 
               </div>
-              {/* {user?.roles.map((role, index) => {
-                return (
-                  <span key={index}>
-                    <span className='text-white lowercase text-xs bg-green-600 py-1 px-2 rounded-lg'>
-                      {role}
-                    </span>
-                  </span>
-                );
-              })} */}
+            
 
             </div>
 
@@ -63,10 +55,6 @@ export default function ProfileUserComponent() {
       </div>
       <hr className='my-6' />
 
-      {/* <div className=''>
-
-        <span className='font-medium uppercase text-sm'>Card set</span>
-      </div> */}
 
       <DecksProfileUserComponent />
     </div>

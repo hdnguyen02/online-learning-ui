@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SignUpComponent from "./feature/sign-up/sign-up.component.jsx"
 import Settings from "./page/Settings";
 // import InfoUser from "./component/InfoUser";
-import ChangePW from "./component/ChangePW";
+// import ChangePW from "./component/ChangePW";
 import ForgotPW from "./page/Forgot-PW";
 import ResetPW from "./page/ResetPW";
 import PrivateRoutes from "./helper/PrivateRoutes";
@@ -48,15 +48,17 @@ import UsersTest from './component/admin/UsersTest.jsx'
 import GlobalDeckComponent from "feature/global-deck/global-deck.component.jsx";
 import GlobalDecksComponent from "feature/global-deck/global-decks.component.jsx";
 
-import ProfileUserComponent from "feature/profile-user/profile-user.jsx";
+// import ProfileUserComponent from "feature/profile-user/profile-user.jsx";
 
 import SettingComponent from "feature/setting/setting.component.jsx";
-import InfoUserComponent from "feature/setting/info-user.component.jsx";
+import ProfileUserComponent from "feature/setting/profile-user.component.jsx";
 
 
 import CommonDecksComponent from "feature/common-deck/common-decks.component.jsx";
 import PrepareCardComponent from "feature/card/prepare-card.component.jsx";
 import JoinCardComponent from "feature/card/join-card.component.jsx";
+
+import PassWordUserComponent from "feature/setting/password-user.component.jsx";
 
 
 function App() {
@@ -68,7 +70,7 @@ function App() {
           <Route path="/admin" element={<Admin />}>
             <Route path="" element={<UsersTest />}/>
             <Route path="users" element={<UsersTest/>}/>
-            <Route path="invoices" element={<Invoices />}/>
+            {/* <Route path="invoices" element={<Invoices />}/> */}
             <Route path="statistics" element={<Statistics />}/>
           </Route>
 
@@ -146,8 +148,8 @@ function App() {
 
           {/* settings */}
           <Route path="/settings" element={<SettingComponent />}>
-            <Route path="profile" element={<InfoUserComponent />} />
-            {/* <Route path="password" element={<ChangePW />} /> */}
+            <Route path="profile" element={<ProfileUserComponent />} />
+            <Route path="password" element={<PassWordUserComponent />} />
           </Route>
 
           {/* profile */}

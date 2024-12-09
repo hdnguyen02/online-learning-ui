@@ -5,7 +5,8 @@ import { ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import ModalEditDeck from "../ModalEditDeck";
 import ModalConfirmDeleteDeck from "../ModalConfirmDeleteDeck";
-import { commonformatDistanceToNow } from "../../helper/common";
+
+import { customFormatDistanceToNow } from "../../global";
 
 const Users = () => {
   const [data, setData] = useState([]);
@@ -88,7 +89,7 @@ const Users = () => {
       {
         Header: "Created At",
         accessor: "createAt",
-        Cell: ({ value }) => commonformatDistanceToNow(value),
+        Cell: ({ value }) => customFormatDistanceToNow(value),
       },
       {
         Header: "Enable",
