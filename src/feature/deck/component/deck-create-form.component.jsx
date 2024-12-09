@@ -234,7 +234,7 @@ const DeckCreateForm = ({ getDecks }) => {
     }
 
 
-    const onPlayAudio = () => { 
+    const onPlayAudio = () => {
         const selectedCard = cards.find(card => card.id === idCardSelected);
         if (!selectedCard.audio) return
         const audio = new Audio(selectedCard.audio); // Tạo đối tượng Audio với URL blob
@@ -244,6 +244,9 @@ const DeckCreateForm = ({ getDecks }) => {
     const onDeleteCard = (cardId) => {
         setCards(cards.filter(card => card.id !== cardId));
     }
+
+    const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
 
 
     return <div>
@@ -264,16 +267,16 @@ const DeckCreateForm = ({ getDecks }) => {
                     zIndex: 1000
                 },
                 content: {
-                    top: "0",
+                    top: "60px",
                     left: "0",
                     right: "0",
                     bottom: "auto",
-                    height: "100vh",
-                    maxWidth: "100%",
+                    height: "calc(100vh - 90px)",
+                    maxWidth: "92%",
                     margin: "0 auto",
                     // padding: "20px 40px",
                     borderRadius: "0px",
-                    padding: "0px", 
+                    padding: "0px",
 
                     display: "flex",
                     flexDirection: "column",
@@ -282,20 +285,20 @@ const DeckCreateForm = ({ getDecks }) => {
             }}
         >
 
-            <form onSubmit={onSubmit} className="bg-white dark:bg-[#0A092D] h-full px-10 py-8">
+            <form onSubmit={onSubmit} className="bg-white dark:bg-[#0A092D] h-full px-10 py-4">
                 {/* title */}
                 <div className="flex items-center justify-between">
                     <h1 className="text-lg font-medium text-gray-800 dark:text-white">Tạo bộ thẻ</h1>
                     <button onClick={closeModal} className="px-4">
-                    <i  className="fa-solid fa-xmark text-3xl cursor-pointer"></i>
+                        <i className="fa-solid fa-xmark text-3xl cursor-pointer"></i>
                     </button>
-                    
+
                 </div>
                 <hr className="mt-4 dark:opacity-10" />
 
                 {/*  steps */}
                 <div className="mt-12 relative">
-                <ol className="flex items-center w-full justify-between relative">
+                    <ol className="flex items-center w-full justify-between relative">
                         {/* Step 1 */}
                         <li className={`flex items-center w-full relative z-10 ${step === 0 ? 'text-blue-600' : 'text-gray-500'}`}>
                             <span className={`flex items-center justify-center w-10 h-10 ${step === 0 ? 'bg-blue-100' : 'bg-gray-100'} rounded-full lg:h-12 lg:w-12 shrink-0`}>
@@ -373,11 +376,7 @@ const DeckCreateForm = ({ getDecks }) => {
 
 
                             <div className="flex gap-x-8">
-                                {/* <div>
-                                    <select id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                                        
-                                    </select>
-                                </div> */}
+
 
                                 <div className="relative">
                                     <select
@@ -418,7 +417,7 @@ const DeckCreateForm = ({ getDecks }) => {
                     {step == 1 && <div>
 
 
-                        <div className="mt-6 relative overflow-y-scroll max-h-[380px] h-[380px]">
+                        <div className="mt-6 relative overflow-y-scroll max-h-[320px] h-[320px]">
 
                             <div id="container-form-card" className="flex flex-col gap-y-6">
                                 {
@@ -480,7 +479,7 @@ const DeckCreateForm = ({ getDecks }) => {
 
 
                                                     </div>
-                                                   
+
                                                     {/* file upload */}
                                                     {/* upload image */}
                                                     <input type="file" id={`imageInput-${card.id}`} accept="image/*" onChange={(e) =>
@@ -549,11 +548,11 @@ const DeckCreateForm = ({ getDecks }) => {
                 </div>
 
                 {/* footer */}
-                
+
                 <div className="mx-6 pb-6 flex justify-end mt-auto pt-4 border-t dark:border-none absolute bottom-4 left-0 right-4">
-                                    
+
                     <div className="flex gap-x-3">
-                   
+
                         {
                             step == 0 && <button onClick={handleContinue}
                                 disabled={isButtonContinueDisabled}

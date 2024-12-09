@@ -2,39 +2,37 @@
 import { createContext, useState, useContext, useEffect } from 'react'
 import { fetchData } from '../global'
 
-const AuthContext = createContext()
+const AuthContext = createContext(); 
 
-// eslint-disable-next-line react/prop-types
 export const AuthProvider = ({ children }) => {
 
 
-  const [auth, setAuth] = useState(false)
+  const [auth, setAuth] = useState(false);
 
   useEffect(() => { 
-    const accessToken = localStorage.getItem('accessToken')
+    const accessToken = localStorage.getItem('accessToken');
     if (accessToken) { 
-      checkAuth()
+      checkAuth();
     }
     else { 
-      console.log("Not check Auth")
-      setAuth(null)
+      setAuth(null);
     }
-  }, [])
+  }, []);
 
-  // -> logout -> xóa token
+ 
   async function signOut() { 
-    localStorage.clear()
-    setAuth(false)
+    localStorage.clear();
+    setAuth(false);
   }
 
   async function checkAuth() {
-    const subUrl = '/users'
+    const subUrl = '/users';
     try {
       const {data: rawData} = await fetchData(subUrl, 'GET');
       setAuth(rawData); 
     }
     catch (error) {
-      setAuth(null)
+      setAuth(null);
     }
   }
 
@@ -55,8 +53,8 @@ export const AuthProvider = ({ children }) => {
 }
 
 const useAuth = () => {
-  return useContext(AuthContext)
+  return useContext(AuthContext);
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
-export default useAuth
+
+export default useAuth;

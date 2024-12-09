@@ -2,6 +2,7 @@ import { toast } from "react-toastify";
 import config from "./config";
 import { parseISO, format, formatDistanceToNow } from 'date-fns'
 
+
 export const baseUrl = "/api/v1"; // URL tương đối
 
 
@@ -137,5 +138,13 @@ export function customFormatDD_MM_YYYY_HH_mm(isoDateString) {
 
     catch (error) {
         return null;
+    }
+}
+
+export function customFormatYYY_MM_DD(isoDateString) { 
+    try { 
+        return format(parseISO(isoDateString), "yyyy-MM-dd"); // Thêm định dạng ở đây
+    } catch (error) { 
+        return null; 
     }
 }

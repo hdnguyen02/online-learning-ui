@@ -1,135 +1,245 @@
 import { useState, useEffect } from "react";
-import { fetchData, showToastError, showToastMessage } from "../../global";
-import Empty from "../Empty";
-import { ToastContainer } from "react-toastify";
-import { commonformatDistanceToNow } from "../../helper/common";
-import {
-  ResponsiveContainer,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  Rectangle,
-} from "recharts";
+import { fetchData, showToastError } from "../../global";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Brush } from 'recharts';
+
+import { format, subMonths } from 'date-fns';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
 
 export default function Statistics() {
-  const [revenues, setRevenues] = useState() 
-  const [commonStatistics, setCommonStatistics] = useState()
+  const [commonStatistics, setCommonStatistics] = useState();
+  const [statisticsUsersDecks, setStatisticsUsersDecks] = useState();
 
-  async function getStatistics() {
-    const subUrl = "/admin/statistics";
+
+  const [startDateStatisticDecksUsers, setStartDateStatisticDecksUsers] = useState(null);
+  const [endDateStatisticDecksUsers, setEndDateStatisticDecksUsers] = useState(null);
+
+  async function getCommonStatistics() {
+    const subUrl = "/admin/common-statistics";
     try {
       const { data } = await fetchData(subUrl, "GET");
-      setRevenues(data);
-
+      setCommonStatistics(data);
     } catch ({ message }) {
       showToastError(message);
     }
   }
 
-  async function getCommonStatistics() { 
-    const subUrl = "/admin/common-statistics";
-    try {
-      const { data } = await fetchData(subUrl, "GET")
-      setCommonStatistics(data)
-
-    } catch ({ message }) {
-      showToastError(message)
-    }
-  }
 
   useEffect(() => {
-    getStatistics()
-    getCommonStatistics()
+    getCommonStatistics();
+
+    const currentDate = new Date();
+    const sixMonthsAgo = subMonths(currentDate, 6); // 6 tháng trước
+
+    // Định dạng ngày tháng thành định dạng 'yyyy-MM'
+    setStartDateStatisticDecksUsers(format(sixMonthsAgo, 'yyyy-MM')); // Set startDateStatisticDecksUsers là 6 tháng trước
+    setEndDateStatisticDecksUsers(format(currentDate, 'yyyy-MM')); 
+
+
+
   }, []);
+  const fetchStatistics = async (start, end) => {
+    if (!start || !end) return; // Kiểm tra xem start và end đã được chọn chưa
+
+    const formattedStartDate = format(start, 'yyyy-MM');
+    const formattedEndDate = format(end, 'yyyy-MM');
+
+    const subUrl = `/admin/statistics-users-decks?startMonth=${formattedStartDate}&endMonth=${formattedEndDate}`;
+    console.log(subUrl);
+    try {
+      const { data: rawData } = await fetchData(subUrl, 'GET');
+
+      setStatisticsUsersDecks(rawData);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  useEffect(() => {
+    if (startDateStatisticDecksUsers && endDateStatisticDecksUsers) {
+      fetchStatistics(startDateStatisticDecksUsers, endDateStatisticDecksUsers);
+    }
+  }, [startDateStatisticDecksUsers, endDateStatisticDecksUsers]);
+
+
+
+  
+
+
+
 
   return (
     <div>
-      <div className="flex justify-between mt-10">
-        <div className="flex gap-x-8 items-center h-12">
-          <span className="font-medium uppercase text-sm">Statistics</span>
+      <section className="">
+        <div className="mx-auto max-w-7xl">
+          <div
+            className="rounded-2xl py-10 px-10 xl:py-16 xl:px-20 bg-gray-50 dark:bg-[#2E3856] flex items-center justify-between flex-col gap-16 lg:flex-row"
+          >
+            <div className="w-full lg:w-60">
+              <h2
+                className="font-manrope text-4xl font-bold text-gray-900 dark:text-white mb-4 text-center lg:text-left"
+              >
+                Our Stats
+              </h2>
+              <p className="text-sm text-gray-500 dark:text-gray-200 leading-6 text-center lg:text-left">
+                We help you to unleash the power within your business
+              </p>
+            </div>
+            <div className="w-full lg:w-4/5">
+              <div
+                className="flex flex-col flex-1 gap-10 lg:gap-0 lg:flex-row lg:justify-between"
+              >
+                <div className="block">
+                  <div
+                    className="font-manrope font-bold text-4xl text-indigo-600 dark:text-orange-500 mb-3 text-center lg:text-left"
+                  >
+                    {commonStatistics?.quantityUsers}+
+                  </div>
+                  <span className="text-gray-900 dark:text-white text-center block lg:text-left">
+                    Users
+                  </span>
+                </div>
+                <div className="block">
+                  <div
+                    className="font-manrope font-bold text-4xl text-indigo-600 dark:text-orange-500 mb-3 text-center lg:text-left"
+                  >
+                    {commonStatistics?.quantityDecks}+
+                  </div>
+                  <span className="text-gray-900 dark:text-white text-center block lg:text-left">
+                    Decks
+                  </span>
+                </div>
+                <div className="block">
+                  <div
+                    className="font-manrope font-bold text-4xl text-indigo-600 dark:text-orange-500 mb-3 text-center lg:text-left"
+                  >
+                    {commonStatistics?.quantityGroups}+
+                  </div>
+                  <span className="text-gray-900 dark:text-white text-center block lg:text-left">
+                    Groups
+                  </span>
+                </div>
+                <div className="block">
+                  <div
+                    className="font-manrope font-bold text-4xl text-indigo-600 dark:text-orange-500 mb-3 text-center lg:text-left"
+                  >
+                    {commonStatistics?.quantityDecks}+
+                  </div>
+                  <span className="text-gray-900 dark:text-white text-center block lg:text-left">
+                    Group card set
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      </section>
+
+
+      <div className="mt-12 flex items-center justify-between">
+        <div className="flex flex-col gap-y-4">
+          <span className="text-xl font-bold text-gray-900 dark:text-white">Người dùng và bộ thẻ</span>
+
+          {/* <label className="block text-sm font-medium mb-1">Ngày bắt đầu</label> */}
+          <div className="flex flex-col gap-y-3">
+            <DatePicker
+              selected={startDateStatisticDecksUsers}
+              onChange={(date) => setStartDateStatisticDecksUsers(date)}
+              selectsStart
+              startDateStatisticDecksUsers={startDateStatisticDecksUsers}
+              endDateStatisticDecksUsers={endDateStatisticDecksUsers}
+              dateFormat="MM/yyyy"
+              showMonthYearPicker
+              placeholderText="MM/yyyy"
+              className="dark:text-white dark:bg-[#2E3856] dark:border-none dark:outline-none dark:focus:outline-none border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+
+            <span>To</span>
+            {/* Chọn ngày kết thúc */}
+
+            {/* <label className="block text-sm font-medium mb-1">Ngày kết thúc</label> */}
+            <DatePicker
+              selected={endDateStatisticDecksUsers}
+              onChange={(date) => setEndDateStatisticDecksUsers(date)}
+              selectsEnd
+              startDateStatisticDecksUsers={startDateStatisticDecksUsers}
+              endDateStatisticDecksUsers={endDateStatisticDecksUsers}
+              minDate={startDateStatisticDecksUsers} // Không cho phép chọn ngày kết thúc trước ngày bắt đầu
+              dateFormat="MM/yyyy"
+              showMonthYearPicker
+              placeholderText="MM/yyyy"
+              className=" dark:text-white dark:bg-[#2E3856] dark:border-none dark:outline-none dark:focus:outline-none border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+
+        </div>
+
+        <ResponsiveContainer height={450} width="80%">
+  <LineChart
+    data={statisticsUsersDecks}
+    margin={{ top: 20, right: 50, left: 20, bottom: 40 }}
+  >
+    {/* Tắt các đường kẻ ngang và dọc */}
+    <CartesianGrid horizontal={false} vertical={false} />
+    <XAxis
+      dataKey="month"
+      tickFormatter={(tick) => format(new Date(tick), "MMMM")}
+      interval={0}
+      tickMargin={10} // Tạo khoảng cách giữa ticks và trục X
+      tick={{
+        fontSize: 12,
+        angle: -45,
+        textAnchor: "end",
+        fill: "var(--color-x-axis)", // Sử dụng biến CSS động
+      }}
+    />
+    <YAxis
+      tick={{
+        fontSize: 12,
+        fill: "var(--color-y-axis)", // Sử dụng biến CSS động
+      }}
+    />
+    <Tooltip
+      contentStyle={{
+        backgroundColor: "var(--tooltip-bg)", // Tùy chỉnh màu nền Tooltip
+        color: "var(--tooltip-text)", // Tùy chỉnh màu chữ Tooltip
+      }}
+    />
+    <Legend
+      layout="horizontal" // Đặt Legend theo chiều ngang
+      align="right" // Căn chỉnh sang bên phải
+      verticalAlign="top" // Căn chỉnh ở phía trên của biểu đồ
+      formatter={(value) => {
+        if (value === "numberUsers") return "Total Users";
+        if (value === "numberDecks") return "Total Decks";
+        return value;
+      }}
+      wrapperStyle={{
+        marginLeft: "20px",
+        color: "var(--legend-text)", // Tùy chỉnh màu chữ Legend
+      }}
+    />
+    <Line
+      type="monotone"
+      dataKey="numberUsers"
+      stroke="#8884d8"
+      activeDot={{ r: 8 }}
+    />
+    <Line type="monotone" dataKey="numberDecks" stroke="#82ca9d" />
+  </LineChart>
+</ResponsiveContainer>
+
+
       </div>
 
-      <hr className="my-8"></hr>
 
 
-        <div className="flex justify-between">
-          <div className="w-44">
-            <a className="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100">
-              <div className="mb-2 text-lg font-medium tracking-tight text-gray-900 flex justify-between">
-                <span>Users</span>
-                <span>
-                  <i className="fa-solid fa-user"></i>
-                </span>
-              </div>
-              <p className="font-normal text-gray-700 text-xl">{commonStatistics?.quantityUsers}</p>
-            </a>
-          </div>
-          <div className="w-44">
-            <a className="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100">
-              <div className="mb-2 text-lg font-medium tracking-tight text-gray-900 flex justify-between">
-                <span>Groups</span>
-                <span>
-                <i class="fa-solid fa-users"></i>
-                </span>
-              </div>
-              <p className="font-normal text-gray-700 text-xl">{commonStatistics?.quantityGroups}</p>
-            </a>
-          </div>
-          <div className="w-44">
-            <a className="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100">
-              <div className="mb-2 text-lg font-medium tracking-tight text-gray-900 flex justify-between">
-                <span>Decks</span>
-                <span>
-                <i class="fa-solid fa-folder"></i>
-                </span>
-              </div>
-              <p className="font-normal text-gray-700 text-xl">{commonStatistics?.quantityDecks}</p>
-            </a>
-          </div>
-          <div className="w-44">
-            <a className="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100">
-              <div className="mb-2 text-lg font-medium tracking-tight text-gray-900 flex justify-between">
-                <span>Cards</span>
-                <span>
-                <i className="fa-solid fa-repeat"></i>
-                </span>
-              </div>
-              <p className="font-normal text-gray-700 text-xl">{commonStatistics?.quantityCards}</p>
-            </a>
-          </div>
-        </div>
 
 
-      <ResponsiveContainer width="100%" height={400} className="mt-12">
-            <BarChart
-              data={revenues}
-              margin={{
-                top: 5,
-                right: 30,
-                left: 20,
-                bottom: 5,
-              }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Bar
-                dataKey="revenue"
-                fill="#8884d8"
-                barSize={40} // Đặt kích thước cột ở đây
-                activeBar={<Rectangle fill="pink" stroke="blue" />}
-              />
-            </BarChart>
-          </ResponsiveContainer>
 
-      <ToastContainer />
+
     </div>
   );
 }

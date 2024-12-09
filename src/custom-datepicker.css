@@ -1,0 +1,39 @@
+/* Tùy chỉnh giao diện của lịch */
+.custom-calendar {
+    background-color: #1f2937; /* Màu nền (Dark Mode) */
+    color: #f9fafb; /* Màu chữ */
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+  }
+  
+  .custom-calendar .react-datepicker__month-container {
+    background-color: #1f2937; /* Màu nền container */
+  }
+  
+  .custom-calendar .react-datepicker__current-month {
+    color: #60a5fa; /* Màu tháng hiện tại */
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+  
+  .custom-calendar .react-datepicker__month {
+    background-color: transparent;
+  }
+  
+  .custom-calendar .react-datepicker__day--selected,
+  .custom-calendar .react-datepicker__day--keyboard-selected {
+    background-color: #3b82f6; /* Màu ngày được chọn */
+    color: #ffffff;
+  }
+  
+  .custom-calendar .react-datepicker__day:hover {
+    background-color: #2563eb; /* Hiệu ứng hover */
+    color: #ffffff;
+  }
+  
+  .custom-popper {
+    z-index: 50; /* Đảm bảo hiển thị trên các phần tử khác */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: none;
+  }
+  

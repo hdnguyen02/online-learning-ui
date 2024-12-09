@@ -168,7 +168,7 @@ export default function GlobalDecksComponent() {
                       </p>
 
 
-                      <p className="mt-1 truncate text-xs/5 text-gray-500 dark:text-white" to={`/users/${deck.user.id}`}
+                      <p className="mt-1 truncate text-xs/5 text-gray-500 dark:text-white" 
                       >
                         {deck.user.email}
                       </p>
