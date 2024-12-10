@@ -18,10 +18,20 @@ export default function TestCardComponent() {
     const [isOnlyFavorite, setIsOnlyFavorite] = useState(false);
     const [numberOfQuestions, setNumberOfQuestions] = useState(maxNumberOfQuestions);
     const [optionType, setOptionType] = useState("TERM");
+    const [isOpenOverviewQuestions, setIsOpenOverviewQuestions] = useState(true);
     const [progressBar, setProgressBar] = useState({
         numberQuestions: null,
         numberQuestionsCompleted: null
     });
+    const [isOpenWarning, setIsOpenWarning] = useState(false);
+
+    const onOPenWarning = () => {
+        setIsOpenWarning(true);
+    }
+
+    const onCloseWarning = () => {
+        setIsOpenWarning(false);
+    }
 
     const [questions, setQuestions] = useState();
 
@@ -99,7 +109,7 @@ export default function TestCardComponent() {
             numberQuestionsCompleted
         });
 
-    }, [questions])
+    }, [questions]);
 
 
     useEffect(() => {
@@ -110,6 +120,55 @@ export default function TestCardComponent() {
         }
     }, [params.id]);
 
+
+    function onOpenOverviewQuestions() {
+        setIsOpenOverviewQuestions(true);
+    }
+
+    function onCloseOverviewQuestions() {
+        setIsOpenOverviewQuestions(false);
+    }
+
+    function onScrollQuestion(id) {
+        const questionElement = document.getElementById(`question-${id}`);
+        if (questionElement) {
+            const yOffset = -430; // 28 * 4 (theo Tailwind, 1 đơn vị = 4px)
+            const yPosition = questionElement.getBoundingClientRect().top + window.scrollY + yOffset;
+
+            window.scrollTo({
+                top: yPosition,
+                behavior: 'smooth',
+            });
+        }
+    }
+
+    const handleComputedResultTest = () => { 
+        setIsEnd(true); 
+    }
+
+
+    const onSubmitQuestions = () => {
+        // 
+
+        // xem xét số câu hỏi xem sao
+        const numberQuestionsNotCompleted = questions.filter(question => !question.isCompleted).length;
+        if (numberQuestionsNotCompleted) { 
+            onOPenWarning(); 
+            return; 
+        }
+
+        handleComputedResultTest(); 
+        
+    }
+
+
+    const onConfirmSubmitQuestions = () => { 
+
+
+     
+        onCloseWarning(); 
+        handleComputedResultTest(); 
+    }
 
     return <div>
 
@@ -125,15 +184,11 @@ export default function TestCardComponent() {
 
                 <div className="flex flex-col items-center">
                     {
-                        (isStart && !isEnd) && <span>{`${progressBar.numberQuestionsCompleted}/${progressBar.numberQuestions}`}</span>
+                        (isStart && !isEnd) && <span className="text-base font-bold">{`${progressBar.numberQuestionsCompleted}/${progressBar.numberQuestions}`}</span>
                     }
-
                     <span className="font-medium">{deck?.name}</span>
                 </div>
 
-
-
-                {/* <span className="font-medium">{deck?.name}</span> */}
                 <div className="flex items-center gap-x-4">
 
                     <button
@@ -176,7 +231,7 @@ export default function TestCardComponent() {
 
 
         {
-            (isStart && !isEnd) && <div>
+            (isStart && !isEnd) && <div className="pb-24">
 
                 <div className="mx-auto mt-28 w-1/2">
                     {
@@ -210,12 +265,11 @@ export default function TestCardComponent() {
                                     <div className="mt-5 grid grid-cols-2 gap-6">
                                         {
                                             question.answers.map((answer, index) => {
-                                                return <div onClick={e => onChooseAnswer(e, question.id, answer.id)} key={index} data-question={question.id} className={`p-4 rounded-lg answer cursor-pointer ${answer.isSelected ? 'is-choose-answer' : ''}`}>
+                                                return <div onClick={e => onChooseAnswer(e, question.id, answer.id)} key={index} id={`question-${question.id}`} className={`p-4 rounded-lg answer cursor-pointer ${answer.isSelected ? 'is-choose-answer' : ''}`}>
                                                     {answer.contentAnswer}
                                                 </div>
                                             })
                                         }
-
                                     </div>
                                 </div>
 
@@ -226,8 +280,94 @@ export default function TestCardComponent() {
 
                     </div>
                 </div>
+
+
+                {/* Submit */}
+
+                <div className="w-1/2 mx-auto mt-12 flex flex-col items-center gap-12">
+                    <img src="/src/assets/image/check.png" alt="" />
+                    <span className="font-bold text-2xl">Tất cả đã xong! Bạn đã sẵn sàng gửi bài kiểm tra?</span>
+                    <button onClick={onSubmitQuestions} className="w-52 rounded-lg bg-[#423ED8] font-medium py-5 text-white">
+                        Gửi bài kiểm tra
+                    </button>
+
+
+
+                </div>
+
+                <div className="fixed top-28 left-8">
+                    {!isOpenOverviewQuestions && <i onClick={onOpenOverviewQuestions} class="fa-solid fa-bars text-2xl cursor-pointer"></i>}
+                    {isOpenOverviewQuestions && <i onClick={onCloseOverviewQuestions} className="fa-solid fa-xmark text-2xl cursor-pointer"></i>}
+                    {
+                        isOpenOverviewQuestions && <div className="mt-2 flex flex-col gap-y-2 dark:text-[#8F99B4] text-sm font-medium">
+                            <span className="dark:text-[#88B1FF]">Danh sách câu hỏi</span>
+                            {
+                                questions?.map((question, index) => {
+                                    return <span onClick={() => onScrollQuestion(question.id)} key={index} className={`cursor-pointer ${question.isCompleted ? "dark:text-orange-500 text-blue-500" : ""
+                                        }`}>
+                                        {index + 1}
+                                    </span>
+                                })
+                            }
+                        </div>
+                    }
+
+                </div>
+
             </div>
         }
+
+        { 
+            isEnd && <div className="mt-28">
+                Kết thúc bài thi
+            </div>
+        }
+
+
+        <Modal
+            isOpen={isOpenWarning}
+            onRequestClose={onCloseWarning}
+            style={{
+                overlay: {
+                    backgroundColor: "rgba(0, 0, 0, 0.6)",
+                    zIndex: 1000
+                },
+                content: {
+                    top: "90px",
+                    left: "0",
+                    right: "0",
+                    bottom: "auto",
+                    height: "240px",
+                    width: "700px",
+                    margin: "0 auto",
+                    borderRadius: "8px",
+                    display: "flex",
+                    flexDirection: "column",
+                    padding: "0px",
+                    // borderWidth: "0px"
+                },
+            }}
+        >
+            <div className="w-full h-full dark:bg-[#0A092D] px-10 py-12">
+               
+
+                <div className="flex flex-col gap-y-4 items-center">
+                    <span className="font-bold text-3xl">Có vẻ như bạn đã bỏ qua một số câu hỏi</span>
+                    <span className="text-lg">Bạn muốn xem lại các câu hỏi đã bỏ qua hay gửi bài kiểm tra ngay bây giờ?</span>
+                    {/* <hr className="dark:opacity-40"/> */}
+                </div>
+
+                <div className="mt-6 flex justify-end gap-x-4">
+                <button onClick={onCloseWarning} type="button" class="px-5 m h-10 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Hủy</button>
+                <button onClick={onConfirmSubmitQuestions} type="button" className="rounded-lg bg-[#423ED8] font-medium h-10 text-white px-8">Gửi bài kiểm tra</button>
+                </div>
+
+
+            </div>
+
+        </Modal>
+
+
 
 
         <Modal
@@ -243,19 +383,20 @@ export default function TestCardComponent() {
                     left: "0",
                     right: "0",
                     bottom: "auto",
-                    height: "600px",
+                    height: "360px",
                     width: "700px",
                     margin: "0 auto",
                     borderRadius: "8px",
                     display: "flex",
                     flexDirection: "column",
-                    padding: "0px"
+                    padding: "0px",
+                    // borderWidth: "0px"
                 },
             }}
         >
             <div className="w-full h-full dark:bg-[#0A092D] px-10 py-4">
                 <div className="flex justify-end">
-                    <button onClick={onCloseSetting} type="button" className="border py-0.5 px-2.5 rounded-lg">
+                    <button onClick={onCloseSetting} type="button" className="border-none py-0.5 px-2.5 rounded-lg">
                         <i className="fa-solid fa-xmark text-3xl"></i>
                     </button>
                 </div>
