@@ -12,6 +12,7 @@
     border-bottom: 3px solid #ffffff;
     color: white;
   }
+
 }
 
 @media (prefers-color-scheme: light) {
@@ -26,12 +27,15 @@
     /* margin-top: 2px; */
   }
 
+
 }
+
+
 
 
 @tailwind base;
 @tailwind components;
-@tailwind utilities;
+@tailwind utilities;  
 
 input[type="file"] {
   border: 0;
@@ -151,6 +155,9 @@ html {
 }
 
 /* Định nghĩa animation shake */
+
+
+
 
 
 /* custom.css */

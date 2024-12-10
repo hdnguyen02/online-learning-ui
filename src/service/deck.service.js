@@ -17,6 +17,19 @@ class DeckService {
     }
   }
 
+  async getTestCards(id, numberOfQuestions, optionType, isOnlyFavorite) {
+    try {
+      const subUrl = `/decks/${id}/question-cards?isOnlyFavorite=${isOnlyFavorite}&numberOfQuestions=${numberOfQuestions}&optionType=${optionType}`;
+      const { data: rawData } = await fetchData(subUrl, 'GET');
+      return rawData;
+    }
+    catch (error) {
+      return null;
+    }
+  } 
+
+
+
 
   async cloneDeck(id) {
     try {
