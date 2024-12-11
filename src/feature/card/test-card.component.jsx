@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import deckService from "service/deck.service";
 import './card.css';
 import { t } from "i18next";
+import { PieChart, Pie, Cell } from "recharts";
 
 export default function TestCardComponent() {
 
@@ -104,10 +105,18 @@ export default function TestCardComponent() {
     useEffect(() => {
         if (!questions) return;
         const numberQuestionsCompleted = questions.filter(question => question.isCompleted).length;
+        // lưu thông số vào đây luôn đi. cần lưu lại câu nào đúng câu nào sai. 
+
         setProgressBar({
             ...progressBar,
             numberQuestionsCompleted
         });
+
+
+        // tính toán số câu hỏi.   
+
+
+
 
     }, [questions]);
 
@@ -142,8 +151,36 @@ export default function TestCardComponent() {
         }
     }
 
-    const handleComputedResultTest = () => { 
-        setIsEnd(true); 
+
+
+
+    // tính toán thông số 
+    const [overview, setOverview] = useState();
+    const [percentCorrect, setPercentCorrect] = useState();
+    const handleComputedResultTest = () => {
+        setIsEnd(true);
+
+
+
+        window.scrollTo(0, 0);
+        // tính toán ra số phần trăm câu hỏi + tiến hành set lại câu sai và câu đúng. 
+        // tính toán đúng sai
+        const totalQuestion = questions.length;
+        const countWrongAnswer = questions.filter(question => question.correctAnswer.id != question.idChoose).length;
+        const countCorrectAnswer = questions.filter(question => question.correctAnswer.id == question.idChoose).length;
+        setPercentCorrect((countCorrectAnswer / totalQuestion) * 100);
+        setOverview([
+            { name: "countWrongAnswer", value: countWrongAnswer },
+            { name: "countCorrectAnswer", value: countCorrectAnswer }
+        ])
+
+        setQuestions(questions.map(question => {
+            const isCorrected = question.correctAnswer.id == question.idChoose ? true : false;
+            return {
+                ...question, isCorrected
+            }
+        }));
+
     }
 
 
@@ -152,23 +189,26 @@ export default function TestCardComponent() {
 
         // xem xét số câu hỏi xem sao
         const numberQuestionsNotCompleted = questions.filter(question => !question.isCompleted).length;
-        if (numberQuestionsNotCompleted) { 
-            onOPenWarning(); 
-            return; 
+        if (numberQuestionsNotCompleted) {
+            onOPenWarning();
+            return;
         }
 
-        handleComputedResultTest(); 
-        
+        handleComputedResultTest();
+
     }
 
 
-    const onConfirmSubmitQuestions = () => { 
+    const onConfirmSubmitQuestions = () => {
 
 
-     
-        onCloseWarning(); 
-        handleComputedResultTest(); 
+
+        onCloseWarning();
+        handleComputedResultTest();
     }
+
+    const COLORS = ["#00C49F", "#FF8042"]; // Màu cho phần đúng và sai
+
 
     return <div>
 
@@ -290,36 +330,183 @@ export default function TestCardComponent() {
                     <button onClick={onSubmitQuestions} className="w-52 rounded-lg bg-[#423ED8] font-medium py-5 text-white">
                         Gửi bài kiểm tra
                     </button>
-
-
-
                 </div>
+            </div>
+        }
 
-                <div className="fixed top-28 left-8">
-                    {!isOpenOverviewQuestions && <i onClick={onOpenOverviewQuestions} class="fa-solid fa-bars text-2xl cursor-pointer"></i>}
-                    {isOpenOverviewQuestions && <i onClick={onCloseOverviewQuestions} className="fa-solid fa-xmark text-2xl cursor-pointer"></i>}
-                    {
-                        isOpenOverviewQuestions && <div className="mt-2 flex flex-col gap-y-2 dark:text-[#8F99B4] text-sm font-medium">
-                            <span className="dark:text-[#88B1FF]">Danh sách câu hỏi</span>
-                            {
-                                questions?.map((question, index) => {
-                                    return <span onClick={() => onScrollQuestion(question.id)} key={index} className={`cursor-pointer ${question.isCompleted ? "dark:text-orange-500 text-blue-500" : ""
-                                        }`}>
-                                        {index + 1}
-                                    </span>
-                                })
-                            }
-                        </div>
-                    }
 
-                </div>
+        {
+            (isStart || isEnd) && <div className="fixed top-28 left-8">
+                {!isOpenOverviewQuestions && <i onClick={onOpenOverviewQuestions} class="fa-solid fa-bars text-2xl cursor-pointer"></i>}
+                {isOpenOverviewQuestions && <i onClick={onCloseOverviewQuestions} className="fa-solid fa-xmark text-2xl cursor-pointer"></i>}
+                {
+                    isOpenOverviewQuestions && <div className="mt-2 flex flex-col gap-y-2 dark:text-[#8F99B4] text-sm font-medium">
+                        <span className="dark:text-[#88B1FF]">Danh sách câu hỏi</span>
+                        {
+                            questions?.map((question, index) => {
+                                return <div onClick={() => onScrollQuestion(question.id)} key={index} className="flex items-center gap-x-2">
+                                    {
+                                        isEnd && (
+                                            question?.isCorrected ? (
+                                                <i className="fa-solid fa-check text-green-500"></i>
+                                            ) : (
+                                                <i className="fa-regular fa-circle-xmark text-red-500"></i>
+                                            )
+                                        )
+                                    }
+
+                                    <span className={`cursor-pointer ${question.isCompleted ? "dark:text-orange-500 text-blue-500" : ""
+                                        }`}>{index + 1}</span>
+                                </div>
+                            })
+                        }
+                    </div>
+                }
 
             </div>
         }
 
-        { 
-            isEnd && <div className="mt-28">
-                Kết thúc bài thi
+
+        {
+            isEnd && <div className="mt-28 mx-auto w-1/2">
+
+                {/* Header */}
+                <div>
+                    <div>
+                        <span className="text-3xl font-bold">Đừng bỏ cuộc bây giờ! Hãy tin tưởng vào quá trình này.</span>
+                    </div>
+                    <div className="mt-6 flex gap-x-12">
+                        <div className="w-1/2">
+                            <div className="text-xl font-bold dark:text-gray-400">
+                                Your time: 1 min
+                            </div>
+                            <div className="mt-8 flex gap-x-8 items-center">
+                                <div style={{ position: "relative", width: 150, height: 150 }}>
+                                    {/* Biểu đồ tròn */}
+                                    <PieChart width={150} height={150}>
+                                        <Pie
+                                            data={overview}
+                                            dataKey="value"
+                                            cx="50%"  // Vị trí theo chiều ngang
+                                            cy="50%"  // Vị trí theo chiều dọc
+                                            innerRadius={45}  // Điều chỉnh bán kính phần trong
+                                            outerRadius={70}  // Điều chỉnh bán kính phần ngoài
+                                            fill="#8884d8"
+                                            startAngle={90}
+                                            endAngle={450}
+                                            paddingAngle={5}
+                                        >
+                                            {overview?.map((entry, index) => (
+                                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                            ))}
+                                        </Pie>
+                                    </PieChart>
+
+                                    {/* Phần trăm ở giữa */}
+                                    <div
+                                        style={{
+                                            position: "absolute",
+                                            top: "50%",
+                                            left: "50%",
+                                            transform: "translate(-50%, -50%)",
+                                            fontSize: "16px",  // Giảm kích thước chữ cho phù hợp
+                                            fontWeight: "bold",
+                                        }}
+                                    >
+                                        {percentCorrect}%
+                                    </div>
+                                </div>
+
+                                <div className="w-full">
+                                    <div className="flex justify-between items-center">
+                                        <span className="font-medium text-[#00C49F] text-xl">Correct</span>
+                                        <span className="font-medium text-[#00C49F] text-xl">{overview[0].value}</span>
+                                    </div>
+                                    <div className="flex justify-between items-center">
+                                        <span className="font-medium text-[#FF8042] text-xl">Incorrect</span>
+                                        <span className="font-medium text-[#FF8042] text-xl">{overview[1].value}</span>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            
+                        </div>
+                        <div className="w-1/2">
+                            <div className="text-xl font-bold dark:text-gray-400">
+                                Next steps
+                            </div>
+                            <div className="mt-10">
+                                <div className="dark:bg-[#2E3856] h-32 rounded-lg p-8 flex gap-x-3">
+                                    <div>
+                                        <img src="/src/assets/image/replay.png" alt="" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+                {/* body câu hỏi */}
+                <div className="mt-12">
+                    <span className="text-xl font-bold dark:text-gray-400">Your answers</span>
+                    <div className="mt-12">
+
+
+                        {
+
+
+                            questions?.map((question, index) => {
+                                return <div key={index} className="dark:bg-[#2E3856] mb-12 px-9 py-6 rounded-lg">
+                                    {/* Header */}
+                                    <div className="flex justify-between">
+                                        <div className="flex items-center gap-x-2">
+                                            <span className="text-sm font-medium">{question.type}</span>
+                                            <i class="mt-0.5 text-xs fa-solid fa-volume-high"></i>
+                                        </div>
+
+                                        <div>
+                                            <span className="text-xs dark:text-gray-400">{`${index + 1}/${questions.length}`}</span>
+                                        </div>
+                                    </div>
+                                    {/* Câu hỏi */}
+                                    <div className="flex mt-8 justify-between">
+                                        <span>{question.questionContent}</span>
+                                        <div className="h-40">
+                                            {question.image &&
+                                                <img src={question.image} className="object-contain h-full w-full" alt="" />
+
+                                            }
+                                        </div>
+                                    </div>
+                                    {/* Câu hỏi */}
+                                    <div className="mt-8">
+
+                                        <span className="text-sm font-medium">chọn đáp án đúng</span>
+                                        <div className="mt-5 grid grid-cols-2 gap-6">
+                                            {
+                                                question.answers.map((answer, index) => {
+                                                    return <div onClick={e => onChooseAnswer(e, question.id, answer.id)} key={index} id={`question-${question.id}`} className={`p-4 rounded-lg answer cursor-pointer ${answer.isSelected ? 'is-choose-answer' : ''}`}>
+                                                        {answer.contentAnswer}
+                                                    </div>
+                                                })
+                                            }
+                                        </div>
+                                    </div>
+
+                                </div>
+                            })
+
+                        }
+                    </div>
+
+                </div>
+
+
             </div>
         }
 
@@ -349,7 +536,7 @@ export default function TestCardComponent() {
             }}
         >
             <div className="w-full h-full dark:bg-[#0A092D] px-10 py-12">
-               
+
 
                 <div className="flex flex-col gap-y-4 items-center">
                     <span className="font-bold text-3xl">Có vẻ như bạn đã bỏ qua một số câu hỏi</span>
@@ -358,8 +545,8 @@ export default function TestCardComponent() {
                 </div>
 
                 <div className="mt-6 flex justify-end gap-x-4">
-                <button onClick={onCloseWarning} type="button" class="px-5 m h-10 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Hủy</button>
-                <button onClick={onConfirmSubmitQuestions} type="button" className="rounded-lg bg-[#423ED8] font-medium h-10 text-white px-8">Gửi bài kiểm tra</button>
+                    <button onClick={onCloseWarning} type="button" class="px-5 m h-10 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Hủy</button>
+                    <button onClick={onConfirmSubmitQuestions} type="button" className="rounded-lg bg-[#423ED8] font-medium h-10 text-white px-8">Gửi bài kiểm tra</button>
                 </div>
 
 
