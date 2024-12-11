@@ -442,6 +442,10 @@ export default function TestCardComponent() {
                                     <div>
                                         <img src="/src/assets/image/replay.png" alt="" />
                                     </div>
+
+                                    <div>
+                                        
+                                    </div>
                                 </div>
                             </div>
                         </div>
