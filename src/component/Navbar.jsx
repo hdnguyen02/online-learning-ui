@@ -15,7 +15,8 @@ function Navbar() {
     location.pathname !== "/sign-up" &&
     !location.pathname.includes("settings") &&
     !location.pathname.includes("admin") && 
-    !location.pathname.includes("learn-cards/join")
+    !location.pathname.includes("learn-cards/join") &&
+    !location.pathname.includes("learn-cards/test")
   ) {
     return (  
       <nav className="dark:bg-[#0A092D] bg-white h-16 px-4 md:px-48 flex justify-between items-center fixed left-0 right-0 top-0 z-10 border border-t dark:border-none">

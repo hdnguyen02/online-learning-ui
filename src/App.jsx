@@ -57,6 +57,7 @@ import ProfileUserComponent from "feature/setting/profile-user.component.jsx";
 import CommonDecksComponent from "feature/common-deck/common-decks.component.jsx";
 import PrepareCardComponent from "feature/card/prepare-card.component.jsx";
 import JoinCardComponent from "feature/card/join-card.component.jsx";
+import TestCardComponent from "feature/card/test-card.component.jsx";
 
 import PassWordUserComponent from "feature/setting/password-user.component.jsx";
 
@@ -139,7 +140,7 @@ function App() {
           </Route>
 
           <Route path="/my-decks/:id/learn-cards/join" element={<JoinCardComponent />} />
-
+          <Route path="/my-decks/:id/learn-cards/test" element={<TestCardComponent />} />
 
           <Route path="/my-cards" element={<Card />}>
             <Route path="" element={<Cards />} />

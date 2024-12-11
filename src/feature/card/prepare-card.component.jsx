@@ -54,11 +54,11 @@ export default function PrepareCardComponent() {
                         <span className="">Ghép thẻ</span>
                     </Link>
 
-                    <div className="bg-[#F6F7FB] dark:bg-[#2E3856] py-6 px-14 flex items-center flex-col rounded-lg cursor-pointer">
+                    <Link to={`/my-decks/${params.id}/learn-cards/test`} className="bg-[#F6F7FB] dark:bg-[#2E3856] py-6 px-14 flex items-center flex-col rounded-lg cursor-pointer">
                         <img src="/src/assets/image/testing_18289665.png" className="w-9 h-9" alt="" />
                         <span>Kiểm tra</span>
-                    </div>
 
+                    </Link>
                     <div className="bg-[#F6F7FB] dark:bg-[#2E3856] py-6 px-14 flex items-center flex-col rounded-lg cursor-pointer    ">
                         <img src="/src/assets/image/credit-card_5552728.png" className="w-9 h-9" alt="" />
                         <span>Thẻ ghi nhớ</span>
