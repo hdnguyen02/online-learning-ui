@@ -60,7 +60,7 @@ import JoinCardComponent from "feature/card/join-card.component.jsx";
 import TestCardComponent from "feature/card/test-card.component.jsx";
 
 import PassWordUserComponent from "feature/setting/password-user.component.jsx";
-
+import FlipCardComponent from "feature/card/flip-card.component.jsx";
 
 function App() {
   return (
@@ -141,7 +141,7 @@ function App() {
 
           <Route path="/my-decks/:id/learn-cards/join" element={<JoinCardComponent />} />
           <Route path="/my-decks/:id/learn-cards/test" element={<TestCardComponent />} />
-
+          <Route path="/my-decks/:id/learn-cards/study" element={<FlipCardComponent />} />
           <Route path="/my-cards" element={<Card />}>
             <Route path="" element={<Cards />} />
           </Route>
