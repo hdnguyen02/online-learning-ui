@@ -143,9 +143,6 @@ export default function TestCardComponent() {
         }
     }
 
-
-
-
     // tính toán thông số 
     const [overview, setOverview] = useState();
     const [percentCorrect, setPercentCorrect] = useState();
@@ -195,11 +192,27 @@ export default function TestCardComponent() {
 
 
     const onConfirmSubmitQuestions = () => {
-
-
-
         onCloseWarning();
         handleComputedResultTest();
+    }
+
+
+    const onRestart = () => {
+
+        // tiến hành. 
+
+        // restart lại 
+        
+        setIsStart(false); 
+        setIsEnd(false); 
+        onOpenSetting(); 
+    }
+
+    const onChangeNumberOfQuestions = (event) => { 
+        const value = event.target.value; 
+        if (value > 15) setNumberOfQuestions(15);
+        if (value < 1) setNumberOfQuestions(1); 
+        else setNumberOfQuestions(value);
     }
 
     const COLORS = ["#FF8042", "#00C49F"]; // Màu cho phần đúng và sai
@@ -432,18 +445,18 @@ export default function TestCardComponent() {
                             <div className="mt-10">
 
 
-                                <div className="cursor-pointer dark:bg-[#2E3856] bg-[#F6F7FB] shadow h-32 rounded-lg p-4 flex gap-x-3">
+                                <Link to={`/my-decks/${params.id}/learn-cards/study`} className="cursor-pointer dark:bg-[#2E3856] bg-[#F6F7FB] shadow h-32 rounded-lg p-4 flex gap-x-3">
                                     <div className="w-16 flex items-center">
                                         <img src="/src/assets/image/replay.png" alt="" />
                                     </div>
 
                                     <div className="flex flex-col gap-y-2 justify-center">
-                                        <span className="w-32 bg-purple-100 text-purple-800 text-xs font-medium px-2.5 py-0.5 rounded-lg dark:bg-purple-900 dark:text-white">{overview[1].value} Thuật ngữ sai</span>
+                                        <span className="w-32 bg-purple-100 text-purple-800 text-xs font-medium px-2.5 py-0.5 rounded-lg dark:bg-purple-900 dark:text-white">{overview[0].value} Thuật ngữ sai</span>
                                         <span className="dark:text-purple-300">Ôn luyện thuật ngữ trong chế độ học</span>
                                         <span className="text-xs">Ôn luyện các thuật ngữ bạn bỏ lỡ cho đến khi bạn nắm chắc</span>
                                     </div>
-                                </div>
-                                <div className="cursor-pointer mt-5 dark:bg-[#2E3856] bg-[#F6F7FB] shadow h-32 rounded-lg p-4 flex gap-x-3">
+                                </Link>
+                                <div onClick={onRestart} className="cursor-pointer mt-5 dark:bg-[#2E3856] bg-[#F6F7FB] shadow h-32 rounded-lg p-4 flex gap-x-3">
                                     <div className="w-16 flex items-center">
                                         <img src="/src/assets/image/form.png" alt="" />
                                     </div>
@@ -625,7 +638,7 @@ export default function TestCardComponent() {
                     <div className="mt-8 flex items-center justify-between">
                         <label>Câu hỏi (tối đa 15)</label>
 
-                        <input type="number" value={numberOfQuestions} onChange={e => setNumberOfQuestions(e.target.value)} className="dark:bg-[#2E3856] px-2 py-2 w-16 rounded-lg dark:text-white dark:border-none dark:outline-none dark:focus:outline-none border border-gray-300 text-gray-900" />
+                        <input type="number" value={numberOfQuestions} onChange={event => onChangeNumberOfQuestions(event)} className="dark:bg-[#2E3856] px-2 py-2 w-16 rounded-lg dark:text-white dark:border-none dark:outline-none dark:focus:outline-none border border-gray-300 text-gray-900" />
                     </div>
 
 

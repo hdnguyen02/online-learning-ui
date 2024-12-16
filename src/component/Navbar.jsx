@@ -87,7 +87,7 @@ function Navbar() {
             </Link>
             <div
               className={
-                location.pathname === "/my-decks" ||
+                location.pathname.includes('/my-decks') ||
                 location.pathname === "/my-cards" ||
                 location.pathname.includes("/groups/") ||
                 location.pathname === "/groups/owner"

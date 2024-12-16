@@ -93,25 +93,12 @@ export default function MembersOwnerClass() {
 
     userGroups && (
       <div>
-
-
         <div className="flex justify-end">
           {location.pathname.includes("owner") && (
-      
-
-            <button onClick={() => setIsOpenModalInviteUser(true)} type="button" className="dark:border-white dark:text-white flex gap-x-2 items-center text-blue-700 border border-blue-700focus:outline-none font-medium rounded-lg text-sm px-5 py-2 text-center">
+            <button onClick={() => setIsOpenModalInviteUser(true)} type="button" className="dark:border-white dark:text-white flex gap-x-2 items-center text-blue-700 border border-blue-700 focus:outline-none font-medium rounded-lg text-sm px-5 py-2 text-center">
               <i className="fa-solid fa-plus"></i>
               <span>{t('ACTION.CREATE')}</span>
             </button> 
-            
-
-
-
-
-            
-
-            
-
           )}
         </div>
 
