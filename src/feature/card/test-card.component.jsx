@@ -160,9 +160,10 @@ export default function TestCardComponent() {
         const totalQuestion = questions.length;
         const countWrongAnswer = questions.filter(question => question.correctAnswer.id != question.idChoose).length;
         const countCorrectAnswer = questions.filter(question => question.correctAnswer.id == question.idChoose).length;
-        setPercentCorrect((countCorrectAnswer / totalQuestion) * 100);
-        console.log("Debug: ");
-        console.log(countCorrectAnswer, countWrongAnswer);
+        const percentCorrect = (countCorrectAnswer / totalQuestion) * 100;
+        const roundedPercentCorrect = parseFloat(percentCorrect.toFixed(2)); // làm tròn 2 chữ số thập phân
+
+        setPercentCorrect(roundedPercentCorrect);
         setOverview([
             { name: "countWrongAnswer", value: countWrongAnswer },
             { name: " countCorrectAnswer", value: countCorrectAnswer },
@@ -206,7 +207,7 @@ export default function TestCardComponent() {
 
     return <div>
 
-        <div className="fixed left-0 right-0 top-0 dark:bg-[#0A092D]">
+        <div className="fixed left-0 right-0 top-0 dark:bg-[#0A092D] z-50! bg-white">
 
 
 
@@ -267,10 +268,10 @@ export default function TestCardComponent() {
         {
             (isStart && !isEnd) && <div className="pb-24">
 
-                <div className="mx-auto mt-28 w-1/2">
+                <div className="mx-auto mt-28 w-1/2 box-border">
                     {
                         questions?.map((question, index) => {
-                            return <div key={index} className="dark:bg-[#2E3856] mb-12 px-9 py-6 rounded-lg">
+                            return <div key={index} className="dark:bg-[#2E3856] bg-[#F6F7FB] shadow mb-12 px-9 py-6 rounded-lg">
                                 {/* Header */}
                                 <div className="flex justify-between">
                                     <div className="flex items-center gap-x-2">
@@ -296,10 +297,10 @@ export default function TestCardComponent() {
                                 <div className="mt-8">
 
                                     <span className="text-sm font-medium">chọn đáp án đúng</span>
-                                    <div className="mt-5 grid grid-cols-2 gap-6">
+                                    <div className="mt-5 grid grid-cols-2 gap-6 box-border!">
                                         {
                                             question.answers.map((answer, index) => {
-                                                return <div onClick={e => onChooseAnswer(e, question.id, answer.id)} key={index} id={`question-${question.id}`} className={`p-4 rounded-lg answer cursor-pointer ${answer.isSelected ? 'is-choose-answer' : ''}`}>
+                                                return <div onClick={e => onChooseAnswer(e, question.id, answer.id)} key={index} id={`question-${question.id}`} className={` p-4 rounded-lg answer cursor-pointer ${answer.isSelected ? 'is-choose-answer' : ''}`}>
                                                     {answer.contentAnswer}
                                                 </div>
                                             })
@@ -431,7 +432,7 @@ export default function TestCardComponent() {
                             <div className="mt-10">
 
 
-                                <div className="dark:bg-[#2E3856] h-32 rounded-lg p-4 flex gap-x-3">
+                                <div className="cursor-pointer dark:bg-[#2E3856] bg-[#F6F7FB] shadow h-32 rounded-lg p-4 flex gap-x-3">
                                     <div className="w-16 flex items-center">
                                         <img src="/src/assets/image/replay.png" alt="" />
                                     </div>
@@ -442,7 +443,7 @@ export default function TestCardComponent() {
                                         <span className="text-xs">Ôn luyện các thuật ngữ bạn bỏ lỡ cho đến khi bạn nắm chắc</span>
                                     </div>
                                 </div>
-                                <div className="mt-5 dark:bg-[#2E3856] h-32 rounded-lg p-4 flex gap-x-3">
+                                <div className="cursor-pointer mt-5 dark:bg-[#2E3856] bg-[#F6F7FB] shadow h-32 rounded-lg p-4 flex gap-x-3">
                                     <div className="w-16 flex items-center">
                                         <img src="/src/assets/image/form.png" alt="" />
                                     </div>
@@ -470,7 +471,7 @@ export default function TestCardComponent() {
 
 
                             questions?.map((question, index) => {
-                                return <div key={index} className="dark:bg-[#2E3856] mb-12 px-9 py-6 rounded-lg">
+                                return <div key={index} className="dark:bg-[#2E3856] bg-[#F6F7FB] mb-12 px-9 py-6 rounded-lg">
                                     {/* Header */}
                                     <div className="flex justify-between">
                                         <div className="flex items-center gap-x-2">
@@ -504,23 +505,17 @@ export default function TestCardComponent() {
                                                 question.answers.map((answer, index) => {
 
 
-
-                                                    // trong này cần check xem, nếu đúng rồi thì làm sao. 
-                                                    // nếu sai thì làm sao. 
                                                     if (answer.id == question.correctAnswer.id) {
-                                                        return <div key={index} id={`question-${question.id}`} className="flex gap-x-3 items-center  p-4 rounded-lg answer cursor-pointer !border-2 !border-green-500">
-                                                                
+                                                        return <div key={index} id={`question-${question.id}`} className="flex gap-x-3 items-center  p-4 rounded-lg  cursor-pointer !border-2 !border-green-500">
                                                                 <i className="fa-solid fa-check text-green-500"></i>
                                                                 <span>{answer.contentAnswer}</span>
                                                              
                                                         </div>
                                                     }
                                                     if (answer.isSelected) { // Nguời dùng lưạ chọn không chính xác. 
-                                                        return <div key={index} id={`question-${question.id}`} className="flex gap-x-3 items-center p-4 rounded-lg answer cursor-pointer !border-2 !border-red-500">
-                                                            {/* <i className="fa-regular fa-circle-xmark"></i> */}
+                                                        return <div key={index} id={`question-${question.id}`} className="flex gap-x-3 items-center p-4 rounded-lg  cursor-pointer !border-2 !border-red-500">
                                                             <i class="fa-solid fa-x text-red-500"></i>
                                                             <span>{answer.contentAnswer}</span>
-                                                             
                                                         </div>
                                                     }
                                                     return <div key={index} id={`question-${question.id}`} className="p-4 rounded-lg answer cursor-pointer">
@@ -637,7 +632,7 @@ export default function TestCardComponent() {
                     <div className="mt-8 flex items-center justify-between">
                         <label>Trả lời với</label>
 
-                        <select value={optionType} onChange={e => setOptionType(e.target.value)} className="dark:bg-[#2E3856] px-2 py-2 w-32 rounded-lg dark:text-white dark:border-none dark:outline-none dark:focus:outline-none text-gray-900" >
+                        <select value={optionType} onChange={e => setOptionType(e.target.value)} className="dark:bg-[#2E3856] px-2 py-2 w-32 rounded-lg dark:text-white dark:border-none dark:outline-none dark:focus:outline-none border border-gray-300 text-gray-900" >
                             {
                                 optionTypes.map(optionType => {
                                     return <option key={optionType.value} value={optionType.value}>
