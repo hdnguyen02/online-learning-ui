@@ -52,17 +52,17 @@ export default function SignIn() {
         <form onSubmit={handleSignIn} className="mt-12">
           {/* Email Input */}
           <div className="mb-6">
-            <label htmlFor="email" className="block dark:text-white text-gray-600 text-sm font-medium">
+            <label htmlFor="email" className="block dark:text-white text-gray-700 text-sm font-medium">
               Email<span className=" text-red-500 ml-1">*</span>
             </label>
             <div className="relative mt-2">
               <input
                 onChange={e => setEmail(e.target.value)}
                 type="email"
-                className="dark:bg-[#2E3856] dark:text-white dark:outline-none dark:border-none block w-full rounded-md bg-white px-10 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
+                className="px-9 dark:bg-[#2E3856] dark:focus:outline-none dark:border-none dark:outline-none dark:text-white block w-full rounded-md bg-white py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                 required
               />
-              <span className="absolute left-3 top-1.5 text-gray-400">
+              <span className="absolute left-3 top-1.5">
                 <i className="fa-regular fa-envelope font-light"></i>
               </span>
             </div>
@@ -70,25 +70,25 @@ export default function SignIn() {
 
           {/* Password Input */}
           <div className="mb-6">
-            <label htmlFor="password" className="font-medium block dark:text-white text-gray-600 mb-2 text-sm">
+            <label htmlFor="password" className="font-medium block dark:text-white text-gray-700 mb-2 text-sm">
             {t('LOGIN.PASSWORD')}
               <span className="text-red-500 ml-1">*</span>
             </label>
             <div className='relative'>
               {/* Biểu tượng khóa */}
-              <span className="absolute left-3 top-1.5 text-gray-400">
+              <span className="absolute left-3 top-1.5">
                 <i className="fa-solid fa-lock"></i>
               </span>
               <input
                 onChange={e => setPassword(e.target.value)}
                 type={isShowPassword ? 'text' : 'password'} // Toggle between text and password
                 id="password"
-                className="dark:bg-[#2E3856] dark:text-white dark:outline-none dark:border-none block w-full rounded-md bg-white px-10 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
+                className="px-9 dark:bg-[#2E3856] dark:focus:outline-none dark:border-none dark:outline-none dark:text-white block w-full rounded-md bg-white py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                 required
               />
               <span
                 onClick={() => setIsShowPassword(!isShowPassword)} // Toggle password visibility
-                className='cursor-pointer absolute top-1/2 right-4 transform -translate-y-1/2 text-gray-400'
+                className='cursor-pointer absolute top-1/2 right-4 transform -translate-y-1/2'
               >
                 {isShowPassword ? (
                   <i className="fa-solid fa-eye-slash text-xs"></i>
@@ -106,9 +106,9 @@ export default function SignIn() {
                 onChange={e => setIsRemember(e.target.checked)}
                 type="checkbox"
                 name="remember"
-                className="text-blue-500"
+                className="text-blue-500 h-4 w-4"
               />
-              <label htmlFor="remember" className="text-gray-600 dark:text-white ml-2 text-sm">
+              <label htmlFor="remember" className="dark:text-white text-gray-700 ml-2 text-sm">
                 Remember me
               </label>
             </div>

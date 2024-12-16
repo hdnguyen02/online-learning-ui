@@ -42,7 +42,7 @@ function SignUpComponent() {
       
           {/* Email Input */}
           <div className="mb-6">
-            <label htmlFor="email" className="dark:text-white block text-gray-600 text-sm mb-1">
+            <label htmlFor="email" className="font-medium block dark:text-white text-gray-700 mb-2 text-sm">
               Email <span className="text-red-500">*</span>
             </label>
             <div className="relative mt-2">
@@ -50,10 +50,10 @@ function SignUpComponent() {
                 onChange={e => setEmail(e.target.value)}
                 type="email"
                 id="email"
-                className="dark:bg-[#2E3856] dark:text-white dark:outline-none dark:border-none block w-full rounded-md bg-white px-10 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
+                className="px-9 dark:bg-[#2E3856] dark:focus:outline-none dark:border-none dark:outline-none dark:text-white block w-full rounded-md bg-white py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                 required
               />
-              <span className="absolute left-3 top-1.5 text-gray-400">
+              <span className="absolute left-3 top-1.5">
                 <i className="fa-regular fa-envelope"></i>
               </span>
             </div>
@@ -61,7 +61,7 @@ function SignUpComponent() {
 
           {/* Password Input */}
           <div className="mb-6">
-            <label htmlFor="password" className="dark:text-white block text-gray-600 text-sm mb-1">
+            <label htmlFor="password" className="font-medium block dark:text-white text-gray-700 mb-2 text-sm">
               Mật khẩu <span className="text-red-500">*</span>
             </label>
             <div className="relative mt-2">
@@ -69,10 +69,10 @@ function SignUpComponent() {
                 onChange={e => setPassword(e.target.value)}
                 type="password"
                 id="password"
-                className="dark:bg-[#2E3856] dark:text-white dark:outline-none dark:border-none block w-full rounded-md bg-white px-10 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 sm:text-sm/6"
+                className="px-9 dark:bg-[#2E3856] dark:focus:outline-none dark:border-none dark:outline-none dark:text-white block w-full rounded-md bg-white py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                 required
               />
-              <span className="absolute left-3 top-1.5 text-gray-400">
+              <span className="absolute left-3 top-1.5">
                 <i className="fa-solid fa-lock"></i>
               </span>
             </div>
@@ -87,9 +87,9 @@ function SignUpComponent() {
                 onChange={e => setIsRemember(e.target.checked)} 
                 type="checkbox" 
                 id="isRemember" 
-                className="text-blue-500" 
+                className="text-blue-500 w-4 h-4" 
               />
-              <label htmlFor="isRemember" className="text-gray-600 dark:text-white ml-2 text-sm">Remember me</label>
+              <label htmlFor="isRemember" className="dark:text-white text-gray-700 ml-2 text-sm">Remember me</label>
             </div>
             <Link to='/forgot-password' className="hover:underline text-sm text-blue-500">Forgot password</Link>
           </div>

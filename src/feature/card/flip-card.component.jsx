@@ -1,44 +1,44 @@
 
 import { useEffect, useState } from 'react';
-import {baseUrl, fetchData, showToastError, showToastMessage } from '../../global';
+import { baseUrl, fetchData, showToastError, showToastMessage } from '../../global';
 import { useParams } from 'react-router-dom';
 
 function FlipCardComponent() {
 
 
-    const params = useParams();  
+    const params = useParams();
     const [cards, setCards] = useState();
     const [deck, setDeck] = useState();
     const [index, setIndex] = useState(0);
     const accessToken = localStorage.getItem('accessToken');
 
     async function getCards() {
-        const subUrl = `/decks/${params.id}/study-cards`; 
-        try { 
-            const { data } = await fetchData(subUrl, 'GET'); 
-            setCards(data);             
+        const subUrl = `/decks/${params.id}/study-cards`;
+        try {
+            const { data } = await fetchData(subUrl, 'GET');
+            setCards(data);
         }
-        catch(error) { 
+        catch (error) {
             console.log(error.message);
         }
     }
 
     async function getDeck() {
         const subUrl = `/decks/${params.id}`;
-        try { 
+        try {
             const response = await fetchData(subUrl, 'GET');
             setDeck(response.data);
         }
-        catch(error) {
+        catch (error) {
             console.log(error.message);
         }
     }
 
 
     useEffect(() => {
-        console.log("FlipCard"); 
-        getDeck(); 
-        getCards(); 
+        console.log("FlipCard");
+        getDeck();
+        getCards();
     }, [])
 
 
@@ -69,7 +69,7 @@ function FlipCardComponent() {
         return <div className='h-full relative flex flex-col items-center justify-center'>
             {action()}
             {cards[index].image && <div className="h-40 flex justify-center">
-                <img className="object-contain" src={cards[index].image} loading="lazy"/>
+                <img className="object-contain" src={cards[index].image} loading="lazy" />
             </div>}
             <p className="text-2xl text-center">{cards[index].term}</p>
         </div>
@@ -87,15 +87,15 @@ function FlipCardComponent() {
         const id = cards[index].id
         const card = cards[index]
         const formData = new FormData()
-        if (card.isFavorite) { 
-            formData.append('isFavourite', false) 
+        if (card.isFavorite) {
+            formData.append('isFavourite', false)
         }
-        else { 
-            formData.append('isFavourite', true)  
+        else {
+            formData.append('isFavourite', true)
         }
         const url = `${baseUrl}/cards/${id}`
         try {
-            const jsonRp = await fetch(url, {   
+            const jsonRp = await fetch(url, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${accessToken}`,
@@ -113,50 +113,49 @@ function FlipCardComponent() {
         }
     }
 
-    function handleAudio(audioUrl) { 
-        const audioPlayer = document.getElementById('audioPlayer')
-        audioPlayer.src = audioUrl
-        audioPlayer.play()
+    function handleAudio(audioUrl) {
+        const audioPlayer = document.getElementById('audioPlayer');
+        audioPlayer.src = audioUrl;
+        audioPlayer?.play();
     }
 
 
-    const onSwitchFavourite = async (event, id, isFavourite) => { 
+    const onSwitchFavourite = async (event, id, isFavourite) => {
 
-        event.stopPropagation();         
-        const value = !isFavourite; 
-        const subUrl = `/cards/${id}/favourite?value=${value}`; 
-        try { 
+        event.stopPropagation();
+        const value = !isFavourite;
+        const subUrl = `/cards/${id}/favourite?value=${value}`;
+        try {
             await fetchData(subUrl, 'PUT');
 
             // cập nhập trên giao diện đi. 
-            setCards(cards.map(card => { 
-                return { 
+            setCards(cards.map(card => {
+                return {
                     ...card, isFavourite: value
                 }
             }))
         }
-        catch(error) { 
-            const {message} = error; 
-            console.log(message); 
+        catch (error) {
+            const { message } = error;
+            console.log(message);
         }
-
-        
-
     }
 
 
     function action() {
         return (
             <div className='absolute top-4 right-8 flex items-center gap-x-3'>
-                {/* kiểm tra xem có audio hay không */}
-                <button onClick={event => {
-                    event.stopPropagation()
-                    handleAudio(cards[index].audio)
-                }}>
-                    <i className="fa-solid fa-headphones text-xl"></i>
-                </button>
+                {
+                    cards[index].audio && <button onClick={event => {
+                        event.stopPropagation()
+                        handleAudio(cards[index].audio)
+                    }}>
+                        <i className="fa-solid fa-headphones text-xl"></i>
+                    </button>
+                }
 
-              
+
+
                 <button onClick={event => onSwitchFavourite(event, cards[index].id, cards[index].isFavourite)}><i className={`fa-regular fa-star text-xl font-light ${cards[index].isFavourite ? 'text-yellow-500' : ''}`}></i></button>
             </div>
         )
@@ -171,8 +170,8 @@ function FlipCardComponent() {
             <audio className='hidden' id="audioPlayer" controls></audio>
             <div className="card-container">
                 {
-                    deck && (<h3 className='font-medium'>Bộ thẻ: { deck.name }</h3>)
-                } 
+                    deck && (<h3 className='font-medium'>Bộ thẻ: {deck.name}</h3>)
+                }
                 <div className="mt-12 card mx-auto" id="card" onClick={handleFlipCard}>
                     <div className="card-front">
                         {front()}
