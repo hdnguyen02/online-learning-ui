@@ -106,17 +106,22 @@ export default function CommonDecksComponent() {
   }
 
   const stylesModalCreateCommonDeck = {
+    overlay: {
+      backgroundColor: "rgba(0, 0, 0, 0.6)",
+      zIndex: 1000
+  },
     content: {
       width: '620px',
-      height: '400px',
+      height: '430px',
       top: '50%',
       left: '50%',
       transform: 'translate(-50%, -50%)',
-      padding: '20px 40px',
+      padding: '40px 40px',
       borderRadius: '8px',
       backgroundColor: 'while',
       border: '0px',
-      boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
+      
+
     },
   };
 
@@ -174,7 +179,8 @@ export default function CommonDecksComponent() {
         onRequestClose={onCloseDeleteCommonDeck}
         style={{
           overlay: {
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            backgroundColor: "rgba(0, 0, 0, 0.6)",
+            zIndex: 1000
           },
           content: {
             position: "absolute",
@@ -184,8 +190,6 @@ export default function CommonDecksComponent() {
             width: "540px",
             height: "200px",
             borderRadius: "8px",
-            boxShadow: "rgba(0, 0, 0, 0.4) 0px 30px 90px",
-            overflow: "visible",
           },
         }}
       >
@@ -257,7 +261,7 @@ export default function CommonDecksComponent() {
 
 
       {commonDecks ? (
-        <div className="mb-8 grid grid-cols-2 gap-8">
+        <div className="mt-8 grid grid-cols-2 gap-8">
           {commonDecks.map((commonDeck, index) => (
             <div key={index} className="flex justify-between gap-x-6 p-5 border rounded-lg bg-white dark:bg-[#2E3856] dark:border-none">
               <div className="flex min-w-0 gap-x-4">
@@ -270,9 +274,7 @@ export default function CommonDecksComponent() {
                   <p className="text-sm font-semibold leading-6 text-gray-900 dark:text-white">
                     {commonDeck.name}
                   </p>
-                  {/* <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                                {ownerClass.owner.email}
-                            </p> */}
+                 
                   <span className="text-gray-800 dark:text-white text-sm">
                     {customFormatDistanceToNow(commonDeck.createdDate)}
                   </span>
@@ -320,27 +322,17 @@ export default function CommonDecksComponent() {
         <form onSubmit={handleCreateCommonDeck} className="">
           <div className="flex justify-between">
             <h3 className="text-gray-800 text-lg font-medium">
-              Create common card set
+              Tạo bộ thẻ
             </h3>
-            <button
-              onClick={() => setIsOpenCreateCommonDeck(false)} 
-              type="button"
-            >
-              <img src="/close.png" className="w-5 h-5" alt="" />
-            </button>
-
-            {/* <button type="button" className="flex gap-x-2 items-center text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-lg text-sm px-5 py-2 text-center">
-            <i className="fa-solid fa-plus"></i>
-            <span>{t('ACTION.CREATE')}</span>
-          </button> */}
+          
           </div>
 
           {/* <hr className="my-4" /> */}
 
           <div className="mt-6">
             <div className="flex flex-col gap-y-2 w-full">
-              <label className="text-sm text-gray-600 font-bold" htmlFor="">
-                Name
+              <label className="text-sm font-medium" htmlFor="">
+                Tên bộ thẻ<span className="text-red-500">*</span>
               </label>
               <input
                 onChange={(e) => setName(e.target.value)}
@@ -352,10 +344,10 @@ export default function CommonDecksComponent() {
             </div>
 
             <div className="flex flex-col gap-y-2 w-full mt-4">
-              <label className="text-sm text-gray-600 font-bold" htmlFor="">
-                description
+              <label className="text-sm font-medium" htmlFor="">
+                Mô tả bộ thẻ
               </label>
-              <input
+              <textarea
                 onChange={(e) => setDescription(e.target.value)}
                 value={description}
                 type="text"
@@ -382,7 +374,7 @@ export default function CommonDecksComponent() {
 
           </div>
 
-          <hr className="my-5" />
+          {/* <hr className="my-5" /> */}
           <div className="mt-4 flex justify-end items-center">
             {/* checkbox public => công khai lớp hay không */}
 
@@ -390,7 +382,7 @@ export default function CommonDecksComponent() {
               type="submit"
               className="h-10 w-full items-center gap-x-2 px-8 text-sm text-center text-white font-bold rounded-md bg-primary sm:w-fit hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300"
             >
-              Submit
+              Đòng ý
             </button>
           </div>
         </form>

@@ -27,26 +27,21 @@ class UserService {
 
     }
 
-    async updateAvatarUser(data) { 
-        const subUrl = '/users/avatar'; 
-        try { 
-            await fetchData(subUrl, 'PUT', data); 
+    async updateAvatarUser(data) {
+        const subUrl = '/users/avatar';
+        try {
+            await fetchData(subUrl, 'PUT', data);
             return true;
         }
-        catch(error) { 
-            return false; 
+        catch (error) {
+            return false;
         }
     }
 
-    async updatePWUser(data) { 
+    async updatePWUser(data) {
         const subUrl = '/users/password';
-        try { 
-            await fetchData(subUrl, 'PUT', data); 
-            return true; 
-        }
-        catch(error) { 
-            return false; 
-        }
+        await fetchData(subUrl, 'PUT', data);
+        return true;
     }
 }
 

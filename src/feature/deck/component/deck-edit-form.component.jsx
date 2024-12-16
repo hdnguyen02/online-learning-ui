@@ -19,11 +19,6 @@ const DeckEditFormComponent = ({getDecks, isOpenEditDeck, onCloseEditDeck, idDec
 
     const { t } = useTranslation();
     const [step, setStep] = useState(0);
-    const [isOpen, setIsOpen] = useState(false);
-    const openModal = () => setIsOpen(true);
-    const closeModal = () => setIsOpen(false);
-
-
     const [querySearchImage, setQuerySearchImage] = useState('');
     const [searchedImage, setSearchedImage] = useState([]);
 
@@ -60,17 +55,7 @@ const DeckEditFormComponent = ({getDecks, isOpenEditDeck, onCloseEditDeck, idDec
         setStep(0);
     }
 
-    const resetData = () => { 
-        setDeckUpdate({
-            id: null, 
-            name: null, 
-            description: null,
-            isPublic: false,
-            configLanguage: ""
-        }); 
-        setCardUpdates([]); 
-        setStep(0); 
-    }
+ 
 
     const onSubmit = async (e) => {
         e.preventDefault();
@@ -86,8 +71,6 @@ const DeckEditFormComponent = ({getDecks, isOpenEditDeck, onCloseEditDeck, idDec
     }
 
     const onKeyDownSearchImage = async (e) => {
-        // e.preventDefault(); 
-        // check enter.
         if (e.key != 'Enter') return;
 
         const rawData = await deckService.searchImages(querySearchImage);
@@ -134,8 +117,6 @@ const DeckEditFormComponent = ({getDecks, isOpenEditDeck, onCloseEditDeck, idDec
                 configLanguage: rawData.configLanguage
             })
 
-            console.log("isPublic: ", rawData.isPublic);
-
             setCardUpdates(rawData.cards.map(originCard => { 
                 return { ...originCard, isOrigin: true }
             })); 
@@ -177,17 +158,6 @@ const DeckEditFormComponent = ({getDecks, isOpenEditDeck, onCloseEditDeck, idDec
             },
         ],
     };
-
-    const [infoDeck, setInfoDeck] = useState({
-        name: null, 
-        description: null,
-        isPublic: false,
-        configLanguage: ""
-    });
-
-
-    const [cards, setCards] = useState([]);
-
 
     const isButtonContinueDisabled = !( deckUpdate?.name.trim() && deckUpdate?.configLanguage.trim());
 
@@ -296,17 +266,20 @@ const DeckEditFormComponent = ({getDecks, isOpenEditDeck, onCloseEditDeck, idDec
                     zIndex: 1000
                  },
                 content: {
-                    top: "0",
+                    top: "60px",
                     left: "0",
                     right: "0",
                     bottom: "auto",
-                    height: "100vh",
-                    maxWidth: "100%",
+                    height: "calc(100vh - 90px)",
+                    maxWidth: "92%",
                     margin: "0 auto",
+                    // padding: "20px 40px",
+                    borderRadius: "0px",
                     padding: "0px",
-                    borderRadius: "8px",
+                    borderRadius: "8px", 
                     display: "flex",
                     flexDirection: "column",
+                    borderWidth: "0px"
                 },
             }}
         >
@@ -322,7 +295,7 @@ const DeckEditFormComponent = ({getDecks, isOpenEditDeck, onCloseEditDeck, idDec
                 
                 
                 </div>
-                {/* <hr className="mt-4" /> */}
+                <hr className="mt-4 dark:opacity-10" />
 
                 {/*  steps */}
                 <div className="mt-3 relative">
@@ -388,18 +361,18 @@ const DeckEditFormComponent = ({getDecks, isOpenEditDeck, onCloseEditDeck, idDec
                                 <input
                                     onChange={(e) => setDeckUpdate({ ... deckUpdate, name: e.target.value })}
                                     value={deckUpdate?.name}
-                                    className="appearance-none border dark:text-white dark:outline-none dark:bg-[#2E3856] dark:border-0 dark:rounded-md  w-full py-2 px-3 text-gray-700 leading-tight" id="username" type="text"
+                                    className="focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600  appearance-none border dark:text-white dark:outline-none dark:bg-[#2E3856] dark:border-0 rounded-md  w-full py-2 px-3 text-gray-700 leading-tight" id="username" type="text"
                                     required
                                 />
                             </div>
                             <div className="mb-6">
-                                <label className="dark:text-white block text-gray-700 text-sm font-bold mb-2" htmlFor="description">
+                                <label className="focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600  dark:text-white block text-gray-700 text-sm font-bold mb-2" htmlFor="description">
                                     {t('DECK.DESCRIPTION')}
                                 </label>
                                 <textarea
                                     onChange={(e) => setDeckUpdate({ ... deckUpdate, description: e.target.value })}
                                     value={deckUpdate?.description}
-                                    className="appearance-none border dark:bg-[#2E3856] dark:text-white dark:outline-none dark:border-0 dark:rounded-md w-full py-2 px-3 text-gray-700 mb-3 leading-tight" id="description" type="text" />
+                                    className="focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600  appearance-none border dark:bg-[#2E3856] dark:text-white dark:outline-none dark:border-0 rounded-md w-full py-2 px-3 text-gray-700 mb-3 leading-tight" id="description" type="text" />
                             </div>
 
 
@@ -415,7 +388,7 @@ const DeckEditFormComponent = ({getDecks, isOpenEditDeck, onCloseEditDeck, idDec
                                         onChange={(e) => setDeckUpdate({ ... deckUpdate, configLanguage: e.target.value })}
                                         value={deckUpdate?.configLanguage}
                                         required
-                                        className="dark:bg-[#2E3856] dark:text-white dark:border-0 w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border dark:border-none border-slate-200 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow-md appearance-none cursor-pointer">
+                                        className="focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600  dark:bg-[#2E3856] dark:text-white dark:border-0 w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border dark:border-none border-slate-200 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow-md appearance-none cursor-pointer">
                                         <option value="" disabled>Choose a language</option>
                                         {languages.map((language, index) => (<option key={index} value={language.hl}>{language.value}</option>))}
                                     </select>
@@ -471,7 +444,7 @@ const DeckEditFormComponent = ({getDecks, isOpenEditDeck, onCloseEditDeck, idDec
                                                                     c.id === cardUpdate.id ? { ...c, term: e.target.value } : c
                                                                 ));
                                                             }}
-                                                            className="bg-transparent py-1 rounded-none border-0 border-b-2 focus:border-green-500 border-gray-500 outline-none w-full"
+                                                            className="bg-transparent py-1 rounded-none border-0 border-b-2 focus:border-indigo-600 border-gray-500 outline-none w-full"
                                                             type="text"
                                                             required
                                                         />
@@ -486,7 +459,7 @@ const DeckEditFormComponent = ({getDecks, isOpenEditDeck, onCloseEditDeck, idDec
                                                                 ));
                                                             }}
                                                             required
-                                                            className="bg-transparent py-1 rounded-none border-0 border-b-2 border-gray-500 focus:border-green-500 outline-none w-full"
+                                                            className="bg-transparent py-1 rounded-none border-0 border-b-2 border-gray-500 focus:border-indigo-600 outline-none w-full"
                                                             type="text"
                                                         />
                                                         <label className="dark:text-white mt-2 text-xs uppercase text-gray-800 font-medium">Định nghĩa<span className="text-red-500">*</span></label>
@@ -494,7 +467,7 @@ const DeckEditFormComponent = ({getDecks, isOpenEditDeck, onCloseEditDeck, idDec
 
                                                     <div className="flex flex-col flex-1">
                                                     <input
-                                                        className="bg-transparent py-1 rounded-none border-0 border-b-2 border-gray-500 focus:border-green-500 outline-none w-full"
+                                                        className="bg-transparent py-1 rounded-none border-0 border-b-2 border-gray-500 focus:border-indigo-600 outline-none w-full"
                                                         type="text"
                                                         value={cardUpdate.example}
                                                         onChange={(e) => {
@@ -510,7 +483,7 @@ const DeckEditFormComponent = ({getDecks, isOpenEditDeck, onCloseEditDeck, idDec
                                                 </div>
                                                 {/* <div className="flex flex-col flex-1">
                                                     <input
-                                                        className="bg-transparent py-1 rounded-none border-0 border-b-2 border-gray-500 focus:border-green-500 outline-none w-full"
+                                                        className="bg-transparent py-1 rounded-none border-0 border-b-2 border-gray-500 focus:border-indigo-600 outline-none w-full"
                                                         type="text"
                                                         value={card.example}
                                                         onChange={(e) => {

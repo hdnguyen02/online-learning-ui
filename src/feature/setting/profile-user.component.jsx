@@ -23,17 +23,29 @@ export default function InfoUserComponent() {
     const [newPW, setNewPW] = useState();
     const [confirmPW, setConfirmPW] = useState();
 
-    const onSubmitUpdatePW = async () => {
+    const onSubmitUpdatePW = async (event) => {
+
+        event.preventDefault(); 
 
         // gửi lên 3 dữ liệu. 
         const data = { 
             oldPW, newPW, confirmPW 
         }; 
-        const isSuccess = await userService.updatePWUser(data); 
-        if (isSuccess) showToastMessage("Success"); 
-        else showToastMessage("Fail!"); 
-        
+    
+        try { 
+            await userService.updatePWUser(data); 
+            showToastMessage("Success"); 
+            setOldPW(null); 
+            setConfirmPW(null); 
+            setNewPW(null); 
+            onCloseUpdatePW(); 
+        }
+        catch(error) { 
+            const {message} = error; 
+            showToastError(message); 
+        } 
 
+        
     }
 
     const [user, setUser] = useState();
@@ -111,6 +123,8 @@ export default function InfoUserComponent() {
         
     }
 
+    
+
 
 
     useEffect(() => {
@@ -123,6 +137,7 @@ export default function InfoUserComponent() {
 
         fetchData();
     }, []);
+
 
     return <div >
         <ToastContainer/>
@@ -188,11 +203,11 @@ export default function InfoUserComponent() {
                     </div>
 
                     <div className="sm:col-span-3">
-                        <label for="last-name" className="block text-sm/6 font-medium text-gray-900 dark:text-white">Last name</label>
+                        <label className="block text-sm/6 font-medium text-gray-900 dark:text-white">Last name</label>
                         <div className="mt-2">
                             <input value={user?.lastName} onChange={e => setUser({
                                 ...user, lastName: e.target.value
-                            })} type="text" name="last-name" id="last-name" autocomplete="family-name" className="dark:bg-[#2E3856] dark:focus:outline-none dark:border-none dark:outline-none dark:text-white block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+                            })} type="text" autocomplete="family-name" className="dark:bg-[#2E3856] dark:focus:outline-none dark:border-none dark:outline-none dark:text-white block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
                         </div>
                     </div>
 
@@ -205,12 +220,12 @@ export default function InfoUserComponent() {
                     </div>
 
                     <div className="sm:col-span-3">
-                        <label for="last-name" className="block text-sm/6 font-medium text-gray-900 dark:text-white">Date of birth</label>
+                        <label className="block text-sm/6 font-medium text-gray-900 dark:text-white">Date of birth</label>
                         <div className="mt-2">
                             <input value={customFormatYYY_MM_DD(user?.dateOfBirth)} onChange={e => setUser({
                                 ...user, dateOfBirth: e.target.value
                             })}
-                                type="date" name="last-name" id="last-name" autocomplete="family-name" className="h-[36px] dark:bg-[#2E3856] dark:focus:outline-none dark:border-none dark:outline-none dark:text-white block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+                                type="date" autocomplete="family-name" className="h-[36px] dark:bg-[#2E3856] dark:focus:outline-none dark:border-none dark:outline-none dark:text-white block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
                         </div>
                     </div>
 
@@ -226,11 +241,11 @@ export default function InfoUserComponent() {
                     </div>
 
                     <div className="sm:col-span-3">
-                        <label for="last-name" className="block text-sm/6 font-medium text-gray-900 dark:text-white">Gender</label>
+                        <label className="block text-sm/6 font-medium text-gray-900 dark:text-white">Gender</label>
                         <div className="mt-2">
                             <select value={user?.gender} onChange={e => setUser({
                                 ...user, gender: e.target.value
-                            })} type="date" name="last-name" id="last-name" autocomplete="family-name" className="h-[36px] dark:bg-[#2E3856] dark:focus:outline-none dark:border-none dark:outline-none dark:text-white block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+                            })} type="date" autocomplete="family-name" className="h-[36px] dark:bg-[#2E3856] dark:focus:outline-none dark:border-none dark:outline-none dark:text-white block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
                                 <option value="null">-</option>
                                 <option value="MALE">Male</option>
                                 <option value="FEMALE">Female</option>
@@ -292,6 +307,7 @@ export default function InfoUserComponent() {
                             value={newPW}
                             type="password"
                             className='dark:bg-[#2E3856] dark:text-white dark:border-none dark:outline-none dark:focus:outline-none block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6'
+                            required
                         />
                     </div>
 
@@ -304,6 +320,7 @@ export default function InfoUserComponent() {
                             value={confirmPW}
                             type="password"
                             className='dark:bg-[#2E3856] dark:text-white dark:border-none dark:outline-none dark:focus:outline-none block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6'
+                            required
                         />
                     </div>
 
@@ -312,7 +329,7 @@ export default function InfoUserComponent() {
                 {/* <hr className='my-4 dark:opacity-10 ' /> */}
                 <div className='mt-4 flex gap-x-3 justify-end items-center'>
                 <button onClick={onCloseUpdatePW} className="py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Cancel</button>
-                    <button
+                    <button 
                         type='submit'
                         className='h-10 w-full items-center gap-x-2 px-8 text-sm text-center text-white font-bold rounded-md bg-primary sm:w-fit hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300'
                     >
