@@ -16,28 +16,27 @@ export default function ForgotPW() {
 
         if (newPassword !== confirmPassword) {
             
-            failRef.current.show('New password and confirmation password do not match!')
-            return
+            failRef.current.show('New password and confirmation password do not match!');
+            return;
         }
         // lấy ra token trên url đó. 
-        const searchParams = new URLSearchParams(location.search)
-        const accessToken = searchParams.get('access-token')
+        const searchParams = new URLSearchParams(location.search);
+        const accessToken = searchParams.get('access-token');
 
         
         try {
-            const subUrl = '/reset-password'
-            localStorage.setItem('accessToken', accessToken)
+            const subUrl = '/reset-password';
+            localStorage.setItem('accessToken', accessToken);
             const body = {
                 newPassword, accessToken
             }
-            console.log(body)
-            const {message} = await fetchData(subUrl, 'POST', body)
+            const {message} = await fetchData(subUrl, 'POST', body);
             showToastMessage(message); 
             
             }
             catch (error) {
-                const {message} = error
-                showToastError(message)
+                const {message} = error;
+                showToastError(message);
             }
     }
 

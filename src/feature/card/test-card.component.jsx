@@ -105,19 +105,11 @@ export default function TestCardComponent() {
     useEffect(() => {
         if (!questions) return;
         const numberQuestionsCompleted = questions.filter(question => question.isCompleted).length;
-        // lưu thông số vào đây luôn đi. cần lưu lại câu nào đúng câu nào sai. 
 
         setProgressBar({
             ...progressBar,
             numberQuestionsCompleted
         });
-
-
-        // tính toán số câu hỏi.   
-
-
-
-
     }, [questions]);
 
 
@@ -169,9 +161,11 @@ export default function TestCardComponent() {
         const countWrongAnswer = questions.filter(question => question.correctAnswer.id != question.idChoose).length;
         const countCorrectAnswer = questions.filter(question => question.correctAnswer.id == question.idChoose).length;
         setPercentCorrect((countCorrectAnswer / totalQuestion) * 100);
+        console.log("Debug: ");
+        console.log(countCorrectAnswer, countWrongAnswer);
         setOverview([
             { name: "countWrongAnswer", value: countWrongAnswer },
-            { name: "countCorrectAnswer", value: countCorrectAnswer }
+            { name: " countCorrectAnswer", value: countCorrectAnswer },
         ])
 
         setQuestions(questions.map(question => {
@@ -207,7 +201,7 @@ export default function TestCardComponent() {
         handleComputedResultTest();
     }
 
-    const COLORS = ["#00C49F", "#FF8042"]; // Màu cho phần đúng và sai
+    const COLORS = ["#FF8042", "#00C49F"]; // Màu cho phần đúng và sai
 
 
     return <div>
@@ -420,31 +414,42 @@ export default function TestCardComponent() {
                                 <div className="w-full">
                                     <div className="flex justify-between items-center">
                                         <span className="font-medium text-[#00C49F] text-xl">Correct</span>
-                                        <span className="font-medium text-[#00C49F] text-xl">{overview[0].value}</span>
+                                        <span className="font-medium text-[#00C49F] text-xl">{overview[1].value}</span>
                                     </div>
                                     <div className="flex justify-between items-center">
                                         <span className="font-medium text-[#FF8042] text-xl">Incorrect</span>
-                                        <span className="font-medium text-[#FF8042] text-xl">{overview[1].value}</span>
+                                        <span className="font-medium text-[#FF8042] text-xl">{overview[0].value}</span>
                                     </div>
                                 </div>
 
                             </div>
-
-
-                            
                         </div>
                         <div className="w-1/2">
                             <div className="text-xl font-bold dark:text-gray-400">
                                 Next steps
                             </div>
                             <div className="mt-10">
-                                <div className="dark:bg-[#2E3856] h-32 rounded-lg p-8 flex gap-x-3">
-                                    <div>
+
+
+                                <div className="dark:bg-[#2E3856] h-32 rounded-lg p-4 flex gap-x-3">
+                                    <div className="w-16 flex items-center">
                                         <img src="/src/assets/image/replay.png" alt="" />
                                     </div>
 
-                                    <div>
-                                        
+                                    <div className="flex flex-col gap-y-2 justify-center">
+                                        <span className="w-32 bg-purple-100 text-purple-800 text-xs font-medium px-2.5 py-0.5 rounded-lg dark:bg-purple-900 dark:text-white">{overview[1].value} Thuật ngữ sai</span>
+                                        <span className="dark:text-purple-300">Ôn luyện thuật ngữ trong chế độ học</span>
+                                        <span className="text-xs">Ôn luyện các thuật ngữ bạn bỏ lỡ cho đến khi bạn nắm chắc</span>
+                                    </div>
+                                </div>
+                                <div className="mt-5 dark:bg-[#2E3856] h-32 rounded-lg p-4 flex gap-x-3">
+                                    <div className="w-16 flex items-center">
+                                        <img src="/src/assets/image/form.png" alt="" />
+                                    </div>
+
+                                    <div className="flex flex-col gap-y-2 justify-center">
+                                        <span className="dark:text-purple-300">Làm bài kiểm tra mới</span>
+                                        <span className="text-xs">Hãy thử một bài kiểm tra khác để tăng sự tự tin của bạn</span>
                                     </div>
                                 </div>
                             </div>
@@ -489,14 +494,41 @@ export default function TestCardComponent() {
                                     </div>
                                     {/* Câu hỏi */}
                                     <div className="mt-8">
-
-                                        <span className="text-sm font-medium">chọn đáp án đúng</span>
+                                        {
+                                            question?.isCorrected == false ? <span className="text-sm font-medium text-red-500">Đừng nản chí, học là một quá trình</span> : 
+                                            <span className="text-sm font-medium text-green-500">Bạn đã trả lời đúng</span>
+                                        }
+                                        
                                         <div className="mt-5 grid grid-cols-2 gap-6">
                                             {
                                                 question.answers.map((answer, index) => {
-                                                    return <div onClick={e => onChooseAnswer(e, question.id, answer.id)} key={index} id={`question-${question.id}`} className={`p-4 rounded-lg answer cursor-pointer ${answer.isSelected ? 'is-choose-answer' : ''}`}>
+
+
+
+                                                    // trong này cần check xem, nếu đúng rồi thì làm sao. 
+                                                    // nếu sai thì làm sao. 
+                                                    if (answer.id == question.correctAnswer.id) {
+                                                        return <div key={index} id={`question-${question.id}`} className="flex gap-x-3 items-center  p-4 rounded-lg answer cursor-pointer !border-2 !border-green-500">
+                                                                
+                                                                <i className="fa-solid fa-check text-green-500"></i>
+                                                                <span>{answer.contentAnswer}</span>
+                                                             
+                                                        </div>
+                                                    }
+                                                    if (answer.isSelected) { // Nguời dùng lưạ chọn không chính xác. 
+                                                        return <div key={index} id={`question-${question.id}`} className="flex gap-x-3 items-center p-4 rounded-lg answer cursor-pointer !border-2 !border-red-500">
+                                                            {/* <i className="fa-regular fa-circle-xmark"></i> */}
+                                                            <i class="fa-solid fa-x text-red-500"></i>
+                                                            <span>{answer.contentAnswer}</span>
+                                                             
+                                                        </div>
+                                                    }
+                                                    return <div key={index} id={`question-${question.id}`} className="p-4 rounded-lg answer cursor-pointer">
                                                         {answer.contentAnswer}
                                                     </div>
+
+
+
                                                 })
                                             }
                                         </div>
@@ -598,12 +630,12 @@ export default function TestCardComponent() {
                     <div className="mt-8 flex items-center justify-between">
                         <label>Câu hỏi (tối đa 15)</label>
 
-                        <input type="number" value={numberOfQuestions} onChange={e => setNumberOfQuestions(e.target.value)} className="dark:bg-[#2E3856] px-2 py-2 w-16 rounded-lg dark:text-white dark:border-none dark:outline-none dark:focus:outline-none text-gray-900" />
+                        <input type="number" value={numberOfQuestions} onChange={e => setNumberOfQuestions(e.target.value)} className="dark:bg-[#2E3856] px-2 py-2 w-16 rounded-lg dark:text-white dark:border-none dark:outline-none dark:focus:outline-none border border-gray-300 text-gray-900" />
                     </div>
 
 
                     <div className="mt-8 flex items-center justify-between">
-                        <label>Câu hỏi (tối đa 15)</label>
+                        <label>Trả lời với</label>
 
                         <select value={optionType} onChange={e => setOptionType(e.target.value)} className="dark:bg-[#2E3856] px-2 py-2 w-32 rounded-lg dark:text-white dark:border-none dark:outline-none dark:focus:outline-none text-gray-900" >
                             {

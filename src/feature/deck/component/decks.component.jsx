@@ -76,48 +76,9 @@ const Decks = () => {
       Header: "Action",
       width: "w-8", // Đặt chiều rộng cho cột "Action"
       Cell: ({ row }) => (
-        <div className="flex gap-x-4">
+        <div className="flex gap-x-6">
 
-        <button 
-          onClick={() => handleLearn(row.original.id)}
-          disabled={row.original.quantityCards === 0}
-          type="button" class="text-xs focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg px-5 py-1 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">Ôn tập</button>
-
-          {/* <button
-            onClick={() => handleLearn(row.original.id)}
-            disabled={row.original.quantityCards === 0}
-            className={`relative px-4 py-0.5 overflow-hidden font-medium text-indigo-600 bg-indigo-100 border border-gray-100 rounded shadow-inner group 
-            ${row.original.quantityCards === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
-          >
-            <span
-              className="absolute top-0 left-0 w-0 h-0 transition-all duration-200 border-t-2 border-indigo-600 group-hover:w-full ease"
-            ></span>
-            <span
-              className="absolute bottom-0 right-0 w-0 h-0 transition-all duration-200 border-b-2 border-indigo-600 group-hover:w-full ease"
-            ></span>
-            <span
-              className="absolute top-0 left-0 w-full h-0 transition-all duration-200 delay-100 bg-indigo-600 group-hover:h-full ease"
-            ></span>
-            <span
-              className="absolute bottom-0 left-0 w-full h-0 transition-all duration-200 delay-100 bg-indigo-600 group-hover:h-full ease"
-            ></span>
-            <span
-              className="absolute inset-0 w-full h-full duration-300 delay-200 bg-indigo-600 opacity-0 group-hover:opacity-100"
-            ></span>
-            <span
-              className="text-xs relative font-semibold transition-colors duration-200 delay-100 group-hover:text-white ease"
-            >
-              Ôn tập
-            </span>
-          </button> */}
-
-          {/* <button
-            onClick={() => handleLearn(row.original.id)}
-            disabled={row.original.quantityCards === 0}
-            className="rounded-md bg-slate-800 py-0.5 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-2">
-              Ôn tập
-          </button> */}
-
+     
 
 
           <button onClick={() => onOpenEditDeck(row.original.id)} className="ml-2">
@@ -134,6 +95,10 @@ const Decks = () => {
             {/* <img src="/src/assets/image/delete.png" className="w-4 h-4" /> */}
             <i class="fa-solid fa-trash"></i>
           </button>
+          <button 
+          onClick={() => handleLearn(row.original.id)}
+          disabled={row.original.quantityCards === 0}
+          type="button" class="text-xs focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-md px-3 py-1 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">Ôn tập</button>
         </div>
       ),
     },
@@ -252,9 +217,9 @@ const Decks = () => {
               <img src="/src/assets/image/alert.png" alt="" />
             </div>
             <div className="mt-4 text-center md:text-left md:ml-6">
-              <p className="font-bold text-lg text-gray-900">Delete your deck</p>
+              <p className="font-bold text-lg text-gray-900">Xóa bộ thẻ</p>
               <p className="text-sm text-gray-700 mt-1">
-                You will lose all of your data by deleting your account. This action cannot be undone.
+              Bạn sẽ mất tất cả dữ liệu khi xóa bộ thẻ của mình. Không thể hoàn tác hành động này.
               </p>
             </div>
           </div>
@@ -265,13 +230,13 @@ const Decks = () => {
 
               className="px-4 py-2 bg-gray-200 text-black rounded-lg font-semibold text-sm"
             >
-              Cancel
+              Hủy
             </button>
             <button onClick={() => onConfirmDeleteDeck()}
 
               className="px-4 py-2 bg-red-500 text-white rounded-lg font-semibold text-sm"
             >
-              Delete Account
+              Xóa
             </button>
           </div>
         </div>

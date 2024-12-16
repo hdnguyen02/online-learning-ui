@@ -277,7 +277,7 @@ const DeckCreateForm = ({ getDecks }) => {
                     // padding: "20px 40px",
                     borderRadius: "0px",
                     padding: "0px",
-
+                    borderRadius: "8px", 
                     display: "flex",
                     flexDirection: "column",
                     borderWidth: "0px"
@@ -297,7 +297,7 @@ const DeckCreateForm = ({ getDecks }) => {
                 <hr className="mt-4 dark:opacity-10" />
 
                 {/*  steps */}
-                <div className="mt-12 relative">
+                <div className="mt-3 relative">
                     <ol className="flex items-center w-full justify-between relative">
                         {/* Step 1 */}
                         <li className={`flex items-center w-full relative z-10 ${step === 0 ? 'text-blue-600' : 'text-gray-500'}`}>
@@ -360,7 +360,7 @@ const DeckCreateForm = ({ getDecks }) => {
                                 <input
                                     onChange={(e) => setInfoDeck({ ...infoDeck, name: e.target.value })}
                                     value={infoDeck.name}
-                                    className="appearance-none border dark:text-white dark:outline-none dark:bg-[#2E3856] dark:border-0 dark:rounded-md  w-full py-2 px-3 text-gray-700 leading-tight" id="username" type="text"
+                                    className="focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 appearance-none border dark:text-white dark:outline-none dark:bg-[#2E3856] dark:border-0 rounded-md  w-full py-2 px-3 text-gray-700 leading-tight" id="username" type="text"
                                     required
                                 />
                             </div>
@@ -371,7 +371,7 @@ const DeckCreateForm = ({ getDecks }) => {
                                 <textarea
                                     onChange={(e) => setInfoDeck({ ...infoDeck, description: e.target.value })}
                                     value={infoDeck.description}
-                                    className="appearance-none border dark:bg-[#2E3856] dark:text-white dark:outline-none dark:border-0 dark:rounded-md w-full py-2 px-3 text-gray-700 mb-3 leading-tight" id="description" type="text" />
+                                    className="focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 appearance-none border dark:bg-[#2E3856] dark:text-white dark:outline-none dark:border-0 rounded-md w-full py-2 px-3 text-gray-700 mb-3 leading-tight" id="description" type="text" />
                             </div>
 
 
@@ -383,7 +383,7 @@ const DeckCreateForm = ({ getDecks }) => {
                                         onChange={(e) => setInfoDeck({ ...infoDeck, configLanguage: e.target.value })}
                                         value={infoDeck.configLanguage}
                                         required
-                                        className="dark:bg-[#2E3856] dark:text-white dark:border-0 w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm dark:border-none border border-slate-200 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow-md appearance-none cursor-pointer">
+                                        className="focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 dark:bg-[#2E3856] dark:text-white dark:border-0 w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm dark:border-none border border-slate-200 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow-md appearance-none cursor-pointer">
                                         <option value="" disabled>Choose a language</option>
                                         {languages.map((language, index) => (<option key={index} value={language.hl}>{language.value}</option>))}
                                     </select>
@@ -417,7 +417,7 @@ const DeckCreateForm = ({ getDecks }) => {
                     {step == 1 && <div>
 
 
-                        <div className="mt-6 relative overflow-y-scroll max-h-[320px] h-[320px]">
+                        <div className="mt-6 relative overflow-y-scroll max-h-[380px] h-[380px]">
 
                             <div id="container-form-card" className="flex flex-col gap-y-6">
                                 {
@@ -440,7 +440,7 @@ const DeckCreateForm = ({ getDecks }) => {
                                                                     );
                                                                     setCards(updatedCards);
                                                                 }}
-                                                                className="bg-transparent py-1 rounded-none border-0 border-b-2 focus:border-green-500 border-gray-500 dark:border-gray-50 outline-none w-full"
+                                                                className=" bg-transparent py-1 rounded-none border-0 border-b-2 focus:border-indigo-600 border-gray-500 dark:border-gray-50 outline-none w-full"
                                                                 type="text"
                                                                 required
                                                             />
@@ -456,7 +456,7 @@ const DeckCreateForm = ({ getDecks }) => {
                                                                     setCards(updatedCards);
                                                                 }}
                                                                 required
-                                                                className="bg-transparent py-1 rounded-none border-0 border-b-2 border-gray-500 dark:border-gray-50 focus:border-green-500 outline-none w-full"
+                                                                className="bg-transparent py-1 rounded-none border-0 border-b-2 border-gray-500 dark:border-gray-50 focus:border-indigo-600 outline-none w-full"
                                                                 type="text"
                                                             />
                                                             <label className="mt-2 text-xs uppercase text-gray-800 dark:text-white font-medium">Định nghĩa<span className="text-red-500">*</span></label>
@@ -464,7 +464,7 @@ const DeckCreateForm = ({ getDecks }) => {
 
                                                         <div className="flex flex-col flex-1">
                                                             <input
-                                                                className="bg-transparent py-1 rounded-none border-0 border-b-2 border-gray-500 dark:border-gray-50 focus:border-green-500 outline-none w-full"
+                                                                className="bg-transparent py-1 rounded-none border-0 border-b-2 border-gray-500 dark:border-gray-50 focus:border-indigo-600 outline-none w-full"
                                                                 type="text"
                                                                 value={card.example}
                                                                 onChange={(e) => {
@@ -591,7 +591,7 @@ const DeckCreateForm = ({ getDecks }) => {
                 onRequestClose={closeChooseImage}
                 style={{
                     overlay: {
-                        backgroundColor: "rgba(0, 0, 0, 0.001)",
+                        backgroundColor: "rgba(0, 0, 0, 0.6)",
                         zIndex: 100000
                     },
                     content: {
@@ -645,7 +645,7 @@ const DeckCreateForm = ({ getDecks }) => {
                 onRequestClose={closeChooseAudio}
                 style={{
                     overlay: {
-                        backgroundColor: "rgba(0, 0, 0, 0.001)",
+                        backgroundColor: "rgba(0, 0, 0, 0.6)",
                         zIndex: 100000
                     },
                     content: {

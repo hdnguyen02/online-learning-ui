@@ -107,17 +107,17 @@ const DeckDetailForm = ({ isOpenDetailDeck, onCloseDetailDeck, deck }) => {
                     zIndex: 1000
                 },
                 content: {
-                    top: "0",
+                    top: "60px",
                     left: "0",
                     right: "0",
                     bottom: "auto",
-                    height: "100vh",
-                    maxWidth: "100%",
+                    height: "calc(100vh - 90px)",
+                    maxWidth: "92%",
                     margin: "0 auto",
                     // padding: "20px 40px",
                     borderRadius: "0px",
-                    padding: "0px", 
-
+                    padding: "0px",
+                    borderRadius: "8px", 
                     display: "flex",
                     flexDirection: "column",
                     borderWidth: "0px"
@@ -137,10 +137,10 @@ const DeckDetailForm = ({ isOpenDetailDeck, onCloseDetailDeck, deck }) => {
                 
                 
                 </div>
-                {/* <hr className="mt-4" /> */}
+                <hr className="mt-4 dark:opacity-10" />
 
                 {/*  steps */}
-                <div className="mt-12 relative">
+                <div className="mt-4 relative">
                     <ol className="flex items-center w-full justify-between relative">
                         {/* Step 1 */}
                         <li className={`flex items-center w-full relative z-10 ${step === 0 ? 'text-blue-600' : 'text-gray-500'}`}>
@@ -203,7 +203,7 @@ const DeckDetailForm = ({ isOpenDetailDeck, onCloseDetailDeck, deck }) => {
                                 <input
                                     value={deck?.name}
                                     disabled
-                                    className="dark:border-none dark:rounded-md dark:text-white appearance-none border  w-full py-2 px-3 text-gray-700 leading-tight" id="username" type="text"
+                                    className="dark:border-none rounded-md dark:text-white appearance-none border w-full py-2 px-3 text-gray-700 leading-tight" id="username" type="text"
                                     required
                                     autoComplete="off"
                                 />
@@ -216,7 +216,7 @@ const DeckDetailForm = ({ isOpenDetailDeck, onCloseDetailDeck, deck }) => {
 
                                     value={deck?.description}
                                     disabled
-                                    className="dark:border-none dark:rounded-md dark:text-white appearance-none border  w-full py-2 px-3 text-gray-700 mb-3 leading-tight" id="description" type="text" />
+                                    className="dark:border-none rounded-md dark:text-white appearance-none border w-full py-2 px-3 text-gray-700 mb-3 leading-tight outline:border-green-500" id="description" type="text" />
                             </div>
 
 
@@ -227,7 +227,7 @@ const DeckDetailForm = ({ isOpenDetailDeck, onCloseDetailDeck, deck }) => {
                                         required
                                         disabled
                                         className="dark:text-white dark:border-none dark:bg-[#2E3856] w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow-md appearance-none cursor-pointer">
-                                        <option value="" disabled>Choose a language</option>
+                                        <option value="">Choose a language</option>
                                         {languages.map((language, index) => (<option key={index} value={language.hl}>{language.value}</option>))}
                                     </select>
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.2" stroke="currentColor" className="h-5 w-5 ml-1 absolute top-2.5 right-2.5 text-slate-700">
@@ -239,8 +239,8 @@ const DeckDetailForm = ({ isOpenDetailDeck, onCloseDetailDeck, deck }) => {
                                 <div className="flex gap-x-3">
                                     <label className="inline-flex items-center cursor-pointer">
                                         <input
+                                            disabled
                                             checked={deck?.isPublic}
-
                                             type="checkbox" className="sr-only peer" />
                                         <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
                                         <span className="ms-3 text-sm font-medium text-gray-900">Public</span>
@@ -265,13 +265,8 @@ const DeckDetailForm = ({ isOpenDetailDeck, onCloseDetailDeck, deck }) => {
                                                     <div className="flex gap-x-12">
                                                         <div className="flex flex-col flex-1">
                                                             <input
+                                                                disabled
                                                                 value={card.term}
-                                                                onChange={(e) => {
-                                                                    const updatedCards = cards.map(c =>
-                                                                        c.id === card.id ? { ...c, term: e.target.value } : c
-                                                                    );
-                                                                    setCards(updatedCards);
-                                                                }}
                                                                 className="bg-transparent py-1 rounded-none border-0 border-b-2 focus:border-green-500 border-gray-500 outline-none w-full"
                                                                 type="text"
                                                                 required
@@ -280,13 +275,8 @@ const DeckDetailForm = ({ isOpenDetailDeck, onCloseDetailDeck, deck }) => {
                                                         </div>
                                                         <div className="flex flex-col flex-1">
                                                             <input
+                                                                disabled
                                                                 value={card.definition}
-                                                                onChange={(e) => {
-                                                                    const updatedCards = cards.map(c =>
-                                                                        c.id === card.id ? { ...c, definition: e.target.value } : c
-                                                                    );
-                                                                    setCards(updatedCards);
-                                                                }}
                                                                 required
                                                                 className="bg-transparent py-1 rounded-none border-0 border-b-2 border-gray-500 focus:border-green-500 outline-none w-full"
                                                                 type="text"
@@ -296,15 +286,11 @@ const DeckDetailForm = ({ isOpenDetailDeck, onCloseDetailDeck, deck }) => {
 
                                                         <div className="flex flex-col flex-1">
                                                             <input
+                                                                disabled
                                                                 className="bg-transparent py-1 rounded-none border-0 border-b-2 border-gray-500 focus:border-green-500 outline-none w-full"
                                                                 type="text"
                                                                 value={card.example}
-                                                                onChange={(e) => {
-                                                                    const updatedCards = cards.map(c =>
-                                                                        c.id === card.id ? { ...c, example: e.target.value } : c
-                                                                    );
-                                                                    setCards(updatedCards);
-                                                                }}
+                                                               
                                                             />
                                                             <label className="dark:text-white mt-2 text-xs uppercase text-gray-800 font-medium">Example</label>
                                                         </div>

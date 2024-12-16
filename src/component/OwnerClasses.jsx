@@ -281,7 +281,7 @@ export default function OwnerClasses() {
             >
                 <form onSubmit={handleCreateClass} className=''>
                     <div className='flex justify-between items-center'>
-                        <span className='text-gray-800 text-xl font-medium'>Create group</span>
+                        <span className='text-gray-800 text-xl font-medium'>Tạo nhóm</span>
                         {/* <button onClick={() => setIsOpenCreateClass(false)} type='button'>
                         <img src='/close.png' className='w-5 h-5' alt='' />
                     </button> */}
@@ -292,7 +292,7 @@ export default function OwnerClasses() {
                     <div className='mt-6'>
                         <div className='flex flex-col gap-y-2 w-full'>
                             <label className='text-sm text-gray-800 font-bold' htmlFor=''>
-                                Name
+                                Tên nhóm
                                 <span className='text-red-500'>*</span>
                             </label>
                             <input
@@ -306,7 +306,7 @@ export default function OwnerClasses() {
 
                         <div className='flex flex-col gap-y-2 w-full mt-4'>
                             <label className='text-sm text-gray-800 font-bold' htmlFor=''>
-                                Description
+                                Mô tả nhóm
                             </label>
                             <textarea
                                 onChange={(e) => setDesc(e.target.value)}
@@ -326,7 +326,7 @@ export default function OwnerClasses() {
                         </div>
                     </div>
 
-                    <hr className='my-4' />
+                    {/* <hr className='my-4' /> */}
                     <div className='mt-4 flex justify-end items-center'>
 
                         {/* <div className='flex items-center'>
@@ -337,7 +337,7 @@ export default function OwnerClasses() {
                             type='submit'
                             className='h-10 w-full items-center gap-x-2 px-8 text-sm text-center text-white font-bold rounded-md bg-primary sm:w-fit hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300'
                         >
-                            Submit
+                            Đồng ý
                         </button>
                     </div>
                 </form>
@@ -352,7 +352,7 @@ export default function OwnerClasses() {
             >
                 <form onSubmit={onSubmitEditGroup} className=''>
                     <div className='flex justify-between items-center   '>
-                        <span className='text-gray-800 text-lg font-bold'>Edit group</span>
+                        <span className='text-gray-800 text-lg font-bold'>Hiệu chỉnh nhóm</span>
                         <button onClick={() => setIsOpenEditGroup(false)} type='button'>
                             <img src='/close.png' className='w-5 h-5' alt='' />
                         </button>
@@ -363,7 +363,7 @@ export default function OwnerClasses() {
                     <div className='mt-6'>
                         <div className='flex flex-col gap-y-2 w-full'>
                             <label className='text-sm text-gray-800 font-bold' htmlFor=''>
-                                Name<span className='text-red-500'>*</span>
+                                Tên bộ thẻ<span className='text-red-500'>*</span>
                             </label>
                             <input
                                 defaultValue={groupEdit?.name}
@@ -376,7 +376,7 @@ export default function OwnerClasses() {
 
                         <div className='flex flex-col gap-y-2 w-full mt-4'>
                             <label className='text-sm text-gray-800 font-bold' htmlFor=''>
-                                description
+                                Mô tả bộ thẻ
                             </label>
                             <textarea
                                 defaultValue={groupEdit?.description}
@@ -401,13 +401,13 @@ export default function OwnerClasses() {
                         </div>
                     </div>
 
-                    <hr className='my-4' />
+                    {/* <hr className='my-4' /> */}
                     <div className='mt-4 flex justify-end items-center'>
                         <button
                             type='submit'
                             className='h-10 w-full items-center gap-x-2 px-8 text-sm text-center text-white font-bold rounded-md bg-primary sm:w-fit hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300'
                         >
-                            Submit
+                            Đồng ý
                         </button>
                     </div>
                 </form>
