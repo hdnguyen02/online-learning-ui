@@ -17,7 +17,6 @@ import CommonDeckDetailFormComponent from "./component/common-deck-detail-form.c
 import commonDeckService from "../../service/common-deck.service";
 
 
-
 export default function CommonDecksComponent() {
   const { t } = useTranslation(); 
   const appElement = document.getElementById("root");
@@ -58,9 +57,7 @@ export default function CommonDecksComponent() {
   async function getCommonDecks() {
     const subUrl = "/common-decks?idGroup=" + params.id;
     try {
-      console.log("chạy vào")
       const { data } = await fetchData(subUrl, "GET");
-      console.log(data);
       setCommonDecks(data);
     } catch (error) {
       showToastError(error.message);
@@ -173,7 +170,6 @@ export default function CommonDecksComponent() {
   return (
     <div>
 
-
 <Modal
         isOpen={isOpenDeleteCommonDeck}
         onRequestClose={onCloseDeleteCommonDeck}
@@ -210,6 +206,9 @@ export default function CommonDecksComponent() {
 
 
           <div className="text-center md:text-right mt-4 flex flex-col md:flex-row justify-end gap-2">
+            
+            {/* Chỉ hiển thị lên với router của owner */}
+
             <button onClick={() => onCloseDeleteCommonDeck()}
 
               className="px-4 py-2 bg-gray-200 rounded-lg font-semibold text-sm"
@@ -285,14 +284,13 @@ export default function CommonDecksComponent() {
                 <span class="text-xs font-semibold inline-block py-1 px-2 rounded text-white bg-green-600">
                   {commonDeck.quantityCards} card
                 </span>
-                <button onClick={() => onDeleteCommonDeck(commonDeck.id)}>
-                  {/* <img
-                    src="/src/assets/image/delete.png"
-                    className="w-4 h-4"
-                    alt=""
-                  /> */}
-                  <i class="fa-solid fa-trash"></i>
-                </button>
+
+                {location.pathname.includes("owner") && (
+                   <button onClick={() => onDeleteCommonDeck(commonDeck.id)}>
+                   <i class="fa-solid fa-trash"></i>
+                 </button>
+                )}
+               
                 <button onClick={() => onOpenUpdateCommonDeck(commonDeck.id)} className="text-sm leading-6 text-gray-900">
                   <span className="underline dark:text-white">Edit</span>
                 </button>
@@ -382,7 +380,7 @@ export default function CommonDecksComponent() {
               type="submit"
               className="h-10 w-full items-center gap-x-2 px-8 text-sm text-center text-white font-bold rounded-md bg-primary sm:w-fit hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300"
             >
-              Đòng ý
+              Đồng ý
             </button>
           </div>
         </form>

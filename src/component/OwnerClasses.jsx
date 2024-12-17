@@ -135,8 +135,6 @@ export default function OwnerClasses() {
         setIsOpenDeleteGroup(false);
     }
 
-
-
     // edit group 
     async function onSubmitEditGroup(event) {
         event.preventDefault();
@@ -196,20 +194,20 @@ export default function OwnerClasses() {
     // }
 
     // if (auth.roles.includes('TEACHER')) {
-        return ownerClasses && <div>
+        return ownerClasses && <div className='mb-8'>
 
             {ownerClasses?.length !== 0 ? (
-                <div className="mb-8 grid grid-cols-1 gap-8">
+                <div className="mb-8 grid grid-cols-2 gap-8">
                     {ownerClasses.map((ownerClass, index) => (
 
 
                         <div key={index} className=" bg-white dark:bg-[#2E3856] dark:border-none shadow flex justify-between gap-x-6 p-5 border rounded-lg">
                             <div className="flex min-w-0 gap-x-4">
-                                <img
+                                {/* <img
                                     className="h-12 w-12 flex-none rounded-full bg-gray-50"
                                     src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                                     alt=""
-                                />
+                                /> */}
                                 <div className="min-w-0 flex-auto">
                                     <p className="text-sm font-semibold leading-6 text-gray-800 dark:text-white">
                                         {ownerClass.name}
@@ -242,7 +240,7 @@ export default function OwnerClasses() {
                                 </button>
                                 <Link
                                     to={"/groups/detail-owner/" + ownerClass.id + "/members"}
-                                    className="rounded-md bg-blue-800 py-1.5 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-blue-700 focus:shadow-none active:bg-blue-700 hover:bg-blue-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-2"
+                                    className="rounded-md bg-blue-800 py-1 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-blue-700 focus:shadow-none active:bg-blue-700 hover:bg-blue-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-2"
                                 >
                                     Detail
                                 </Link>
@@ -306,7 +304,7 @@ export default function OwnerClasses() {
 
                         <div className='flex flex-col gap-y-2 w-full mt-4'>
                             <label className='text-sm text-gray-800 font-bold' htmlFor=''>
-                                Mô tả nhóm
+                                Mô tả nhóm<span className='text-red-500'>*</span>
                             </label>
                             <textarea
                                 onChange={(e) => setDesc(e.target.value)}
@@ -318,8 +316,8 @@ export default function OwnerClasses() {
                         <div className='mt-4'>
 
                             <label className="inline-flex items-center cursor-pointer">
-                                <input onChange={(e) => setIsPublic(e.target.value)}
-                                    value={isPublic} type="checkbox" className="sr-only peer" />
+                                <input onChange={(e) => setIsPublic(e.target.checked)}
+                                    checked={isPublic} type="checkbox" className="sr-only peer" />
                                 <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
                                 <span className="ms-3 text-sm font-medium text-gray-900">Public</span>
                             </label>

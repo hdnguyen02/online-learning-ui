@@ -103,6 +103,17 @@ export const showToastMessage = (message) => {
     });
 };
 
+
+
+export const showToastMessageV2 = (message, callback) => {
+  toast.success(message, {
+    position: toast.POSITION.BOTTOM_RIGHT,
+    onClose: callback, // Gọi callback khi thông báo đóng
+    autoClose: 3000,   // Thời gian tự động đóng (tùy chỉnh nếu cần)
+  });
+};
+
+
 export const showToastError = (message) => {
     toast.error(message, {
         position: toast.POSITION.BOTTOM_RIGHT,

@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { fetchData, showToastMessage, showToastError, customFormatDistanceToNow } from "../global";
+import { fetchData, showToastError, customFormatDistanceToNow } from "../global";
 import { ToastContainer } from "react-toastify";
 import Empty from './Empty'; 
 
 export default function MembersOwnerClass() {
-
-  const [group, setGroup] = useState(); // lấy group về thôi 
   const [userGroups, setUserGroups] = useState();
 
 
@@ -20,18 +18,6 @@ export default function MembersOwnerClass() {
       setUserGroups(data.userGroups);
 
     } catch ({ message }) {
-      showToastError(message);
-    }
-  }
-
-  async function handleDeleteUserGroup(idUserGroup) {
-    const subUrl = `/user-groups/${idUserGroup}`;
-    try {
-      const { message } = await fetchData(subUrl, 'DELETE');
-      await getMembers();
-      showToastMessage(message);
-    }
-    catch ({ message }) {
       showToastError(message);
     }
   }

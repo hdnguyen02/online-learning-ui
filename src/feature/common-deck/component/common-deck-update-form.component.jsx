@@ -9,14 +9,19 @@ import Slider from 'react-slick';
 import { useEffect } from "react";
 import { v4 as uuidv4 } from 'uuid'; // Import v4 từ thư viện uuid
 import { ToastContainer } from "react-toastify";
-import { handleActionResult } from "../../../global"; 
+import { handleActionResult } from "../../../global";
 import Empty from "component/Empty";
 import commonDeckService from "service/common-deck.service";
+import { useLocation } from "react-router-dom";
 
-const CommonDeckUpdateFormComponent = ({getCommonDecks, isOPenUpdateCommonDeck, onCloseUpdateCommonDeck, idCommonDeckUpdateSelected}) => {
+const CommonDeckUpdateFormComponent = ({ getCommonDecks, isOPenUpdateCommonDeck, onCloseUpdateCommonDeck, idCommonDeckUpdateSelected }) => {
 
 
     Modal.setAppElement("#root");
+
+    const location = useLocation();
+
+    const [isOwner, setIsOWner] = useState(true);
 
     const { t } = useTranslation();
     const [step, setStep] = useState(0);
@@ -24,7 +29,7 @@ const CommonDeckUpdateFormComponent = ({getCommonDecks, isOPenUpdateCommonDeck, 
     const [querySearchImage, setQuerySearchImage] = useState('');
     const [searchedImage, setSearchedImage] = useState([]);
 
-    const [languages, setLanguages] = useState([]); 
+    const [languages, setLanguages] = useState([]);
     const [idCardSelected, setIdCardSelected] = useState(null);
 
 
@@ -42,8 +47,8 @@ const CommonDeckUpdateFormComponent = ({getCommonDecks, isOPenUpdateCommonDeck, 
     const [isOpenChooseAudio, setIsOpenChooseAudio] = useState(false);
     const openChooseAudio = (id) => {
         setIsOpenChooseAudio(true);
-        setQueryTransferAudio(''); 
-        setIdCardSelected(id); 
+        setQueryTransferAudio('');
+        setIdCardSelected(id);
     }
 
     const closeChooseAudio = () => setIsOpenChooseAudio(false);
@@ -60,13 +65,13 @@ const CommonDeckUpdateFormComponent = ({getCommonDecks, isOPenUpdateCommonDeck, 
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        const data = { 
-            commonDeck: commonDeckUpdate, commonCards: commonCardUpdates   
+        const data = {
+            commonDeck: commonDeckUpdate, commonCards: commonCardUpdates
         }
         const isSuccess = await commonDeckService.update(data);
 
-        handleActionResult(isSuccess, 'UPDATE', t); 
-        getCommonDecks(); 
+        handleActionResult(isSuccess, 'UPDATE', t);
+        getCommonDecks();
         onCloseUpdateCommonDeck();
         // resetData(); 
     }
@@ -83,6 +88,12 @@ const CommonDeckUpdateFormComponent = ({getCommonDecks, isOPenUpdateCommonDeck, 
 
 
     useEffect(() => {
+
+
+        // check xem có phải là isOwner hay không 
+        if (location.pathname.includes('detail-owner')) setIsOWner(true);
+        else setIsOWner(false);
+
         const fetchLanguages = async () => {
             try {
                 const rawData = await deckService.getAllLanguage();
@@ -103,43 +114,43 @@ const CommonDeckUpdateFormComponent = ({getCommonDecks, isOPenUpdateCommonDeck, 
     }, []);
 
     // const [deckUpdate, setDeckUpdate] =  useState(); 
-    
-    // const [cardUpdates, setCardUpdates] = useState(); 
-    
 
-    const [commonDeckUpdate, setCommonDeckUpdate] = useState(); 
-    const [commonCardUpdates, setCommonCardUpdates] = useState(); 
+    // const [cardUpdates, setCardUpdates] = useState(); 
+
+
+    const [commonDeckUpdate, setCommonDeckUpdate] = useState();
+    const [commonCardUpdates, setCommonCardUpdates] = useState();
 
 
     useEffect(() => {
         const fetchData = async () => {
-          try {
-            const rawData = await commonDeckService.getCommonDeck(idCommonDeckUpdateSelected);
-            setCommonDeckUpdate({ 
-                id: rawData.id, 
-                name: rawData.name, 
-                description: rawData.description, 
-                configLanguage: rawData.configLanguage
-            })
+            try {
+                const rawData = await commonDeckService.getCommonDeck(idCommonDeckUpdateSelected);
+                setCommonDeckUpdate({
+                    id: rawData.id,
+                    name: rawData.name,
+                    description: rawData.description,
+                    configLanguage: rawData.configLanguage
+                })
 
 
-            setCommonCardUpdates(rawData.cards.map(originCard => { 
-                return { ...originCard, isOrigin: true }
-            })); 
-        
-            setStep(0); 
+                setCommonCardUpdates(rawData.cards.map(originCard => {
+                    return { ...originCard, isOrigin: true }
+                }));
 
-        
-          } catch (error) {
-            console.error("Error fetching deck:", error);
-          }
+                setStep(0);
+
+
+            } catch (error) {
+                console.error("Error fetching deck:", error);
+            }
         };
-      
+
         if (idCommonDeckUpdateSelected) {
-          fetchData();
+            fetchData();
         }
-      }, [idCommonDeckUpdateSelected]);
-      
+    }, [idCommonDeckUpdateSelected]);
+
 
     const settings = {
         dots: true,
@@ -165,7 +176,7 @@ const CommonDeckUpdateFormComponent = ({getCommonDecks, isOPenUpdateCommonDeck, 
         ],
     };
 
-    const isButtonContinueDisabled = !( commonDeckUpdate?.name.trim() && commonDeckUpdate?.configLanguage.trim());
+    const isButtonContinueDisabled = !(commonDeckUpdate?.name.trim() && commonDeckUpdate?.configLanguage.trim());
 
 
     const onAddCard = () => {
@@ -197,7 +208,7 @@ const CommonDeckUpdateFormComponent = ({getCommonDecks, isOPenUpdateCommonDeck, 
     const onKeyDownTransferAudio = async (e) => {
         if (e.key !== 'Enter') return;
         setQueryTransferAudio(queryTransferAudio.trim());
-    
+
         try {
             const rawData = await deckService.getVoice(queryTransferAudio, commonDeckUpdate.configLanguage);
             const audio = new Audio(rawData);
@@ -217,12 +228,12 @@ const CommonDeckUpdateFormComponent = ({getCommonDecks, isOPenUpdateCommonDeck, 
 
         if (field === "image") {
             fileUrl = URL.createObjectURL(file);
-            setIsOpenChooseImage(false); 
+            setIsOpenChooseImage(false);
         } else if (field === "audio") {
             fileUrl = URL.createObjectURL(file);
-            setIsOpenChooseAudio(false); 
+            setIsOpenChooseAudio(false);
         }
-        
+
 
         setCommonCardUpdates((prevCards) =>
             prevCards.map((card) =>
@@ -237,26 +248,26 @@ const CommonDeckUpdateFormComponent = ({getCommonDecks, isOPenUpdateCommonDeck, 
     }
 
 
-    const onUploadAudio = () => { 
+    const onUploadAudio = () => {
         document.getElementById(`audioInput-${idCardSelected}`).click(); // upload hình ảnh lên.
     }
 
 
-    const onPlayAudio = () => { 
+    const onPlayAudio = () => {
         const selectedCard = commonCardUpdates.find(commonCardUpdate => commonCardUpdate.id === idCardSelected);
         if (!selectedCard.audio) return
         const audio = new Audio(selectedCard.audio); // Tạo đối tượng Audio với URL blob
         audio.play();
     }
 
-    const onDeleteCard = (cardId) => { 
+    const onDeleteCard = (cardId) => {
         setCommonCardUpdates(commonCardUpdates.filter(commonCardUpdate => commonCardUpdate.id !== cardId));
     }
 
 
     return <div>
 
-        <ToastContainer/>
+        <ToastContainer />
         <Modal
             isOpen={isOPenUpdateCommonDeck}
             onRequestClose={onCloseUpdateCommonDeck}
@@ -284,12 +295,12 @@ const CommonDeckUpdateFormComponent = ({getCommonDecks, isOPenUpdateCommonDeck, 
                 {/* title */}
                 <div className="flex items-center justify-between">
                     <h1 className="text-lg font-medium">Hiệu chỉnh bộ thẻ</h1>
-                   
+
                     <button onClick={onCloseUpdateCommonDeck} className="px-4">
-                    <i  className="fa-solid fa-xmark text-3xl cursor-pointer"></i>
+                        <i className="fa-solid fa-xmark text-3xl cursor-pointer"></i>
                     </button>
-                
-                
+
+
                 </div>
                 <hr className="mt-4" />
 
@@ -355,32 +366,41 @@ const CommonDeckUpdateFormComponent = ({getCommonDecks, isOPenUpdateCommonDeck, 
                                 </label>
 
                                 <input
-                                    onChange={(e) => setCommonDeckUpdate({ ... commonDeckUpdate, name: e.target.value })}
+                                    onChange={(e) => setCommonDeckUpdate({ ...commonDeckUpdate, name: e.target.value })}
                                     value={commonDeckUpdate?.name}
-                                    className="appearance-none border  w-full py-2 px-3 text-gray-700 leading-tight" id="username" type="text"
+                                    className="appearance-none border w-full py-2 px-3 text-gray-700 leading-tight"
+                                    id="username"
+                                    type="text"
                                     required
+                                    disabled={!isOwner}
                                 />
+
                             </div>
                             <div className="mb-6">
                                 <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="description">
                                     {t('DECK.DESCRIPTION')}
                                 </label>
                                 <input
-                                    onChange={(e) => setCommonDeckUpdate({ ... commonDeckUpdate, description: e.target.value })}
+                                    onChange={(e) => setCommonDeckUpdate({ ...commonDeckUpdate, description: e.target.value })}
                                     value={commonDeckUpdate?.description}
-                                    className=" appearance-none border  w-full py-2 px-3 text-gray-700 mb-3 leading-tight" id="description" type="text" />
+                                    className=" appearance-none border  w-full py-2 px-3 text-gray-700 mb-3 leading-tight" id="description" type="text" 
+                                    disabled={!isOwner}
+                                    />
+                                   
                             </div>
 
 
                             <div className="flex gap-x-8">
-                              
+
 
                                 <div className="relative">
                                     <select
-                                        onChange={(e) => setCommonDeckUpdate({ ... commonDeckUpdate, configLanguage: e.target.value })}
+                                        onChange={(e) => setCommonDeckUpdate({ ...commonDeckUpdate, configLanguage: e.target.value })}
                                         value={commonDeckUpdate?.configLanguage}
                                         required
-                                        className="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow-md appearance-none cursor-pointer">
+                                        className="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow-md appearance-none cursor-pointer"
+                                        disabled={!isOwner}
+                                    >
                                         <option value="" disabled>Choose a language</option>
                                         {languages.map((language, index) => (<option key={index} value={language.hl}>{language.value}</option>))}
                                     </select>
@@ -418,61 +438,61 @@ const CommonDeckUpdateFormComponent = ({getCommonDecks, isOPenUpdateCommonDeck, 
 
                             <div id="container-form-card" className="flex flex-col gap-y-6">
                                 {
-                                commonCardUpdates?.length != 0 ? (commonCardUpdates?.map(commonCardUpdate => (
+                                    commonCardUpdates?.length != 0 ? (commonCardUpdates?.map(commonCardUpdate => (
 
-                                    <div key={commonCardUpdate.id} className="py-3 mr-4 flex items-center gap-x-8">
-                                        <button type="button" onClick={() => onDeleteCard(commonCardUpdate.id)}>
-                                            <img src="/src/assets/image/delete.png" alt="" />
-                                        </button>
-                                        <div className="mt-1 flex gap-x-12 justify-between items-center w-full">
-                                            <div className="flex flex-col gap-y-1 flex-1">
-                                                <div className="flex gap-x-12">
-                                                    <div className="flex flex-col flex-1">
-                                                        <input
-                                                            value={commonCardUpdate.term}
-                                                            onChange={(e) => {
-                                                                setCommonCardUpdates(commonCardUpdates.map(c =>
-                                                                    c.id === commonCardUpdate.id ? { ...c, term: e.target.value } : c
-                                                                ));
-                                                            }}
-                                                            className="bg-transparent py-1 rounded-none border-0 border-b-2 focus:border-green-500 border-gray-500 outline-none w-full"
-                                                            type="text"
-                                                            required
-                                                        />
-                                                        <label className="mt-2 text-xs text-gray-800 font-medium uppercase">Thuật ngữ<span className="text-red-500">*</span></label>
+                                        <div key={commonCardUpdate.id} className="py-3 mr-4 flex items-center gap-x-8">
+                                            <button type="button" onClick={() => onDeleteCard(commonCardUpdate.id)}>
+                                                <img src="/src/assets/image/delete.png" alt="" />
+                                            </button>
+                                            <div className="mt-1 flex gap-x-12 justify-between items-center w-full">
+                                                <div className="flex flex-col gap-y-1 flex-1">
+                                                    <div className="flex gap-x-12">
+                                                        <div className="flex flex-col flex-1">
+                                                            <input
+                                                                value={commonCardUpdate.term}
+                                                                onChange={(e) => {
+                                                                    setCommonCardUpdates(commonCardUpdates.map(c =>
+                                                                        c.id === commonCardUpdate.id ? { ...c, term: e.target.value } : c
+                                                                    ));
+                                                                }}
+                                                                className="bg-transparent py-1 rounded-none border-0 border-b-2 focus:border-green-500 border-gray-500 outline-none w-full"
+                                                                type="text"
+                                                                required
+                                                            />
+                                                            <label className="mt-2 text-xs text-gray-800 font-medium uppercase">Thuật ngữ<span className="text-red-500">*</span></label>
+                                                        </div>
+                                                        <div className="flex flex-col flex-1">
+                                                            <input
+                                                                value={commonCardUpdate.definition}
+                                                                onChange={(e) => {
+                                                                    setCommonCardUpdates(commonCardUpdates.map(c =>
+                                                                        c.id === commonCardUpdate.id ? { ...c, definition: e.target.value } : c
+                                                                    ));
+                                                                }}
+                                                                required
+                                                                className="bg-transparent py-1 rounded-none border-0 border-b-2 border-gray-500 focus:border-green-500 outline-none w-full"
+                                                                type="text"
+                                                            />
+                                                            <label className="mt-2 text-xs uppercase text-gray-800 font-medium">Định nghĩa<span className="text-red-500">*</span></label>
+                                                        </div>
+
+                                                        <div className="flex flex-col flex-1">
+                                                            <input
+                                                                className="bg-transparent py-1 rounded-none border-0 border-b-2 border-gray-500 focus:border-green-500 outline-none w-full"
+                                                                type="text"
+                                                                value={commonCardUpdate.example}
+                                                                onChange={(e) => {
+                                                                    setCommonCardUpdates(commonCardUpdates.map(c =>
+                                                                        c.id === commonCardUpdate.id ? { ...c, example: e.target.value } : c
+                                                                    ));
+                                                                }}
+                                                            />
+                                                            <label className="mt-2 text-xs uppercase text-gray-800 font-medium">Example</label>
+                                                        </div>
+
+
                                                     </div>
-                                                    <div className="flex flex-col flex-1">
-                                                        <input
-                                                            value={commonCardUpdate.definition}
-                                                            onChange={(e) => {
-                                                                setCommonCardUpdates(commonCardUpdates.map(c =>
-                                                                    c.id === commonCardUpdate.id ? { ...c, definition: e.target.value } : c
-                                                                ));
-                                                            }}
-                                                            required
-                                                            className="bg-transparent py-1 rounded-none border-0 border-b-2 border-gray-500 focus:border-green-500 outline-none w-full"
-                                                            type="text"
-                                                        />
-                                                        <label className="mt-2 text-xs uppercase text-gray-800 font-medium">Định nghĩa<span className="text-red-500">*</span></label>
-                                                    </div>
-
-                                                    <div className="flex flex-col flex-1">
-                                                    <input
-                                                        className="bg-transparent py-1 rounded-none border-0 border-b-2 border-gray-500 focus:border-green-500 outline-none w-full"
-                                                        type="text"
-                                                        value={commonCardUpdate.example}
-                                                        onChange={(e) => {
-                                                            setCommonCardUpdates(commonCardUpdates.map(c =>
-                                                                c.id === commonCardUpdate.id ? { ...c, example: e.target.value } : c
-                                                            ));
-                                                        }}
-                                                    />
-                                                    <label className="mt-2 text-xs uppercase text-gray-800 font-medium">Example</label>
-                                                </div>
-
-                                                    
-                                                </div>
-                                                {/* <div className="flex flex-col flex-1">
+                                                    {/* <div className="flex flex-col flex-1">
                                                     <input
                                                         className="bg-transparent py-1 rounded-none border-0 border-b-2 border-gray-500 focus:border-green-500 outline-none w-full"
                                                         type="text"
@@ -487,74 +507,74 @@ const CommonDeckUpdateFormComponent = ({getCommonDecks, isOPenUpdateCommonDeck, 
                                                     <label className="mt-2 text-sm font-medium">Example</label>
                                                 </div> */}
 
-                                                {/* file upload */}
-                                                {/* upload image */}
-                                                <input type="file" id={`imageInput-${commonCardUpdate.id}`} accept="image/*" onChange={(e) =>
-                                                    handleFileChange(e.target.files[0], commonCardUpdate.id, "image")
-                                                }
-                                                className="hidden" 
-                                                />
+                                                    {/* file upload */}
+                                                    {/* upload image */}
+                                                    <input type="file" id={`imageInput-${commonCardUpdate.id}`} accept="image/*" onChange={(e) =>
+                                                        handleFileChange(e.target.files[0], commonCardUpdate.id, "image")
+                                                    }
+                                                        className="hidden"
+                                                    />
 
-                                                {/* upload audio */}
-                                                <input type="file" id={`audioInput-${commonCardUpdate.id}`} accept="mp3/*" onChange={(e) =>
-                                                    handleFileChange(e.target.files[0], commonCardUpdate.id, "audio")
-                                                }
-                                                className="hidden" 
-                                                />
+                                                    {/* upload audio */}
+                                                    <input type="file" id={`audioInput-${commonCardUpdate.id}`} accept="mp3/*" onChange={(e) =>
+                                                        handleFileChange(e.target.files[0], commonCardUpdate.id, "audio")
+                                                    }
+                                                        className="hidden"
+                                                    />
 
-                                            {/* { cardUpdate.audio && <audio id={`audio-${commonCardUpdate.id}`} controls className="hidden">
+                                                    {/* { cardUpdate.audio && <audio id={`audio-${commonCardUpdate.id}`} controls className="hidden">
                                                                 <source src={commonCardUpdate.audio} type="audio/mp3" />
                                                                 Your browser does not support the audio element.
                                                             </audio>
                                             } */}
 
 
-                                            </div>
-                                            <div className="flex gap-x-3">
-                                            
-                                                <button
-                                                    onClick={() => openChooseImage(commonCardUpdate.id)}
-                                                    type="button"
-                                                    className={`w-16 h-16 ${commonCardUpdate.image ? '' : 'border border-dashed border-gray-500'} rounded flex items-center justify-center`}
-                                                >
-                                                    {commonCardUpdate.image ? (
-                                                        // Nếu có image, thay thế button bằng hình ảnh
-                                                        <img
-                                                            src={commonCardUpdate.image}
-                                                            alt="Card image"
-                                                            className="w-16 h-16 object-cover" // Đảm bảo hình ảnh vừa với button
-                                                        />
-                                                    ) : (
-                                                        <img
-                                                            src="/src/assets/image/image.png"
-                                                            className="w-5"
-                                                            alt="Image"
-                                                        />
-                                                    )}
-                                                </button>
+                                                </div>
+                                                <div className="flex gap-x-3">
 
-                                                <button
-                                                    onClick={() => openChooseAudio(commonCardUpdate.id)}
-                                                    type="button"
-                                                    className="w-16 h-16 border rounded border-dashed border-gray-500 flex items-center justify-center"
-                                                >
-                                                    <img
-                                                        src="/src/assets/image/volume.png"
-                                                        className="w-5"
-                                                        alt="Volume"
-                                                    />
-                                                </button>
+                                                    <button
+                                                        onClick={() => openChooseImage(commonCardUpdate.id)}
+                                                        type="button"
+                                                        className={`w-16 h-16 ${commonCardUpdate.image ? '' : 'border border-dashed border-gray-500'} rounded flex items-center justify-center`}
+                                                    >
+                                                        {commonCardUpdate.image ? (
+                                                            // Nếu có image, thay thế button bằng hình ảnh
+                                                            <img
+                                                                src={commonCardUpdate.image}
+                                                                alt="Card image"
+                                                                className="w-16 h-16 object-cover" // Đảm bảo hình ảnh vừa với button
+                                                            />
+                                                        ) : (
+                                                            <img
+                                                                src="/src/assets/image/image.png"
+                                                                className="w-5"
+                                                                alt="Image"
+                                                            />
+                                                        )}
+                                                    </button>
+
+                                                    <button
+                                                        onClick={() => openChooseAudio(commonCardUpdate.id)}
+                                                        type="button"
+                                                        className="w-16 h-16 border rounded border-dashed border-gray-500 flex items-center justify-center"
+                                                    >
+                                                        <img
+                                                            src="/src/assets/image/volume.png"
+                                                            className="w-5"
+                                                            alt="Volume"
+                                                        />
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                         
-                                ))) : (<Empty/>)}
+
+                                    ))) : (<Empty />)}
                             </div>
 
                             <div className="my-6 flex justify-end mr-4">
                                 <button onClick={onAddCard} type="button" className="w-full flex gap-x-2 items-center justify-center hover:text-white border border-blue-700 hover:bg-blue-600 focus:outline-none font-medium rounded text-xs uppercase px-5 py-4 text-center">
-                                    
-                                    <span>{t('ACTION.CREATE')}</span> 
+
+                                    <span>{t('ACTION.CREATE')}</span>
                                 </button>
                             </div>
 
@@ -566,7 +586,7 @@ const CommonDeckUpdateFormComponent = ({getCommonDecks, isOPenUpdateCommonDeck, 
                 <div className="flex justify-end mt-auto pt-4 border-t absolute bottom-4 left-0 right-4">
                     <div className="flex gap-x-3">
                         {
-                            step == 0 && <button  onClick={handleContinue}
+                            step == 0 && <button onClick={handleContinue}
                                 disabled={isButtonContinueDisabled}
                                 type="button"
                                 className={`group flex cursor-pointer items-center justify-center rounded-md px-6 py-[6px] text-white transition ${isButtonContinueDisabled ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-700'
