@@ -1,38 +1,38 @@
-import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
-import { fetchData, showToastMessage, showToastError } from "../global"
-import { ToastContainer } from "react-toastify"
-import Empty from './Empty'
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { fetchData, showToastMessage, showToastError, customFormatDistanceToNow } from "../global";
+import { ToastContainer } from "react-toastify";
+import Empty from './Empty'; 
 
 export default function MembersOwnerClass() {
 
-  const [group, setGroup] = useState() // lấy group về thôi 
-  const [userGroups, setUserGroups] = useState()
+  const [group, setGroup] = useState(); // lấy group về thôi 
+  const [userGroups, setUserGroups] = useState();
 
 
   const params = useParams();
 
   async function getMembers() {
-    const subUrl = `/groups/${params.id}`
+    const subUrl = `/groups/${params.id}`;
     try {
-      const { data } = await fetchData(subUrl, "GET")
-      console.log(data)
-      setUserGroups(data.userGroups)
+      const { data } = await fetchData(subUrl, "GET");
+      console.log(data);
+      setUserGroups(data.userGroups);
 
     } catch ({ message }) {
-      showToastError(message)
+      showToastError(message);
     }
   }
 
   async function handleDeleteUserGroup(idUserGroup) {
-    const subUrl = `/user-groups/${idUserGroup}`
+    const subUrl = `/user-groups/${idUserGroup}`;
     try {
-      const { message } = await fetchData(subUrl, 'DELETE')
-      await getMembers()
-      showToastMessage(message)
+      const { message } = await fetchData(subUrl, 'DELETE');
+      await getMembers();
+      showToastMessage(message);
     }
     catch ({ message }) {
-      showToastError(message)
+      showToastError(message);
     }
   }
 
@@ -43,42 +43,33 @@ export default function MembersOwnerClass() {
   return (
     userGroups && (
       <div>
-        {userGroups.length != 0 ? (
-          <div className="mb-12 grid grid-cols-2 gap-12">
-            {
-              userGroups.map((userGroup, index) => <div key={index} className="bg-[#F0F6F6] p-6 rounded">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-x-4">
-                    <div className='rounded-full h-10 w-10 overflow-hidden cursor-pointer'>
-                      <img src={userGroup.avatar ? userGroup.avatar : '/user.png'} loading="lazy" className='w-full h-full' alt='' />
-                    </div>
-                    <div className="flex flex-col gap-y-2">
-                      <span className="font-medium">{userGroup.firstName + " " + userGroup.lastName}</span>
 
-                      <div className="flex items-center gap-x-3">
-                        <span className="font-light text-sm">{userGroup.email}</span>
-                        {
-                          userGroup.roles.map((role, index) => {
-                            return <span key={index}>
-                              <span className="lowercase text-xs bg-gray-300 p-1 rounded-lg">{role}</span>
+
+        {userGroups.length != 0 ? (
+                  <div className="mb-8 grid grid-cols-2 gap-8">
+                    {userGroups.map((userGroup, index) => (
+                      <div key={index} className="flex justify-between gap-x-6 p-5 border rounded-lg">
+                        <div className="flex min-w-0 gap-x-4">
+                          <img
+                            className="h-12 w-12 flex-none rounded-full bg-gray-50"
+                            src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                            alt=""
+                          />
+                          <div className="min-w-0 flex-auto">
+                            <p className="text-sm font-semibold leading-6 text-gray-900">
+                              {userGroup.email}
+                            </p>
+                            <span className="text-gray-800 text-sm">
+                              Joined {customFormatDistanceToNow(userGroup.createdDate)}
                             </span>
-                          })
-                        }
+                          </div>
+                        </div>
                       </div>
-                    </div>
+                    ))}
                   </div>
-                  {/* <div className="flex gap-x-2">
-                    <button onClick={() => handleDeleteUserGroup(userGroup.id)} className="flex items-center gap-x-2 h-8 text-red-600 hover:text-white border border-red-500 hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-red-200 font-medium rounded-lg text-sm px-3 text-center">
-                      <i class="fa-solid fa-trash"></i>
-                    </button>
-                  </div> */}
-                </div>
-              </div>)
-            }
-          </div>
-        ) : (
-          <Empty />
-        )}
+                ) : (
+                  <Empty />
+                )}
         <ToastContainer />
       </div>
     )

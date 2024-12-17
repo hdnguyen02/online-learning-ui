@@ -147,8 +147,6 @@ export default function MembersOwnerClass() {
               </div>
             </div>
           </form>
-
-          
         </Modal>
 
         {userGroups.length != 0 ? (
@@ -178,15 +176,7 @@ export default function MembersOwnerClass() {
                       alt=""
                     />
                   </button>
-                  {/* <button className="text-sm leading-6 text-gray-900">
-            <span className="underline">Edit</span>
-          </button> */}
-                  {/* <Link
-            to={"/groups/detail-owner/" + userGroup.id + "/members"}
-            className="text-sm leading-6 text-gray-900"
-          >
-            <span className="underline">Detail</span>
-          </Link> */}
+                 
                 </div>
               </div>
             ))}
