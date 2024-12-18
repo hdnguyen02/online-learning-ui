@@ -23,7 +23,6 @@ export async function fetchData(subUrl, method, body) {
         },
     }
     if (body) options.body = JSON.stringify(body)
-    // eslint-disable-next-line no-useless-catch
     try {
         const responseAPI = await fetch(url, options)
         const response = await responseAPI.json()
@@ -102,6 +101,17 @@ export const showToastMessage = (message) => {
         position: toast.POSITION.BOTTOM_RIGHT,
     });
 };
+
+
+
+export const showToastMessageV2 = (message, callback) => {
+  toast.success(message, {
+    position: toast.POSITION.BOTTOM_RIGHT,
+    onClose: callback, // Gọi callback khi thông báo đóng
+    autoClose: 3000,   // Thời gian tự động đóng (tùy chỉnh nếu cần)
+  });
+};
+
 
 export const showToastError = (message) => {
     toast.error(message, {

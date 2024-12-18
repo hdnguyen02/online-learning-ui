@@ -1,18 +1,15 @@
 import React, { useMemo, useState, useEffect, useRef } from "react";
-import TableComponent from "./TableComponent";
+import TableComponent from "./table.component";
 import { fetchData, showToastError, showToastMessage } from "../../global";
 import { ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import ModalEditDeck from "../ModalEditDeck";
-import ModalConfirmDeleteDeck from "../ModalConfirmDeleteDeck";
+
 
 import { customFormatDistanceToNow } from "../../global";
 
-const Users = () => {
+const UsersComponent = () => {
   const [data, setData] = useState([]);
-  const navigate = useNavigate();
-  const refModalEditDeck = useRef();
-  const [idDeckDelete, setIdDeckDelete] = useState(null);
+
 
   async function getUsers() {
     const subUrl = "/admin/users";
@@ -63,32 +60,47 @@ const Users = () => {
         accessor: "email",
       },
       {
-        Header: "Firtname",
+        Header: "First name",
         accessor: "firstName",
       },
       {
-        Header: "LastName",
+        Header: "Last name",  
         accessor: "lastName",
       },
-      {
-        Header: "Roles",
-        accessor: "roles",
-        Cell: ({ value }) => (
-          <div>
-            {value?.map((role, index) => (
-              <span
-                key={index}
-                className="lowercase text-xs mr-2 bg-gray-300 p-1 rounded-lg"
-              >
-                {role}
-              </span>
-            ))}
-          </div>
-        ),
+      { 
+        Header: "Gender",  
+        accessor: "gender",
+        Cell: ({ value }) => {
+          return value === 'MALE' ? (
+            <span className="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">
+              Male
+            </span>
+          ) : (
+            <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">Female</span>
+
+          );
+        },
+        
       },
+      // {
+      //   Header: "Roles",
+      //   accessor: "roles",
+      //   Cell: ({ value }) => (
+      //     <div>
+      //       {value?.map((role, index) => (
+      //         <span
+      //           key={index}
+      //           className="lowercase text-xs mr-2 bg-gray-300 p-1 rounded-lg"
+      //         >
+      //           {role}
+      //         </span>
+      //       ))}
+      //     </div>
+      //   ),
+      // },
       {
         Header: "Created At",
-        accessor: "createAt",
+        accessor: "createdDate",
         Cell: ({ value }) => customFormatDistanceToNow(value),
       },
       {
@@ -123,4 +135,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default UsersComponent;

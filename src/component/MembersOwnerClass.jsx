@@ -33,8 +33,10 @@ export default function MembersOwnerClass() {
     }
   }
 
-  async function handleDeleteUserGroup(idUserGroup) {
-    const subUrl = `/user-groups/${idUserGroup}`;
+
+
+  const onDeleteUserGroup = async (id) => { 
+    const subUrl = `/user-groups/${id}`;
     try {
       const { message } = await fetchData(subUrl, 'DELETE');
       await getMembers();
@@ -147,8 +149,6 @@ export default function MembersOwnerClass() {
               </div>
             </div>
           </form>
-
-          
         </Modal>
 
         {userGroups.length != 0 ? (
@@ -171,22 +171,14 @@ export default function MembersOwnerClass() {
                   </div>
                 </div>
                 <div className="flex gap-x-2 items-center">
-                  <button>
+                  <button onClick={() => onDeleteUserGroup(userGroup.id)}>
                     <img
                       src="/src/assets/image/delete.png"
                       className="w-4 h-4"
                       alt=""
                     />
                   </button>
-                  {/* <button className="text-sm leading-6 text-gray-900">
-            <span className="underline">Edit</span>
-          </button> */}
-                  {/* <Link
-            to={"/groups/detail-owner/" + userGroup.id + "/members"}
-            className="text-sm leading-6 text-gray-900"
-          >
-            <span className="underline">Detail</span>
-          </Link> */}
+                 
                 </div>
               </div>
             ))}

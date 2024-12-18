@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
-import { fetchData, showToastError } from "../global";
-import { ToastContainer } from "react-toastify";
+import { fetchData, showToastError, showToastMessage, showToastMessageV2} from "../global";
+import { ToastContainer, toast} from "react-toastify";
 import { Link } from "react-router-dom";
 import Empty from "../component/Empty";
 import { customFormatDistanceToNow } from "../global";
+import { useNavigate } from "react-router-dom";
+
 
 export default function GlobalGroups() {
+  const navigate = useNavigate();
   const [globalGroups, setGlobalGroups] = useState();
 
   async function getGlobalGroups() {
@@ -17,6 +20,21 @@ export default function GlobalGroups() {
       showToastError(error.message);
     }
   }
+
+
+  async function handleJoinGroup(id) {
+          try {
+              const subUrl = `/groups/${id}/join`; 
+              const { message } = await fetchData(subUrl, 'POST'); 
+         
+              showToastMessageV2(message, () => { 
+                navigate(`/groups/detail-attendance/${id}/members`);
+              },); 
+          }
+          catch (error) {
+              showToastError(error.message); 
+          }
+      }
 
   useEffect(() => {
     getGlobalGroups();
@@ -43,7 +61,7 @@ export default function GlobalGroups() {
                   <svg className="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4" />
                   </svg>
-                  <span className="dark:text-white ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2">Lớp học</span>
+                  <span className="dark:text-white ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2">Nhóm</span>
                 </div>
               </li>
 
@@ -119,9 +137,9 @@ export default function GlobalGroups() {
                     </div>
 
 
-                    <Link to={`/groups/${group.id}`} type='button' className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-1.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800'>
-                      Detail
-                    </Link>
+                    <button onClick={() => handleJoinGroup(group.id)} type='button' className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-1.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800'>
+                      Join
+                    </button>
                   </div>
                 </div>
 
