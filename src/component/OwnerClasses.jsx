@@ -195,7 +195,6 @@ export default function OwnerClasses() {
 
     // if (auth.roles.includes('TEACHER')) {
         return ownerClasses && <div className='mb-8'>
-
             {ownerClasses?.length !== 0 ? (
                 <div className="mb-8 grid grid-cols-2 gap-8">
                     {ownerClasses.map((ownerClass, index) => (
@@ -229,9 +228,9 @@ export default function OwnerClasses() {
                                 />
                             </button> */}
 
-                                <button onClick={() => onDeleteGroup(ownerClass.id)} type="button" class="flex gap-x-2 items-center focus:outline-none text-white focus:ring-4 focus:ring-red-300 font-medium rounded text-sm px-5 py-2.5 me-2">
+                                <button onClick={() => onDeleteGroup(ownerClass.id)} type="button" class="dark:border-white  dark:text-white dark:hover:bg-transparent bg-transparent hover:bg-blue-500 text-blue-700 text-sm hover:text-white py-1 px-4 border border-blue-500  rounded">
                                     <i className="fa-solid fa-trash"></i>
-                                    {/* <span>Delete</span> */}
+                                 
 
                                 </button>
                                 <button onClick={() => onOpenUpdateGroup(ownerClass.id)}
@@ -240,7 +239,7 @@ export default function OwnerClasses() {
                                 </button>
                                 <Link
                                     to={"/groups/detail-owner/" + ownerClass.id + "/members"}
-                                    className="rounded-md bg-blue-800 py-1 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-blue-700 focus:shadow-none active:bg-blue-700 hover:bg-blue-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ml-2"
+                                    className="rounded-md bg-blue-800 py-1 px-4 border border-transparent text-center text-sm text-white transition-all shadow-md hover:shadow-lg focus:bg-blue-700 focus:shadow-none active:bg-blue-700 hover:bg-blue-700 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                                 >
                                     Detail
                                 </Link>
@@ -444,9 +443,9 @@ export default function OwnerClasses() {
                             <img src="/src/assets/image/alert.png" alt="" />
                         </div>
                         <div className="mt-4 text-center md:text-left md:ml-6">
-                            <p className="font-bold text-lg">Delete your account</p>
+                            <p className="font-bold text-lg">Delete your group</p>
                             <p className="text-sm text-gray-700 mt-1">
-                                You will lose all of your data by deleting your account. This action cannot be undone.
+                                You will lose all of your data by deleting your group. This action cannot be undone.
                             </p>
                         </div>
                     </div>
@@ -463,7 +462,7 @@ export default function OwnerClasses() {
 
                             className="px-4 py-2 bg-red-500 text-white rounded-lg font-semibold text-sm"
                         >
-                            Delete Account
+                            Delete group
                         </button>
                     </div>
                 </div>

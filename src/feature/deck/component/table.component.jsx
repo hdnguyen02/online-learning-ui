@@ -99,7 +99,7 @@ const TableComponent = ({
     page,
     canPreviousPage,
     canNextPage,
-    pageOptions,
+
     pageCount,
     gotoPage,
     nextPage,
@@ -140,7 +140,6 @@ const TableComponent = ({
       {
         data.length != 0 ? (
           <div className="">
-
             <div className="flex flex-col border dark:border-none rounded">
               <div className="-m-1.5 overflow-x-auto">
                 <div className="p-1.5 min-w-full inline-block align-middle">

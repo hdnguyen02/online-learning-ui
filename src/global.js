@@ -23,7 +23,6 @@ export async function fetchData(subUrl, method, body) {
         },
     }
     if (body) options.body = JSON.stringify(body)
-    // eslint-disable-next-line no-useless-catch
     try {
         const responseAPI = await fetch(url, options)
         const response = await responseAPI.json()

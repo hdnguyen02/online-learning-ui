@@ -3,31 +3,17 @@ import { fetchData, showToastError, showToastMessage, customFormatDistanceToNow 
 import { ToastContainer } from 'react-toastify';
 import Modal from 'react-modal';
 import Empty from 'component/Empty';
-import { Link } from 'react-router-dom';
 import globalDeckService from 'service/global-deck.service';
-import { useTranslation } from 'react-i18next';
 import GlobalDeckDetailComponent from './global-deck-detail.component';
 
 export default function GlobalDecksComponent() {
-  // const [isShowDetailDeck, setIsShowDetailDeck] = useState(false);
+
   const [globalDecks, setGlobalDecks] = useState();
 
   const [searchTerm, setSearchTerm] = useState();
-  // const [detailDeck, setDetailDeck] = useState();
 
   const appElement = document.getElementById('root');
   Modal.setAppElement(appElement);
-
-  // async function getDeck(idDeck) {
-  //   const subUrl = `/decks/${idDeck}`;
-  //   try {
-  //     const { data } = await fetchData(subUrl, 'GET');
-  //     setDetailDeck(data);
-  //     setIsShowDetailDeck(true);
-  //   } catch (error) {
-  //     showToastError(error.message);
-  //   }
-  // }
 
   async function getGlobalDecks() {
     const rawData = await globalDeckService.getGlobalDecks();

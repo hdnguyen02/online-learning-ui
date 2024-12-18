@@ -2,16 +2,11 @@ import Navbar from "./component/Navbar";
 import Home from "./page/Home";
 import SignIn from "./page/SignIn";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-// import SignUp from "./page/SignUp";
 import SignUpComponent from "./feature/sign-up/sign-up.component.jsx"
-import Settings from "./page/Settings";
-// import InfoUser from "./component/InfoUser";
-// import ChangePW from "./component/ChangePW";
 import ForgotPW from "./page/Forgot-PW";
 import ResetPW from "./page/ResetPW";
 import PrivateRoutes from "./helper/PrivateRoutes";
 import Deck from "./feature/deck/deck.component";
-import FlipCard from "./page/FlipCard";
 import Contact from "./page/Contact";
 import Card from "./page/Card";
 import ClassUser from "./page/ClassUser";
@@ -30,25 +25,18 @@ import MembersAttendanceClass from "./component/MembersAttendanceClass.jsx";
 import GlobalGroup from "./page/GlobalGroup.jsx";
 import DetailGlobalGroup from "./page/DetailGlobalGroup.jsx";
 import GlobalGroups from "./page/GlobalGroups.jsx";
-import GlobalDecks from "./component/GlobalDecks.jsx";
-import GlobalDeck from "./page/GlobalDeck.jsx";
 import LearnCommonDeck from "./page/LearnCommonDeck.jsx";
-// import OwnerCommonDecks from "./component/OwnerCommonDeck.jsx";
 import Admin from "./page/Admin.jsx";
-import Invoices from "./component/admin/Invoices.jsx";
 import Statistics from "./component/admin/Statistics.jsx";
 import Cards from "./component/cards/Cards";
 import Decks from "./feature/deck/component/decks.component.jsx";
-import ProfileUser from "./component/ProfileUser.jsx";
 import DecksUser from './component/profile-users/Decks.jsx'
-import UsersTest from './component/admin/UsersTest.jsx'
-
+import UsersTest from './component/admin/users.component.jsx'
 
 
 import GlobalDeckComponent from "feature/global-deck/global-deck.component.jsx";
 import GlobalDecksComponent from "feature/global-deck/global-decks.component.jsx";
 
-// import ProfileUserComponent from "feature/profile-user/profile-user.jsx";
 
 import SettingComponent from "feature/setting/setting.component.jsx";
 import ProfileUserComponent from "feature/setting/profile-user.component.jsx";
@@ -71,7 +59,6 @@ function App() {
           <Route path="/admin" element={<Admin />}>
             <Route path="" element={<UsersTest />}/>
             <Route path="users" element={<UsersTest/>}/>
-            {/* <Route path="invoices" element={<Invoices />}/> */}
             <Route path="statistics" element={<Statistics />}/>
           </Route>
 

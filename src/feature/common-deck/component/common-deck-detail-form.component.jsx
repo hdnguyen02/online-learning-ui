@@ -8,6 +8,8 @@ import { useEffect } from "react";
 import { ToastContainer } from "react-toastify";
 import Empty from "component/Empty";
 import commonDeckService from "service/common-deck.service";
+import { fetchData, showToastError, showToastMessage, showToastMessageV2 } from "../../../global";
+import { sub } from "date-fns";
 
 const CommonDeckDetailFormComponent = ({ isOpenDetailCommonDeck, onCloseDetailCommonDeck, idCommonDeckDetailSelected }) => {
 
@@ -46,12 +48,29 @@ const CommonDeckDetailFormComponent = ({ isOpenDetailCommonDeck, onCloseDetailCo
 
                 setLanguages(languages);
             } catch (error) {
-                setLanguages([])
+                setLanguages([]);
                 console.error("Error fetching languages:", error);
             }
         };
         fetchLanguages();
     }, []);
+
+
+    const onCloneCommonDeck = async () => { 
+
+        // đã có id rồi. c
+        const subUrl = `/groups/common-decks/${idCommonDeckDetailSelected}/clone`; 
+        try { 
+            await fetchData(subUrl, 'POST'); 
+            showToastMessageV2("Clone thành công!", () => { 
+                onCloseDetailCommonDeck(); 
+            });
+        }   
+        catch(error) { 
+            const { message } = error; 
+            showToastError(message); 
+        }     
+    }
 
 
     useEffect(() => {
@@ -63,10 +82,8 @@ const CommonDeckDetailFormComponent = ({ isOpenDetailCommonDeck, onCloseDetailCo
                     name: rawData.name,
                     description: rawData.description,
                     configLanguage: rawData.configLanguage,
-                    cards: rawData.cards
+                cards: rawData.cards
                 })
-
-                setCommonCards(rawData.cards);
                 setStep(0);
 
 
@@ -75,13 +92,10 @@ const CommonDeckDetailFormComponent = ({ isOpenDetailCommonDeck, onCloseDetailCo
             }
         };
 
-        if (idCommonDeckDetailSelected) {
+        if (isOpenDetailCommonDeck && idCommonDeckDetailSelected) {
             fetchData();
         }
-    }, [idCommonDeckDetailSelected]);
-
-
-
+    }, [isOpenDetailCommonDeck]);
 
     return <div>
 
@@ -218,6 +232,16 @@ const CommonDeckDetailFormComponent = ({ isOpenDetailCommonDeck, onCloseDetailCo
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
                                     </svg>
                                 </div>
+
+                                {/* clone */}
+
+                               
+
+                                <button onClick={() => onCloneCommonDeck()} type="button" className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1.5 px-4 rounded inline-flex items-center">
+                                    <svg className="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z" /></svg>
+                                    <span>Clone</span>
+                                </button>
+
 
 
                                 {/* <div className="flex gap-x-3">

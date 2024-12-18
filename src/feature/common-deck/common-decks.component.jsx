@@ -184,7 +184,7 @@ export default function CommonDecksComponent() {
             left: "50%",
             transform: "translate(-50%, -50%)",
             width: "540px",
-            height: "200px",
+            height: "220px",
             borderRadius: "8px",
           },
         }}
@@ -197,9 +197,9 @@ export default function CommonDecksComponent() {
               <img src="/src/assets/image/alert.png" alt="" />
             </div>
             <div className="mt-4 text-center md:text-left md:ml-6">
-              <p className="font-bold text-lg">Delete your account</p>
+              <p className="font-bold text-lg">Delete your common deck</p>
               <p className="text-sm text-gray-700 mt-1">
-                You will lose all of your data by deleting your account. This action cannot be undone.
+                You will lose all of your data by deleting your group. This action cannot be undone.
               </p>
             </div>
           </div>
@@ -219,7 +219,7 @@ export default function CommonDecksComponent() {
 
               className="px-4 py-2 bg-red-500 text-white rounded-lg font-semibold text-sm"
             >
-              Delete Account
+              Delete common deck
             </button>
           </div>
         </div>
