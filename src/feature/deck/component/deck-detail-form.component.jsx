@@ -115,7 +115,6 @@ const DeckDetailForm = ({ isOpenDetailDeck, onCloseDetailDeck, deck }) => {
                     maxWidth: "92%",
                     margin: "0 auto",
                     // padding: "20px 40px",
-                    borderRadius: "0px",
                     padding: "0px",
                     borderRadius: "8px", 
                     display: "flex",

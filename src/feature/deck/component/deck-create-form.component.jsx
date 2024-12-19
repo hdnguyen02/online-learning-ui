@@ -275,7 +275,6 @@ const DeckCreateForm = ({ getDecks }) => {
                     maxWidth: "92%",
                     margin: "0 auto",
                     // padding: "20px 40px",
-                    borderRadius: "0px",
                     padding: "0px",
                     borderRadius: "8px", 
                     display: "flex",
@@ -292,7 +291,6 @@ const DeckCreateForm = ({ getDecks }) => {
                     <button onClick={closeModal} className="px-4">
                         <i className="fa-solid fa-xmark text-3xl cursor-pointer"></i>
                     </button>
-
                 </div>
                 <hr className="mt-4 dark:opacity-10" />
 

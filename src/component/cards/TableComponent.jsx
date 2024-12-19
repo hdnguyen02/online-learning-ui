@@ -120,6 +120,12 @@ const TableComponent = ({
 
   const [currentPage, setCurrentPage] = useState(0);
 
+
+  const handlePageClick = (index) => {
+    setCurrentPage(index); // Cập nhật trạng thái trang hiện tại
+    gotoPage(index); // Gọi hàm để thực hiện logic chuyển trang
+  };
+
   return (
     <div>
       <GlobalFilter
