@@ -1,6 +1,8 @@
 
 import { createContext, useState, useContext, useEffect } from 'react'
 import { fetchData } from '../global'
+import { sub } from 'date-fns';
+import { ca } from 'date-fns/locale';
 
 const AuthContext = createContext(); 
 
@@ -20,7 +22,17 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
  
-  async function signOut() { 
+  async function signOut() {
+    // Thực hiện sign out => gọi vào api sign out.
+
+    const subUrl = '/auth/sign-out'; 
+    try { 
+      await fetchData(subUrl, 'POST'); 
+    }
+    catch(error) { 
+      console.log(error.message); 
+    }
+
     localStorage.clear();
     setAuth(false);
   }

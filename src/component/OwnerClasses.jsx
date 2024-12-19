@@ -172,28 +172,28 @@ export default function OwnerClasses() {
 
 
     useEffect(() => {
-        // if (auth.roles.includes('TEACHER')) {
-        //     getOwnerGroup();
-        // }
-        getOwnerGroup();
+        if (auth.roles.includes('TEACHER')) {
+            getOwnerGroup();
+        }
+        // getOwnerGroup();
     }, [])
 
 
-    // function renderUnlockedUser() {
-    //     return <div className='flex items-center justify-center flex-col gap-y-3'>
-    //         <h1 className='text-3xl font-bold text-center'>Online learning - For teachers</h1>
-    //         <div className='flex justify-center'>
-    //             <button onClick={handlePayment} className='gap-x-2 flex items-center h-10 px-8 text-sm text-center rounded-md font-bold bg-yellow-400 sm:w-fit hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-yellow-200'>
+    function renderUnlockedUser() {
+        return <div className='flex items-center justify-center flex-col gap-y-3'>
+            <h1 className='text-3xl font-bold text-center text-gray-900'>Online learning - For teachers</h1>
+            <div className='flex justify-center'>
+                <button onClick={handlePayment} className='gap-x-2 flex items-center h-10 px-8 text-sm text-center rounded-md font-bold bg-yellow-400 sm:w-fit hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-yellow-200'>
 
-    //                 <span className='text-sm'>Buy</span>
-    //                 <i className='fa-solid fa-unlock'></i>
-    //             </button>
-    //         </div>
+                    <span className='text-sm text-gray-900'>Buy</span>
+                    <i className='fa-solid fa-unlock text-gray-900'></i>
+                </button>
+            </div>
 
-    //     </div>
-    // }
+        </div>
+    }
 
-    // if (auth.roles.includes('TEACHER')) {
+    if (auth.roles.includes('TEACHER')) {
         return ownerClasses && <div className='mb-8'>
             {ownerClasses?.length !== 0 ? (
                 <div className="mb-8 grid grid-cols-2 gap-8">
@@ -472,6 +472,6 @@ export default function OwnerClasses() {
 
         </div>
 
-        // }
-        // else return renderUnlockedUser(); 
+        }
+        else return renderUnlockedUser(); 
     }
