@@ -43,7 +43,6 @@ export async function fetchData(subUrl, method, body) {
 
 export async function fetchDataWithoutAccessToken(subUrl, method, body) {
     const url = getUrl(subUrl);
-    console.log(url);
     const options = {
         method: method,
         headers: {
@@ -64,6 +63,9 @@ export async function fetchDataWithoutAccessToken(subUrl, method, body) {
 
 
 }
+
+
+
 
 
 
