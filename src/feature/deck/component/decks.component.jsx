@@ -31,20 +31,20 @@ const Decks = () => {
 
   const columns = useMemo(() => [
     {
-      Header: "Name",
+      Header: "Tên bộ thẻ",
       accessor: "name",
       width: "w-40", // Đặt chiều rộng cho cột "Name"
       Cell: ({ value }) => <span className="text-xs uppercase">{value}</span>
     },
     {
-      Header: "Quantity cards",
+      Header: "Số thẻ",
       accessor: "quantityCards",
       width: "w-12", // Đặt chiều rộng cho cột "Quantity cards"
       Cell: ({ value }) => <span className="bg-green-100 dark:bg-green-600 dark:text-white text-green-800 text-xs font-medium me-2 px-4 py-0.5 rounded">{value}</span>
 
     },
     {
-      Header: "Quantity clone",
+      Header: "Số lượng sao chép",
       accessor: "quantityClones",
       width: "w-12", // Đặt chiều rộng cho cột "Quantity clone"
       Cell: ({ value }) => <span className="bg-green-100 dark:bg-green-600 dark:text-white text-green-800 text-xs font-medium me-2 px-4 py-0.5 rounded">{value}</span>
@@ -67,7 +67,7 @@ const Decks = () => {
         ),
     },
     {
-      Header: "Created At",
+      Header: "Ngày tạo",
       accessor: "createdDate",
       width: "w-32", // Đặt chiều rộng cho cột "Created At"
       Cell: ({ value }) => customFormatDistanceToNow(value),
@@ -265,7 +265,7 @@ const Decks = () => {
         onCloseDetailDeck={onCloseDetailDeck}
         deck={deck}
       >
-      </DeckDetailForm>
+      </DeckDetailForm> 
       <ModalEditDeck ref={refModalEditDeck} getDecks={getDecks} />
 
 

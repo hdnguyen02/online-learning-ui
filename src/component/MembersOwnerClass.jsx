@@ -50,8 +50,7 @@ export default function MembersOwnerClass() {
     event.preventDefault();
 
 
-    const id = params.id // idGroup 
-
+    const id = params.id; 
     const email = document.getElementById('email').value;
     const subUrl = `/groups/${id}/invite?email=${email}`;
 
@@ -75,7 +74,7 @@ export default function MembersOwnerClass() {
     },
     content: {
       width: '600px',
-      height: '240px',
+      height: '150px',
       top: '50%',
       left: '50%',
       transform: 'translate(-50%, -50%)',
@@ -113,40 +112,22 @@ export default function MembersOwnerClass() {
         >
           <form onSubmit={handleInviteUser} className=''>
             <div className='flex justify-between items-center'>
-              <span className='text-gray-800 text-lg font-medium'>Invite student</span>
+              <span className='text-gray-800 text-lg font-medium'>Mời người dùng</span>
               <button onClick={() => setIsOpenModalInviteUser(false)} type='button'>
                 <img src='/close.png' className='w-5 h-5' alt='' />
               </button>
             </div>
 
-            <hr className='my-4' />
+            {/* <hr className='my-4' /> */}
 
             <div className='mt-6'>
-              <div className='flex flex-col gap-y-2 w-full'>
-                <label className='text-sm text-gray-600 font-bold' htmlFor=''>
-                  Email
-                </label>
-                {/* <input
-                  onChange={event => setEmailInvite(event.target.value)}
-                  value={emailInvite}
-                  type='text'
-                  className='h-10 px-4 rounded-lg'
-                  required
-                /> */}
-
-                <input id='email' type="text" name="first-name" autocomplete="given-name" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+              <div className='flex w-full gap-x-4'>
+                <input id='email' type="text" name="first-name" placeholder="Type email" autocomplete="given-name" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
               </div>
-
-
+              </div>
               <div className='mt-4 flex justify-end items-center'>
 
-                <button
-                  type='submit'
-                  className='h-10 w-full items-center gap-x-2 px-8 text-sm text-center text-white font-bold rounded-md bg-primary sm:w-fit hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300'
-                >
-                  Submit
-                </button>
-              </div>
+               
             </div>
           </form>
         </Modal>

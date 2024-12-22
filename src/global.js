@@ -159,4 +159,21 @@ export function customFormatYYY_MM_DD(isoDateString) {
     } catch (error) { 
         return null; 
     }
+}   
+
+
+export const notification = { 
+    success: { 
+        create: "Create success", 
+        update: "Update success", 
+        delete: "Delete success",  
+        clone: "Clone success"
+    }, 
+    error: { 
+        create: "Create fail!", 
+        update: "Update fail!",
+        delete: "Delete fail", 
+        clone: "Clone fail!"
+    }
 }
+

@@ -3,9 +3,10 @@ import { fetchData, showToastError } from "../../global";
 import { AreaChart, Area, PieChart, Pie, Cell, BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Brush } from 'recharts';
 
 
-import { format, subMonths } from 'date-fns';
+import { format, sub, subMonths } from 'date-fns';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { ca } from "date-fns/locale";
 
 
 export default function Statistics() {
@@ -22,6 +23,8 @@ export default function Statistics() {
   const [startDateStatisticDecksCards, setStartDateStatisticDecksCards] = useState(null);
   const [endDateStatisticDecksCards, setEndDateStatisticDecksCards] = useState(null);
 
+  const [revenue, setRevenue] = useState(null); 
+
   async function getCommonStatistics() {
     const subUrl = "/admin/common-statistics";
     try {
@@ -32,11 +35,27 @@ export default function Statistics() {
     }
   }
 
+  const getRevenue = async () => { 
+    const subUrl = '/admin/statistics-invoices';
+    try { 
+      const {data: rawData} = await fetchData(subUrl); 
+      console.log(rawData);
+      setRevenue(rawData);
+    }
+    catch(error) { 
+      console.log(error); 
+    }
+  }
+
+  
+
 
   useEffect(() => {
     getCommonStatistics();
     getStatisticsLanguages();
+    getRevenue(); 
 
+  
     const currentDate = new Date();
     const sixMonthsAgo = subMonths(currentDate, 6); // 6 tháng trước
 
@@ -348,9 +367,9 @@ export default function Statistics() {
         <div className="mt-12 flex">
 
 
-        <ResponsiveContainer width="50%" height={300}>
+        {/* <ResponsiveContainer width="50%" height={300}>
           <BarChart data={statisticsDecksCards}>
-            {/* Loại bỏ CartesianGrid để không hiển thị các đường gạch ngang, dọc */}
+
             <XAxis dataKey="month" />
             <YAxis />
             <Tooltip />
@@ -358,7 +377,21 @@ export default function Statistics() {
             <Bar dataKey="numberDecks" fill="#8884d8" />
             <Bar dataKey="numberCards" fill="#82ca9d" />
           </BarChart>
-        </ResponsiveContainer>
+        </ResponsiveContainer> */}
+
+        {/* Thêm vào doanh thu */}
+
+        <ResponsiveContainer  height={400}>
+      <BarChart data={revenue} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="month" />
+        <YAxis />
+        <Tooltip formatter={(value) => new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value)} />
+        <Bar dataKey="revenue" fill="#8884d8" />
+      </BarChart>
+    </ResponsiveContainer>
+
+
         
         <ResponsiveContainer width="50%" height={300}>
           <PieChart>

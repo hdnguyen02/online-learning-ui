@@ -7,7 +7,7 @@ import Slider from 'react-slick';
 import { useEffect } from "react";
 import { v4 as uuidv4 } from 'uuid';
 import { ToastContainer } from "react-toastify";
-import { handleActionResult } from "../../../global";
+import { handleActionResult, notification, showToastError, showToastMessage } from "../../../global";
 import Empty from "component/Empty";
 
 const DeckCreateForm = ({ getDecks }) => {
@@ -76,15 +76,18 @@ const DeckCreateForm = ({ getDecks }) => {
         }
         const isSuccess = await deckService.create(data);
 
-        handleActionResult(isSuccess, 'CREATE', t);
+        if (isSuccess) { 
+            showToastMessage(notification.success.create); 
+        }
+        else { 
+            showToastError(notification.error.create); 
+        }
         getDecks();
         closeModal();
         resetData();
     }
 
     const onKeyDownSearchImage = async (e) => {
-        // e.preventDefault(); 
-        // check enter.
         if (e.key != 'Enter') return;
 
         const rawData = await deckService.searchImages(querySearchImage);
@@ -112,11 +115,6 @@ const DeckCreateForm = ({ getDecks }) => {
         };
         fetchLanguages();
     }, []);
-
-
-
-
-
 
     const settings = {
         dots: true,
@@ -167,7 +165,6 @@ const DeckCreateForm = ({ getDecks }) => {
         };
 
         setCards(prevCards => [...prevCards, newCard]);
-        console.log("onAddCard");
     };
 
 
@@ -244,10 +241,6 @@ const DeckCreateForm = ({ getDecks }) => {
     const onDeleteCard = (cardId) => {
         setCards(cards.filter(card => card.id !== cardId));
     }
-
-    const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
-
-
 
     return <div>
 

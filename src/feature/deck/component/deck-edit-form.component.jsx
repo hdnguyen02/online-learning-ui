@@ -9,7 +9,7 @@ import Slider from 'react-slick';
 import { useEffect } from "react";
 import { v4 as uuidv4 } from 'uuid'; // Import v4 từ thư viện uuid
 import { ToastContainer } from "react-toastify";
-import { handleActionResult } from "../../../global"; 
+import { handleActionResult, showToastMessage } from "../../../global"; 
 import Empty from "component/Empty";
 
 const DeckEditFormComponent = ({getDecks, isOpenEditDeck, onCloseEditDeck, idDeckUpdateSelected}) => {
@@ -64,7 +64,9 @@ const DeckEditFormComponent = ({getDecks, isOpenEditDeck, onCloseEditDeck, idDec
         }
         const isSuccess = await deckService.update(data);
 
-        handleActionResult(isSuccess, 'UPDATE', t); 
+        if (isSuccess) { 
+            showToastMessage("Update success!"); 
+        }
         getDecks(); 
         onCloseEditDeck(); 
         // resetData(); 

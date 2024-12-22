@@ -9,7 +9,7 @@ import Slider from 'react-slick';
 import { useEffect } from "react";
 import { v4 as uuidv4 } from 'uuid'; // Import v4 từ thư viện uuid
 import { ToastContainer } from "react-toastify";
-import { handleActionResult } from "../../../global";
+import { handleActionResult, notification, showToastError, showToastMessage } from "../../../global";
 import Empty from "component/Empty";
 import commonDeckService from "service/common-deck.service";
 import { useLocation } from "react-router-dom";
@@ -69,16 +69,18 @@ const CommonDeckUpdateFormComponent = ({ getCommonDecks, isOPenUpdateCommonDeck,
             commonDeck: commonDeckUpdate, commonCards: commonCardUpdates
         }
         const isSuccess = await commonDeckService.update(data);
-
-        handleActionResult(isSuccess, 'UPDATE', t);
+        if (isSuccess) {
+            showToastMessage(notification.success.update); 
+        }
+        else { 
+            showToastError(notification.success.update); 
+        }
+        setStep(0);
         getCommonDecks();
         onCloseUpdateCommonDeck();
-        // resetData(); 
     }
 
     const onKeyDownSearchImage = async (e) => {
-        // e.preventDefault(); 
-        // check enter.
         if (e.key != 'Enter') return;
 
         const rawData = await deckService.searchImages(querySearchImage);
@@ -88,9 +90,6 @@ const CommonDeckUpdateFormComponent = ({ getCommonDecks, isOPenUpdateCommonDeck,
 
 
     useEffect(() => {
-
-
-        // check xem có phải là isOwner hay không 
         if (location.pathname.includes('detail-owner')) setIsOWner(true);
         else setIsOWner(false);
 
@@ -113,9 +112,6 @@ const CommonDeckUpdateFormComponent = ({ getCommonDecks, isOPenUpdateCommonDeck,
         fetchLanguages();
     }, []);
 
-    // const [deckUpdate, setDeckUpdate] =  useState(); 
-
-    // const [cardUpdates, setCardUpdates] = useState(); 
 
 
     const [commonDeckUpdate, setCommonDeckUpdate] = useState();

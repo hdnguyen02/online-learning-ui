@@ -1,17 +1,19 @@
 @media (prefers-color-scheme: dark) {  
-    .answer {
-      border: 0.1px solid #a9a9a9;
-    }
+    
+  }
 
-    .is-choose-answer { 
-        background-color: #282E3E !important;
-        font-weight: 600 !important;
-    }
+  .answer {
+    border: 0.1px solid #a9a9a9;
+  }
+
+  .is-choose-answer { 
+      background-color: #282E3E !important;
+      font-weight: 600 !important;
   }
   
   @media (prefers-color-scheme: light) {
     
-    .answer {
+    /* .answer {
       border: 0.2px solid rgb(199, 196, 196) !important;
     }
 
@@ -20,7 +22,7 @@
       border: 2px solid #4255FF !important;
       font-weight: 600 !important;
 
-  }
+  } */
   
   }
 

@@ -9,7 +9,7 @@ import { ToastContainer } from "react-toastify";
 import Empty from "component/Empty";
 import commonDeckService from "service/common-deck.service";
 import { fetchData, showToastError, showToastMessage, showToastMessageV2 } from "../../../global";
-import { sub } from "date-fns";
+
 
 const CommonDeckDetailFormComponent = ({ isOpenDetailCommonDeck, onCloseDetailCommonDeck, idCommonDeckDetailSelected }) => {
 
@@ -88,7 +88,8 @@ const CommonDeckDetailFormComponent = ({ isOpenDetailCommonDeck, onCloseDetailCo
 
 
             } catch (error) {
-                console.error("Error fetching deck:", error);
+                const { message } = error; 
+                console.error("Error fetching common deck:", message);
             }
         };
 

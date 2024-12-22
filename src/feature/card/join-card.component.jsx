@@ -1,4 +1,4 @@
-import cardService from "service/card.service"
+
 import deckService from "service/deck.service";
 import { Link, useParams } from "react-router-dom"
 import { useEffect, useRef, useState } from "react";
@@ -72,7 +72,7 @@ export default function JoinCardComponent() {
                 setTime((prevTime) => prevTime + 1);
             }, 1000);
         } else {
-            setShowTime(time); 
+            setShowTime(time);
             setTime(0); // Nếu chưa bắt đầu, reset thời gian về 0
         }
         return () => clearInterval(timer); // Dọn dẹp bộ đếm khi game kết thúc
@@ -152,29 +152,29 @@ export default function JoinCardComponent() {
         }
 
         // check xem người chơi đã hoàn thành chưa
-        
+
 
     }, [joinCardElements])
 
 
     // Theo giỏi kết thúc game
     useEffect(() => {
-        if (!joinCardElements) return; 
-        if(!joinCardElements.every(joinCardElement => joinCardElement.isCorrect)) return; 
-        
+        if (!joinCardElements) return;
+        if (!joinCardElements.every(joinCardElement => joinCardElement.isCorrect)) return;
+
         setTimeout(() => {
-            
-            setIsStart(false); 
-            setIsEnd(true); 
+
+            setIsStart(false);
+            setIsEnd(true);
         }, 100)
-        
+
 
     }, [joinCardElements])
 
-    function onRePlay() { 
-        
-        setIsEnd(false); 
-        onStart(); 
+    function onRePlay() {
+
+        setIsEnd(false);
+        onStart();
     }
 
 
@@ -189,48 +189,52 @@ export default function JoinCardComponent() {
         }
     }, [params.id]);
 
-    return <div>
+    return <div className="bg-[#0A092D]">
         {/* Giới thiệu */}
-        <div className="px-8 pt-4 flex items-center justify-between">
+        <div className="bg-[#0A092D] fixed left-0 right-0 top-0 px-8 pt-4 flex items-center justify-between">
             <div className="flex items-center gap-x-2">
                 <img src="/src/assets/image/digital_14210185.png" className="w-9 h-9" alt="" />
-                <span className="font-bold text-lg">Ghép thẻ</span>
+                <span className="font-bold text-lg text-white">Ghép thẻ</span>
             </div>
 
             {
-                !isStart ? <span className="font-medium">{deck?.name}</span> : <span><span>{formatTime(time)}</span></span>
+                !isStart ? <span className="font-medium text-white">{deck?.name}</span> : <span><span className="text-white">{formatTime(time)}</span></span>
             }
 
             {/* <span className="font-medium">{deck?.name}</span> */}
             <div className="flex items-center gap-x-4">
                 <button onClick={onToggleAudio} type="button" className="border py-2 px-3 rounded-lg">
-                    {isAudio ? <i className="fa-solid fa-volume-high"></i> : <i className="fa-solid fa-volume-xmark"></i>}
+                    {isAudio ? <i className="fa-solid fa-volume-high"></i> : <i className="fa-solid fa-volume-xmark text-white"></i>}
                 </button>
-                <button onClick={onOpenSetting} className="border py-2 px-3 rounded-lg">Tùy chọn</button>
-                <Link to={`/my-decks/${params.id}/learn-cards`} className="border py-2 rounded-lg px-4"><i className="fa-solid fa-xmark"></i></Link>
+                <button
+                    disabled={isStart}
+                    onClick={onOpenSetting}
+                    className={`border py-2 px-3 rounded-lg ${isStart ? "cursor-not-allowed opacity-50 text-white" : "text-white"}`}
+                >Tùy chọn</button>
+                <Link to={`/my-decks/${params.id}/learn-cards`} className="border py-2 rounded-lg px-4"><i className="fa-solid fa-xmark text-white"></i></Link>
             </div>
 
         </div>
 
         {
-            (!isStart && !isEnd) && <div className="mt-24 flex flex-col items-center gap-y-8">
+            (!isStart && !isEnd) && <div className="py-24 flex flex-col items-center gap-y-8 h-screen">
                 <img src="/src/assets/image/match_hero.webp" className="w-32" alt="" />
-                <span className="text-2xl font-bold">Bạn đã sẵn sàng?</span>
-                <span className="w-80 text-center">Hãy ghép tất cả thuật ngữ với định nghĩa của chúng nhanh nhất có thể. Tránh ghép sai, vì bạn sẽ bị phạt thêm thời gian!</span>
+                <span className="text-2xl font-bold text-white">Bạn đã sẵn sàng?</span>
+                <span className="w-80 text-center text-white">Hãy ghép tất cả thuật ngữ với định nghĩa của chúng nhanh nhất có thể. Tránh ghép sai, vì bạn sẽ bị phạt thêm thời gian!</span>
                 <button onClick={onStart} type="button" className="rounded-lg bg-[#423ED8] font-medium px-32 py-6 text-white">Bắt đầu chơi</button>
             </div>
         }
 
         {
-            (isStart && !isEnd) && <div className="mt-10 mx-24">
+            (isStart && !isEnd) && <div className="py-24 mx-24 min-h-screen">
                 {joinCardElements && (
                     <div className="grid grid-cols-4 gap-8 mx-auto">
                         {joinCardElements.map((joinCardElement, index) => {
                             return (
                                 <div key={index} onClick={() => onClickElement(joinCardElement.id)} id={`join-card-element-${joinCardElement.id}`}
-                                    className={`cursor-pointer bg-gray-100 dark:bg-[#2E3856] w-full h-44 flex items-center justify-center rounded-lg ${joinCardElement.isCorrect ? "join-card-is-correct" : ""} ${joinCardElement.isSelected ? "join-card-is-selected" : ""}`}
+                                    className={`cursor-pointer bg-[#2E3856] w-full h-44 flex items-center justify-center rounded-lg ${joinCardElement.isCorrect ? "join-card-is-correct" : ""} ${joinCardElement.isSelected ? "join-card-is-selected" : ""}`}
                                 >
-                                    <span className="text-xl">{joinCardElement.content}</span>
+                                    <span className="text-xl text-white">{joinCardElement.content}</span>
 
                                 </div>
                             );
@@ -243,24 +247,22 @@ export default function JoinCardComponent() {
         {
             isEnd && <div>
 
-                <div className="mt-14 flex items-center justify-center gap-x-16">
+                <div className="py-32 flex justify-center gap-x-16 min-h-screen">
+                    <div className="flex flex-col gap-y-6">
+                        <span className="text-3xl font-bold text-white">Bạn thật cừ! Liệu bạn có thể ghép nhanh hơn nữa?</span>
+                        <span className="font-medium text-white">Hãy thử đánh bại kỷ lục <em>{showTime} giây</em> của bản thân.</span>
+                        <button onClick={onRePlay} className="text-white rounded-lg bg-[#423ED8] font-medium px-6 py-3 w-40">
+                            Chơi lại
+                        </button>
 
-                
-                <div className="flex flex-col gap-y-6">
-                    <span className="text-3xl font-bold">Bạn thật cừ! Liệu bạn có thể ghép nhanh hơn nữa?</span>
-                    <span className="font-medium">Hãy thử đánh bại kỷ lục <em>{showTime} giây</em> của bản thân.</span>
-                    <button onClick={onRePlay} className="text-white rounded-lg bg-[#423ED8] font-medium px-6 py-3 w-40">
-                        Chơi lại
-                    </button>
-                
-                </div>
-                <div>
-                    <img src="/src/assets/image/party-popper.png" alt="" />
+                    </div>
+                    <div>
+                        <img src="/src/assets/image/party-popper.png" alt="" />
+                    </div>
+
+
                 </div>
 
-               
-                </div>
-              
             </div>
         }
 
@@ -289,23 +291,23 @@ export default function JoinCardComponent() {
                 },
             }}
         >
-            <div className="w-full h-full dark:bg-[#0A092D] px-10 py-4">
+            <div className="w-full h-full bg-[#0A092D] px-10 py-4">
                 <div className="flex justify-end">
-                    <button onClick={onCloseSetting} type="button" className="border py-0.5 px-2.5 rounded-lg">
+                    <button onClick={onCloseSetting} type="button" className="border py-0.5 px-2.5 rounded-lg text-white">
                         <i className="fa-solid fa-xmark text-3xl"></i>
                     </button>
                 </div>
                 <div>
-                    <span className="text-3xl font-bold">Tùy chọn</span>
+                    <span className="text-3xl font-bold text-white">Tùy chọn</span>
                     <div className="mt-8 flex items-center justify-between">
-                        <span>Chỉ học thuật ngữ có gắn sao</span>
+                        <span className="text-white">Chỉ học thuật ngữ có gắn sao</span>
 
                         <label className="inline-flex items-center cursor-pointer">
                             <input checked={isOnlyFavorite} onChange={e => setIsOnlyFavorite(e.target.checked)} type="checkbox" value="" className="sr-only peer" />
-                            <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                            <div className="relative w-11 h-6 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-800 rounded-full peer bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all border-gray-600 peer-checked:bg-blue-600"></div>
                         </label>
                     </div>
-                   
+
                 </div>
             </div>
 

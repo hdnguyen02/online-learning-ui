@@ -5,7 +5,8 @@ import {
   fetchData,
   showToastError,
   showToastMessage,
-  customFormatDistanceToNow
+  customFormatDistanceToNow,
+  notification
 } from "../../global";
 import { useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
@@ -43,14 +44,14 @@ export default function CommonDecksComponent() {
     };
 
     try {
-      const { message } = await fetchData(subUrl, "POST", body);
+      await fetchData(subUrl, "POST", body);
       await getCommonDecks();
-      showToastMessage(message);
+      showToastMessage(notification.success.create);
       setName("");
       setDescription("");
       setIsOpenCreateCommonDeck(false);
-    } catch (error) {
-      showToastError(error.message);
+    } catch (error) { 
+      showToastError(notification.error.create);
     }
   }
 
@@ -197,9 +198,9 @@ export default function CommonDecksComponent() {
               <img src="/src/assets/image/alert.png" alt="" />
             </div>
             <div className="mt-4 text-center md:text-left md:ml-6">
-              <p className="font-bold text-lg">Delete your common deck</p>
+              <p className="font-bold text-lg">Xóa bộ thẻ</p>
               <p className="text-sm text-gray-700 mt-1">
-                You will lose all of your data by deleting your group. This action cannot be undone.
+                Bạn sẽ mất tất cả dữ liệu khi xóa bộ thẻ. Không thể hoàn tác hành động này.
               </p>
             </div>
           </div>
@@ -213,13 +214,13 @@ export default function CommonDecksComponent() {
 
               className="px-4 py-2 bg-gray-200 rounded-lg font-semibold text-sm"
             >
-              Cancel
+              Hủy
             </button>
             <button onClick={() => onConfirmDeleteCommonDeck()}
 
               className="px-4 py-2 bg-red-500 text-white rounded-lg font-semibold text-sm"
             >
-              Delete common deck
+              Xóa bộ thẻ
             </button>
           </div>
         </div>
@@ -350,7 +351,7 @@ export default function CommonDecksComponent() {
                 value={description}
                 type="text"
                 className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                required
+                
               />
             </div>
             <div className="mt-8">

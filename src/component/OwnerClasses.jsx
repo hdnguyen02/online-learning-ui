@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { fetchData, showToastError, showToastMessage, customFormatDistanceToNow } from '../global';
+import { fetchData, showToastError, showToastMessage, customFormatDistanceToNow, notification } from '../global';
 import { Link } from 'react-router-dom';
 import Modal from 'react-modal';
 import useAuth from '../context/AuthContext';
@@ -8,10 +8,6 @@ import Empty from './Empty';
 import { useTranslation } from 'react-i18next';
 import groupService from 'service/group.service';
 import React from "react";
-
-
-
-
 
 export default function OwnerClasses() {
 
@@ -29,7 +25,7 @@ export default function OwnerClasses() {
     const [groupEdit, setGroupEdit] = useState();
 
 
-    async function handleCreateClass(event) {
+    async function handleCreateGroup(event) {
         event.preventDefault();
         const body = {
             name,
@@ -39,9 +35,9 @@ export default function OwnerClasses() {
 
         try {
             const subUrl = '/groups';
-            const { message } = await fetchData(subUrl, 'POST', body);
+            await fetchData(subUrl, 'POST', body);
             await getOwnerGroup();
-            showToastMessage(message);
+            showToastMessage(notification.success.create);
 
             setName('');
             setDesc('');
@@ -52,9 +48,6 @@ export default function OwnerClasses() {
             showToastError(error.message);
         }
     }
-
-    // thiết lập học thẻ 
-
 
     const stylesModal = {
         overlay: {
@@ -70,8 +63,6 @@ export default function OwnerClasses() {
             padding: '20px 40px',
             borderRadius: '6px',
             backgroundColor: 'while',
-            // border: '0px',
-            // boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
         },
     }
 
@@ -113,8 +104,8 @@ export default function OwnerClasses() {
     const { t } = useTranslation();
     async function onConfirmDeleteGroup() {
         const isSuccess = await groupService.deleteGroup(idGroupSelected);
-        if (isSuccess) showToastMessage(t('NOTIFICATION.SUCCESS.DELETE'));
-        else showToastError(t('NOTIFICATION.ERROR.DELETE'));
+        if (isSuccess) showToastMessage(notification.success.delete);
+        else showToastError(notification.error.delete);
         setIsOpenDeleteGroup(false);
         getOwnerGroup();
 
@@ -157,8 +148,8 @@ export default function OwnerClasses() {
     async function getGroup(idGroup) {
         const subUrl = `/groups/${idGroup}`
         try {
-            const { data } = await fetchData(subUrl, 'GET')
-            return data
+            const { data } = await fetchData(subUrl, 'GET'); 
+            return data; 
         }
         catch ({ message }) {
             showToastError(message)
@@ -175,7 +166,6 @@ export default function OwnerClasses() {
         if (auth.roles.includes('TEACHER')) {
             getOwnerGroup();
         }
-        // getOwnerGroup();
     }, [])
 
 
@@ -202,32 +192,16 @@ export default function OwnerClasses() {
 
                         <div key={index} className=" bg-white dark:bg-[#2E3856] dark:border-none shadow flex justify-between gap-x-6 p-5 border rounded-lg">
                             <div className="flex min-w-0 gap-x-4">
-                                {/* <img
-                                    className="h-12 w-12 flex-none rounded-full bg-gray-50"
-                                    src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                    alt=""
-                                /> */}
                                 <div className="min-w-0 flex-auto">
                                     <p className="text-sm font-semibold leading-6 text-gray-800 dark:text-white">
                                         {ownerClass.name}
                                     </p>
-                                    {/* <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                                {ownerClass.owner.email}
-                            </p> */}
                                     <span className="text-gray-600 dark:text-gray-200 text-sm">
                                         {customFormatDistanceToNow(ownerClass.createdDate)}
                                     </span>
                                 </div>
                             </div>
                             <div className="flex gap-x-2 items-center">
-                                {/* <button >
-                                <img
-                                    src="/src/assets/image/delete.png"
-                                    className="w-4 h-4"
-                                    alt=""
-                                />
-                            </button> */}
-
                                 <button onClick={() => onDeleteGroup(ownerClass.id)} type="button" class="dark:border-white  dark:text-white dark:hover:bg-transparent bg-transparent hover:bg-blue-500 text-blue-700 text-sm hover:text-white py-1 px-4 border border-blue-500  rounded">
                                     <i className="fa-solid fa-trash"></i>
                                  
@@ -259,29 +233,15 @@ export default function OwnerClasses() {
                 <i className="fa-solid fa-plus"></i>
                 <span>{t('ACTION.CREATE')}</span>
             </button>
-
-            {/* <div className='flex justify-start'>
-            <button className='mb-4'>
-                <img
-                    onClick={() => setIsOpenCreateClass(true)}
-                    src='/plus.png'
-                    className='w-9'
-                    alt=''
-                />
-            </button>
-        </div> */}
             <Modal
                 isOpen={isOpenCreateClass}
                 onRequestClose={() => setIsOpenCreateClass(false)}
                 contentLabel='Custom Modal'
                 style={stylesModal}
             >
-                <form onSubmit={handleCreateClass} className=''>
+                <form onSubmit={handleCreateGroup} className=''>
                     <div className='flex justify-between items-center'>
                         <span className='text-gray-800 text-xl font-medium'>Tạo nhóm</span>
-                        {/* <button onClick={() => setIsOpenCreateClass(false)} type='button'>
-                        <img src='/close.png' className='w-5 h-5' alt='' />
-                    </button> */}
                     </div>
 
                     <hr className='my-4' />
@@ -309,6 +269,7 @@ export default function OwnerClasses() {
                                 onChange={(e) => setDesc(e.target.value)}
                                 value={desc}
                                 type='text'
+                                required
                                 className='block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6'
                             />
                         </div>
@@ -322,14 +283,7 @@ export default function OwnerClasses() {
                             </label>
                         </div>
                     </div>
-
-                    {/* <hr className='my-4' /> */}
                     <div className='mt-4 flex justify-end items-center'>
-
-                        {/* <div className='flex items-center'>
-                            <input id='public-checkbox' type='checkbox' className='block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6' />
-                            <label htmlFor='public-checkbox' className='ms-2 text-sm font-medium text-gray-900'>Public</label>
-                        </div> */}
                         <button
                             type='submit'
                             className='h-10 w-full items-center gap-x-2 px-8 text-sm text-center text-white font-bold rounded-md bg-primary sm:w-fit hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300'
@@ -373,7 +327,7 @@ export default function OwnerClasses() {
 
                         <div className='flex flex-col gap-y-2 w-full mt-4'>
                             <label className='text-sm text-gray-800 font-bold' htmlFor=''>
-                                Mô tả bộ thẻ
+                                Mô tả bộ thẻ<span className='text-red-500'>*</span>
                             </label>
                             <textarea
                                 defaultValue={groupEdit?.description}
@@ -432,10 +386,7 @@ export default function OwnerClasses() {
                     },
                 }}
             >
-                {/* Overlay to create dim background */}
-                {/* <div className="w-full h-full absolute z-10 inset-0"></div> */}
-
-                {/* Modal Content */}
+               
                 <div className="bg-white rounded-lg max-w-md mx-auto p-4 relative">
                     {/* Header with icon */}
                     <div className="flex items-center">
@@ -443,9 +394,9 @@ export default function OwnerClasses() {
                             <img src="/src/assets/image/alert.png" alt="" />
                         </div>
                         <div className="mt-4 text-center md:text-left md:ml-6">
-                            <p className="font-bold text-lg">Delete your group</p>
+                            <p className="font-bold text-lg">Xóa nhóm</p>
                             <p className="text-sm text-gray-700 mt-1">
-                                You will lose all of your data by deleting your group. This action cannot be undone.
+                            Bạn sẽ mất tất cả dữ liệu khi xóa nhóm của mình. Không thể hoàn tác hành động này.
                             </p>
                         </div>
                     </div>
@@ -456,13 +407,13 @@ export default function OwnerClasses() {
 
                             className="px-4 py-2 bg-gray-200 rounded-lg font-semibold text-sm"
                         >
-                            Cancel
+                            Hủy
                         </button>
                         <button onClick={() => onConfirmDeleteGroup()}
 
                             className="px-4 py-2 bg-red-500 text-white rounded-lg font-semibold text-sm"
                         >
-                            Delete group
+                            Xóa nhóm
                         </button>
                     </div>
                 </div>

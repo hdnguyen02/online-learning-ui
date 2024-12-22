@@ -218,23 +218,23 @@ export default function TestCardComponent() {
     const COLORS = ["#FF8042", "#00C49F"]; // Màu cho phần đúng và sai
 
 
-    return <div>
+    return <div className="bg-[#0A092D]">
 
-        <div className="fixed left-0 right-0 top-0 dark:bg-[#0A092D] z-50! bg-white">
+        <div className="fixed left-0 right-0 top-0 bg-[#0A092D] z-50!">
 
 
 
             <div className="px-8 pt-4 flex items-center justify-between">
                 <div className="flex items-center gap-x-2">
                     <img src="/src/assets/image/testing_18289665.png" className="w-8 h-8" alt="" />
-                    <span className="font-bold">Kiểm tra</span>
+                    <span className="font-bold text-white">Kiểm tra</span>
                 </div>
 
                 <div className="flex flex-col items-center">
                     {
-                        (isStart && !isEnd) && <span className="text-base font-bold">{`${progressBar.numberQuestionsCompleted}/${progressBar.numberQuestions}`}</span>
+                        (isStart && !isEnd) && <span className="text-base font-bold text-white">{`${progressBar.numberQuestionsCompleted}/${progressBar.numberQuestions}`}</span>
                     }
-                    <span className="font-medium">{deck?.name}</span>
+                    <span className="font-medium text-white">{deck?.name}</span>
                 </div>
 
                 <div className="flex items-center gap-x-4">
@@ -242,12 +242,12 @@ export default function TestCardComponent() {
                     <button
                         disabled={isStart}
                         onClick={onOpenSetting}
-                        className="border py-2 px-3 rounded-lg disabled:cursor-not-allowed text-sm"
+                        className="border py-2 px-3 rounded-lg disabled:cursor-not-allowed text-sm text-white"
                     >
                         Tùy chọn
                     </button>
 
-                    <Link to={`/my-decks/${params.id}/learn-cards`} className="border py-[6px] rounded-lg px-4"><i className="fa-solid fa-xmark text-sm"></i></Link>
+                    <Link to={`/my-decks/${params.id}/learn-cards`} className="border py-[6px] rounded-lg px-4"><i className="fa-solid fa-xmark text-sm text-white"></i></Link>
                 </div>
 
             </div>
@@ -269,10 +269,10 @@ export default function TestCardComponent() {
         </div>
 
         {
-            (!isStart && !isEnd) && <div className="mt-24 flex flex-col items-center gap-y-8">
+            (!isStart && !isEnd) && <div className="pt-24 flex flex-col items-center gap-y-8 min-h-screen">
                 <img src="/src/assets/image/match_hero.webp" className="w-32" alt="" />
-                <span className="text-2xl font-bold">Bạn đã sẵn sàng?</span>
-                <span className="w-80 text-center">Câu hỏi dưới dạng trắc nghiệm, chọn thuật ngữ hoặc định nghĩa đúng</span>
+                <span className="text-2xl font-bold text-white">Bạn đã sẵn sàng?</span>
+                <span className="w-80 text-center text-white">Câu hỏi dưới dạng trắc nghiệm, chọn thuật ngữ hoặc định nghĩa đúng</span>
                 <button onClick={onStart} type="button" className="rounded-lg bg-[#423ED8] font-medium px-32 py-6 text-white">Bắt đầu kiểm tra</button>
             </div>
         }
@@ -281,24 +281,24 @@ export default function TestCardComponent() {
         {
             (isStart && !isEnd) && <div className="pb-24">
 
-                <div className="mx-auto mt-28 w-1/2 box-border">
+                <div className="mx-auto pt-28 w-1/2 box-border">
                     {
                         questions?.map((question, index) => {
-                            return <div key={index} className="dark:bg-[#2E3856] bg-[#F6F7FB] shadow mb-12 px-9 py-6 rounded-lg">
+                            return <div key={index} className="bg-[#2E3856] shadow mb-12 px-9 py-6 rounded-lg">
                                 {/* Header */}
                                 <div className="flex justify-between">
                                     <div className="flex items-center gap-x-2">
-                                        <span className="text-sm font-medium">{question.type}</span>
-                                        <i class="mt-0.5 text-xs fa-solid fa-volume-high"></i>
+                                        <span className="text-sm font-medium text-white">{question.type}</span>
+                                        <i class="mt-0.5 fa-solid fa-volume-high text-white"></i>
                                     </div>
 
                                     <div>
-                                        <span className="text-xs dark:text-gray-400">{`${index + 1}/${questions.length}`}</span>
+                                        <span className="text-xs text-gray-400">{`${index + 1}/${questions.length}`}</span>
                                     </div>
                                 </div>
                                 {/* Câu hỏi */}
-                                <div className="flex mt-8 justify-between">
-                                    <span>{question.questionContent}</span>
+                                <div className="flex pt-8 justify-between">
+                                    <span className="text-white">{question.questionContent}</span>
                                     <div className="h-40">
                                         {question.image &&
                                             <img src={question.image} className="object-contain h-full w-full" alt="" />
@@ -309,11 +309,11 @@ export default function TestCardComponent() {
                                 {/* Câu hỏi */}
                                 <div className="mt-8">
 
-                                    <span className="text-sm font-medium">chọn đáp án đúng</span>
+                                    <span className="text-sm font-medium text-white">chọn đáp án đúng</span>
                                     <div className="mt-5 grid grid-cols-2 gap-6 box-border!">
                                         {
                                             question.answers.map((answer, index) => {
-                                                return <div onClick={e => onChooseAnswer(e, question.id, answer.id)} key={index} id={`question-${question.id}`} className={` p-4 rounded-lg answer cursor-pointer ${answer.isSelected ? 'is-choose-answer' : ''}`}>
+                                                return <div onClick={e => onChooseAnswer(e, question.id, answer.id)} key={index} id={`question-${question.id}`} className={` p-4 rounded-lg answer cursor-pointer text-white ${answer.isSelected ? 'is-choose-answer' : ''}`}>
                                                     {answer.contentAnswer}
                                                 </div>
                                             })
@@ -334,7 +334,7 @@ export default function TestCardComponent() {
 
                 <div className="w-1/2 mx-auto mt-12 flex flex-col items-center gap-12">
                     <img src="/src/assets/image/check.png" alt="" />
-                    <span className="font-bold text-2xl">Tất cả đã xong! Bạn đã sẵn sàng gửi bài kiểm tra?</span>
+                    <span className="font-bold text-2xl text-white">Tất cả đã xong! Bạn đã sẵn sàng gửi bài kiểm tra?</span>
                     <button onClick={onSubmitQuestions} className="w-52 rounded-lg bg-[#423ED8] font-medium py-5 text-white">
                         Gửi bài kiểm tra
                     </button>
@@ -345,11 +345,11 @@ export default function TestCardComponent() {
 
         {
             (isStart || isEnd) && <div className="fixed top-28 left-8">
-                {!isOpenOverviewQuestions && <i onClick={onOpenOverviewQuestions} class="fa-solid fa-bars text-2xl cursor-pointer"></i>}
-                {isOpenOverviewQuestions && <i onClick={onCloseOverviewQuestions} className="fa-solid fa-xmark text-2xl cursor-pointer"></i>}
+                {!isOpenOverviewQuestions && <i onClick={onOpenOverviewQuestions} class="fa-solid fa-bars text-2xl cursor-pointer text-white"></i>}
+                {isOpenOverviewQuestions && <i onClick={onCloseOverviewQuestions} className="fa-solid fa-xmark text-2xl cursor-pointer tex-white"></i>}
                 {
-                    isOpenOverviewQuestions && <div className="mt-2 flex flex-col gap-y-2 dark:text-[#8F99B4] text-sm font-medium">
-                        <span className="dark:text-[#88B1FF]">Danh sách câu hỏi</span>
+                    isOpenOverviewQuestions && <div className="mt-2 flex flex-col gap-y-2 text-[#8F99B4] text-sm font-medium">
+                        <span className="text-[#88B1FF]">Danh sách câu hỏi</span>
                         {
                             questions?.map((question, index) => {
                                 return <div onClick={() => onScrollQuestion(question.id)} key={index} className="flex items-center gap-x-2">
@@ -363,7 +363,7 @@ export default function TestCardComponent() {
                                         )
                                     }
 
-                                    <span className={`cursor-pointer ${question.isCompleted ? "dark:text-orange-500 text-blue-500" : ""
+                                    <span className={`cursor-pointer ${question.isCompleted ? "text-orange-500" : ""
                                         }`}>{index + 1}</span>
                                 </div>
                             })
@@ -376,16 +376,16 @@ export default function TestCardComponent() {
 
 
         {
-            isEnd && <div className="mt-28 mx-auto w-1/2">
+            isEnd && <div className="pt-28 mx-auto w-1/2">
 
                 {/* Header */}
                 <div>
                     <div>
-                        <span className="text-3xl font-bold">Đừng bỏ cuộc bây giờ! Hãy tin tưởng vào quá trình này.</span>
+                        <span className="text-3xl font-bold text-white">Đừng bỏ cuộc bây giờ! Hãy tin tưởng vào quá trình này.</span>
                     </div>
                     <div className="mt-6 flex gap-x-12">
                         <div className="w-1/2">
-                            <div className="text-xl font-bold dark:text-gray-400">
+                            <div className="text-xl font-bold text-gray-400">
                                 Your time: 1 min
                             </div>
                             <div className="mt-8 flex gap-x-8 items-center">
@@ -439,31 +439,31 @@ export default function TestCardComponent() {
                             </div>
                         </div>
                         <div className="w-1/2">
-                            <div className="text-xl font-bold dark:text-gray-400">
+                            <div className="text-xl font-bold text-gray-400">
                                 Next steps
                             </div>
                             <div className="mt-10">
 
 
-                                <Link to={`/my-decks/${params.id}/learn-cards/study`} className="cursor-pointer dark:bg-[#2E3856] bg-[#F6F7FB] shadow h-32 rounded-lg p-4 flex gap-x-3">
+                                <Link to={`/my-decks/${params.id}/learn-cards/study`} className="cursor-pointer bg-[#2E3856] shadow h-32 rounded-lg p-4 flex gap-x-3">
                                     <div className="w-16 flex items-center">
                                         <img src="/src/assets/image/replay.png" alt="" />
                                     </div>
 
                                     <div className="flex flex-col gap-y-2 justify-center">
-                                        <span className="w-32 bg-purple-100 text-purple-800 text-xs font-medium px-2.5 py-0.5 rounded-lg dark:bg-purple-900 dark:text-white">{overview[0].value} Thuật ngữ sai</span>
-                                        <span className="dark:text-purple-300">Ôn luyện thuật ngữ trong chế độ học</span>
-                                        <span className="text-xs">Ôn luyện các thuật ngữ bạn bỏ lỡ cho đến khi bạn nắm chắc</span>
+                                        <span className="w-32 text-xs font-medium px-2.5 py-0.5 rounded-lg bg-purple-900 text-white">{overview[0].value} Thuật ngữ sai</span>
+                                        <span className="text-purple-300">Ôn luyện thuật ngữ trong chế độ học</span>
+                                        <span className="text-xs text-white">Ôn luyện các thuật ngữ bạn bỏ lỡ cho đến khi bạn nắm chắc</span>
                                     </div>
                                 </Link>
-                                <div onClick={onRestart} className="cursor-pointer mt-5 dark:bg-[#2E3856] bg-[#F6F7FB] shadow h-32 rounded-lg p-4 flex gap-x-3">
+                                <div onClick={onRestart} className="cursor-pointer mt-5 bg-[#2E3856] shadow h-32 rounded-lg p-4 flex gap-x-3">
                                     <div className="w-16 flex items-center">
                                         <img src="/src/assets/image/form.png" alt="" />
                                     </div>
 
                                     <div className="flex flex-col gap-y-2 justify-center">
-                                        <span className="dark:text-purple-300">Làm bài kiểm tra mới</span>
-                                        <span className="text-xs">Hãy thử một bài kiểm tra khác để tăng sự tự tin của bạn</span>
+                                        <span className="text-purple-300">Làm bài kiểm tra mới</span>
+                                        <span className="text-xs text-white">Hãy thử một bài kiểm tra khác để tăng sự tự tin của bạn</span>
                                     </div>
                                 </div>
                             </div>
@@ -475,30 +475,30 @@ export default function TestCardComponent() {
 
 
                 {/* body câu hỏi */}
-                <div className="mt-12">
-                    <span className="text-xl font-bold dark:text-gray-400">Your answers</span>
-                    <div className="mt-12">
+                <div className="pt-12">
+                    <span className="text-xl font-bold text-white">Your answers</span>
+                    <div className="pt-12">
 
 
                         {
 
 
                             questions?.map((question, index) => {
-                                return <div key={index} className="dark:bg-[#2E3856] bg-[#F6F7FB] mb-12 px-9 py-6 rounded-lg">
+                                return <div key={index} className="bg-[#2E3856]  mb-12 px-9 py-6 rounded-lg">
                                     {/* Header */}
                                     <div className="flex justify-between">
                                         <div className="flex items-center gap-x-2">
-                                            <span className="text-sm font-medium">{question.type}</span>
-                                            <i class="mt-0.5 text-xs fa-solid fa-volume-high"></i>
+                                            <span className="text-sm font-medium text-white">{question.type}</span>
+                                            <i class="mt-0.5 text-xs fa-solid fa-volume-high text-white"></i>
                                         </div>
 
                                         <div>
-                                            <span className="text-xs dark:text-gray-400">{`${index + 1}/${questions.length}`}</span>
+                                            <span className="text-xs text-gray-400">{`${index + 1}/${questions.length}`}</span>
                                         </div>
                                     </div>
                                     {/* Câu hỏi */}
                                     <div className="flex mt-8 justify-between">
-                                        <span>{question.questionContent}</span>
+                                        <span className="text-white">{question.questionContent}</span>
                                         <div className="h-40">
                                             {question.image &&
                                                 <img src={question.image} className="object-contain h-full w-full" alt="" />
@@ -507,7 +507,7 @@ export default function TestCardComponent() {
                                         </div>
                                     </div>
                                     {/* Câu hỏi */}
-                                    <div className="mt-8">
+                                    <div className="pt-8">
                                         {
                                             question?.isCorrected == false ? <span className="text-sm font-medium text-red-500">Đừng nản chí, học là một quá trình</span> : 
                                             <span className="text-sm font-medium text-green-500">Bạn đã trả lời đúng</span>
@@ -521,17 +521,17 @@ export default function TestCardComponent() {
                                                     if (answer.id == question.correctAnswer.id) {
                                                         return <div key={index} id={`question-${question.id}`} className="flex gap-x-3 items-center  p-4 rounded-lg  cursor-pointer !border-2 !border-green-500">
                                                                 <i className="fa-solid fa-check text-green-500"></i>
-                                                                <span>{answer.contentAnswer}</span>
+                                                                <span className="text-white">{answer.contentAnswer}</span>
                                                              
                                                         </div>
                                                     }
                                                     if (answer.isSelected) { // Nguời dùng lưạ chọn không chính xác. 
                                                         return <div key={index} id={`question-${question.id}`} className="flex gap-x-3 items-center p-4 rounded-lg  cursor-pointer !border-2 !border-red-500">
                                                             <i class="fa-solid fa-x text-red-500"></i>
-                                                            <span>{answer.contentAnswer}</span>
+                                                            <span className="text-white">{answer.contentAnswer}</span>
                                                         </div>
                                                     }
-                                                    return <div key={index} id={`question-${question.id}`} className="p-4 rounded-lg answer cursor-pointer">
+                                                    return <div key={index} id={`question-${question.id}`} className="p-4 rounded-lg answer cursor-pointer text-white">
                                                         {answer.contentAnswer}
                                                     </div>
 
@@ -579,7 +579,7 @@ export default function TestCardComponent() {
                 },
             }}
         >
-            <div className="w-full h-full dark:bg-[#0A092D] px-10 py-12">
+            <div className="w-full h-full bg-[#0A092D] px-10 py-12">
 
 
                 <div className="flex flex-col gap-y-4 items-center">
@@ -589,7 +589,7 @@ export default function TestCardComponent() {
                 </div>
 
                 <div className="mt-6 flex justify-end gap-x-4">
-                    <button onClick={onCloseWarning} type="button" class="px-5 m h-10 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Hủy</button>
+                    <button onClick={onCloseWarning} type="button" class="px-5 m h-10 text-sm font-medium focus:outline-none rounded-lg border focus:z-10 focus:ring-4 focus:ring-gray-700 bg-gray-800 text-gray-400 border-gray-600 hover:text-white hover:bg-gray-700">Hủy</button>
                     <button onClick={onConfirmSubmitQuestions} type="button" className="rounded-lg bg-[#423ED8] font-medium h-10 text-white px-8">Gửi bài kiểm tra</button>
                 </div>
 
@@ -625,27 +625,27 @@ export default function TestCardComponent() {
                 },
             }}
         >
-            <div className="w-full h-full dark:bg-[#0A092D] px-10 py-4">
+            <div className="w-full h-full bg-[#0A092D] px-10 py-4">
                 <div className="flex justify-end">
                     <button onClick={onCloseSetting} type="button" className="border-none py-0.5 px-2.5 rounded-lg">
-                        <i className="fa-solid fa-xmark text-3xl"></i>
+                        <i className="fa-solid fa-xmark text-3xl text-white"></i>
                     </button>
                 </div>
 
                 <div>
-                    <span className="text-3xl font-bold">Tùy chọn</span>
+                    <span className="text-3xl font-bold text-white">Tùy chọn</span>
 
                     <div className="mt-8 flex items-center justify-between">
-                        <label>Câu hỏi (tối đa 15)</label>
+                        <label className="text-white">Câu hỏi (tối đa 15)</label>
 
-                        <input type="number" value={numberOfQuestions} onChange={event => onChangeNumberOfQuestions(event)} className="dark:bg-[#2E3856] px-2 py-2 w-16 rounded-lg dark:text-white dark:border-none dark:outline-none dark:focus:outline-none border border-gray-300 text-gray-900" />
+                        <input type="number" value={numberOfQuestions} onChange={event => onChangeNumberOfQuestions(event)} className="bg-[#2E3856] px-2 py-2 w-16 rounded-lg text-white border-none outline-none focus:outline-none border-gray-300" />
                     </div>
 
 
-                    <div className="mt-8 flex items-center justify-between">
-                        <label>Trả lời với</label>
+                    <div className="pt-8 flex items-center justify-between">
+                        <label className="text-white">Trả lời với</label>
 
-                        <select value={optionType} onChange={e => setOptionType(e.target.value)} className="dark:bg-[#2E3856] px-2 py-2 w-32 rounded-lg dark:text-white dark:border-none dark:outline-none dark:focus:outline-none border border-gray-300 text-gray-900" >
+                        <select value={optionType} onChange={e => setOptionType(e.target.value)} className="bg-[#2E3856] px-2 py-2 w-32 rounded-lg text-white border-none outline-none focus:outline-none border border-gray-300 " >
                             {
                                 optionTypes.map(optionType => {
                                     return <option key={optionType.value} value={optionType.value}>
@@ -655,12 +655,12 @@ export default function TestCardComponent() {
                             }
                         </select>
                     </div>
-                    <div className="mt-8 flex items-center justify-between">
-                        <span>Chỉ học thuật ngữ có gắn sao</span>
+                    <div className="pt-8 flex items-center justify-between">
+                        <span className="text-white">Chỉ học thuật ngữ có gắn sao</span>
 
                         <label className="inline-flex items-center cursor-pointer">
                             <input checked={isOnlyFavorite} onChange={e => setIsOnlyFavorite(e.target.checked)} type="checkbox" value="" className="sr-only peer" />
-                            <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                            <div className="relative w-11 h-6 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-800 rounded-full peer bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all border-gray-600 peer-checked:bg-blue-600"></div>
                         </label>
                     </div>
 
