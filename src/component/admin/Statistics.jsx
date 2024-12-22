@@ -6,7 +6,7 @@ import { AreaChart, Area, PieChart, Pie, Cell, BarChart, Bar, LineChart, Line, X
 import { format, sub, subMonths } from 'date-fns';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { ca } from "date-fns/locale";
+
 
 
 export default function Statistics() {
@@ -43,7 +43,7 @@ export default function Statistics() {
       setRevenue(rawData);
     }
     catch(error) { 
-      console.log(error); 
+      console.log(error);   
     }
   }
 
@@ -381,7 +381,7 @@ export default function Statistics() {
 
         {/* Thêm vào doanh thu */}
 
-        <ResponsiveContainer  height={400}>
+        <ResponsiveContainer width="50%" height={300}>
       <BarChart data={revenue} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="month" />
