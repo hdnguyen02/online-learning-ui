@@ -368,7 +368,6 @@ const CommonDeckUpdateFormComponent = ({ getCommonDecks, isOPenUpdateCommonDeck,
                                     id="username"
                                     type="text"
                                     required
-                                    disabled={!isOwner}
                                 />
 
                             </div>
@@ -380,7 +379,7 @@ const CommonDeckUpdateFormComponent = ({ getCommonDecks, isOPenUpdateCommonDeck,
                                     onChange={(e) => setCommonDeckUpdate({ ...commonDeckUpdate, description: e.target.value })}
                                     value={commonDeckUpdate?.description}
                                     className=" appearance-none border  w-full py-2 px-3 text-gray-700 mb-3 leading-tight" id="description" type="text" 
-                                    disabled={!isOwner}
+                            
                                     />
                                    
                             </div>
@@ -395,7 +394,7 @@ const CommonDeckUpdateFormComponent = ({ getCommonDecks, isOPenUpdateCommonDeck,
                                         value={commonDeckUpdate?.configLanguage}
                                         required
                                         className="w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded pl-3 pr-8 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-400 shadow-sm focus:shadow-md appearance-none cursor-pointer"
-                                        disabled={!isOwner}
+                                        
                                     >
                                         <option value="" disabled>Choose a language</option>
                                         {languages.map((language, index) => (<option key={index} value={language.hl}>{language.value}</option>))}

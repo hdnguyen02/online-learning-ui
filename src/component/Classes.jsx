@@ -56,7 +56,7 @@ const Classes = () => {
 
   return (
     <div>
-      <div className='profile flex gap-x-3 items-center justify-between font-medium h-12'>
+      {/* <div className='profile flex gap-x-3 items-center justify-between font-medium h-12'>
         <div className="flex" aria-label="Breadcrumb">
           <ol className="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse cursor-pointer">
             <li className="inline-flex items-center">
@@ -85,7 +85,7 @@ const Classes = () => {
 
       </div>
 
-      <hr className='my-8 dark:opacity-10'></hr>
+      <hr className='my-8 dark:opacity-10'></hr> */}
 
 
 
@@ -97,7 +97,7 @@ const Classes = () => {
                 ? 'bg-blue-600 text-white inline-flex items-center px-4 py-3 rounded-lg w-full'
                 : 'bg-gray-200 inline-flex items-center px-4 py-3 rounded-lg hover:text-gray-900 hover:bg-gray-100 w-full'
             }>
-              Lớp học của bạn
+              Nhóm học tập của bạn
             </Link>
           </li>
           <li>
@@ -106,11 +106,9 @@ const Classes = () => {
                 ? 'bg-blue-600 text-white inline-flex items-center px-4 py-3 rounded-lg w-full'
                 : 'bg-gray-200 inline-flex items-center px-4 py-3 rounded-lg hover:text-gray-900 hover:bg-gray-100 w-full'
             }>
-              Lớp học bạn tham gia
+              Nhóm học tập bạn tham gia
             </Link>
           </li>
-
-
         </ul>
         <div className="text-medium text-gray-500 rounded-lg w-full">
           <Outlet />

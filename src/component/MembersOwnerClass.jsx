@@ -95,12 +95,12 @@ export default function MembersOwnerClass() {
     userGroups && (
       <div>
         <div className="flex justify-end">
-          {location.pathname.includes("owner") && (
+
             <button onClick={() => setIsOpenModalInviteUser(true)} type="button" className="dark:border-white dark:text-white flex gap-x-2 items-center text-blue-700 border border-blue-700 focus:outline-none font-medium rounded-lg text-sm px-5 py-2 text-center">
               <i className="fa-solid fa-plus"></i>
-              <span>{t('ACTION.CREATE')}</span>
+              <span>Mời tham gia</span>
             </button> 
-          )}
+
         </div>
 
         {/* Modal email người dùng */}
@@ -112,7 +112,7 @@ export default function MembersOwnerClass() {
         >
           <form onSubmit={handleInviteUser} className=''>
             <div className='flex justify-between items-center'>
-              <span className='text-gray-800 text-lg font-medium'>Mời người dùng</span>
+              <span className='text-gray-800 text-lg font-medium'>Mời tham gia</span>
               <button onClick={() => setIsOpenModalInviteUser(false)} type='button'>
                 <img src='/close.png' className='w-5 h-5' alt='' />
               </button>

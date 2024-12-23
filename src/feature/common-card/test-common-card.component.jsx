@@ -5,8 +5,9 @@ import deckService from "service/deck.service";
 import './card.css';
 import { t } from "i18next";
 import { PieChart, Pie, Cell } from "recharts";
+import { fetchData } from "../../global";
 
-export default function TestCardComponent() {
+export default function TestCommonCardComponent() {
 
     Modal.setAppElement("#root");
 
@@ -16,7 +17,7 @@ export default function TestCardComponent() {
     const [isStart, setIsStart] = useState(false);
     const [isEnd, setIsEnd] = useState(false);
     const [isOpenSetting, setIsOpenSetting] = useState(true);
-    const [isOnlyFavorite, setIsOnlyFavorite] = useState(false);
+    // const [isOnlyFavorite, setIsOnlyFavorite] = useState(false);
     const [numberOfQuestions, setNumberOfQuestions] = useState(maxNumberOfQuestions);
     const [optionType, setOptionType] = useState("TERM");
     const [isOpenOverviewQuestions, setIsOpenOverviewQuestions] = useState(true);
@@ -55,7 +56,10 @@ export default function TestCardComponent() {
 
     const onStart = async () => {
 
-        const rawData = await deckService.getTestCards(params.id, numberOfQuestions, optionType, isOnlyFavorite);
+      
+
+        const subUrl = `/common-decks/${params.id}/question-cards?numberOfQuestions=${numberOfQuestions}&optionType=${optionType}`;
+        const { data: rawData } = await fetchData(subUrl, 'GET');  
 
         if (!rawData) return;
 
@@ -113,12 +117,16 @@ export default function TestCardComponent() {
     }, [questions]);
 
 
+    async function getCommonDeck() {
+        const subUrl = `/common-decks/${params.id}`; 
+        const { data } = await fetchData(subUrl, 'GET'); 
+        setDeck(data);
+    }
+
     useEffect(() => {
-        fetchData();
-        async function fetchData() {
-            const rawData = await deckService.getDeck(params.id);
-            setDeck(rawData);
-        }
+        
+        getCommonDeck();
+        
     }, [params.id]);
 
 
@@ -589,7 +597,7 @@ export default function TestCardComponent() {
                     {/* <hr className="dark:opacity-40"/> */}
                 </div>
 
-                <div className="mt-6 flex justify-end gap-x-4">
+                <div className="mt-6 flex justify-end gap-x-4 text-white">
                     <button onClick={onCloseWarning} type="button" class="px-5 m h-10 text-sm font-medium focus:outline-none rounded-lg border focus:z-10 focus:ring-4 focus:ring-gray-700 bg-gray-800 text-gray-400 border-gray-600 hover:text-white hover:bg-gray-700">Hủy</button>
                     <button onClick={onConfirmSubmitQuestions} type="button" className="rounded-lg bg-[#423ED8] font-medium h-10 text-white px-8">Gửi bài kiểm tra</button>
                 </div>
@@ -615,7 +623,7 @@ export default function TestCardComponent() {
                     left: "0",
                     right: "0",
                     bottom: "auto",
-                    height: "360px",
+                    height: "280px",
                     width: "700px",
                     margin: "0 auto",
                     borderRadius: "8px",
@@ -656,14 +664,14 @@ export default function TestCardComponent() {
                             }
                         </select>
                     </div>
-                    <div className="pt-8 flex items-center justify-between">
+                    {/* <div className="pt-8 flex items-center justify-between">
                         <span className="text-white">Chỉ học thuật ngữ có gắn sao</span>
 
                         <label className="inline-flex items-center cursor-pointer">
                             <input checked={isOnlyFavorite} onChange={e => setIsOnlyFavorite(e.target.checked)} type="checkbox" value="" className="sr-only peer" />
                             <div className="relative w-11 h-6 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-800 rounded-full peer bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all border-gray-600 peer-checked:bg-blue-600"></div>
                         </label>
-                    </div>
+                    </div> */}
 
                 </div>
 

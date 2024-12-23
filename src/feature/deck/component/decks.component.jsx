@@ -1,6 +1,6 @@
 import { useMemo, useState, useEffect, useRef } from "react";
 import TableComponent from "./table.component";
-import { fetchData, showToastError, showToastMessage, customFormatDistanceToNow } from "../../../global";
+import { showToastError, showToastMessage, customFormatDistanceToNow } from "../../../global";
 import { ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import ModalEditDeck from "../../../component/ModalEditDeck"; 
@@ -8,22 +8,26 @@ import deckService from "service/deck.service";
 import DeckDetailForm from "./deck-detail-form.component";
 import { useTranslation } from 'react-i18next';
 import DeckEditFormComponent from "./deck-edit-form.component";
-
-
+import { FaRegShareSquare } from "react-icons/fa";  
+import { AiOutlineDelete } from "react-icons/ai";
 import Modal from "react-modal";
-
+import ShareModal from "./deck-share-modal.component";
+import useAuth from "context/AuthContext"; 
 
 const Decks = () => {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
   const refModalEditDeck = useRef();
   const [idDeckDelete, setIdDeckDelete] = useState(null);
+  const [idDeckShare, setIdDeckShare] = useState(null); 
 
   async function getDecks() {
     const rawData = await deckService.getDecks();
     setData(rawData);
   }
+  
 
+  const {auth} = useAuth(); 
 
   useEffect(() => {
     getDecks();
@@ -78,22 +82,21 @@ const Decks = () => {
       Cell: ({ row }) => (
         <div className="flex gap-x-6">
 
-     
-
-
-          <button onClick={() => onOpenEditDeck(row.original.id)} className="ml-2">
+          <button onClick={() => onOpenShareDeck(row.original.id)}>
+          <FaRegShareSquare size={17}/>
+          </button>
+          <button onClick={() => onOpenEditDeck(row.original.id)}>
             <i className="fa-regular fa-pen-to-square"></i>
           </button>
 
           <button onClick={() =>
             onOpenDetailDeck(row.original.id)} className="">
-            {/* <img src="/src/assets/image/info.png" className="w-4 h-4" alt="" /> */}
             <i class="fa-regular fa-circle-question"></i>
           </button>
 
           <button onClick={() => onDeleteDeck(row.original.id)}>
-            {/* <img src="/src/assets/image/delete.png" className="w-4 h-4" /> */}
-            <i class="fa-solid fa-trash"></i>
+
+          <AiOutlineDelete size={18} /> 
           </button>
           <button 
           onClick={() => handleLearn(row.original.id)}
@@ -102,8 +105,7 @@ const Decks = () => {
         </div>
       ),
     },
-  ], [handleLearn, onOpenDetailDeck, onDeleteDeck, onOpenEditDeck
-
+  ], [handleLearn, onOpenDetailDeck, onDeleteDeck, onOpenEditDeck, onOpenShareDeck 
   ]);
 
 
@@ -170,7 +172,17 @@ const Decks = () => {
       setIdDeckUpdateSelected(id); 
     }
 
+    const [isOpenShareDeck, setIsOpenShareDeck] = useState(false); 
+    function onOpenShareDeck(id) {; 
+      setIsOpenShareDeck(true); 
+      setIdDeckShare(id); 
+    }
+
   
+    function onCloseShareDeck() { 
+    
+      setIsOpenShareDeck(false); 
+    }
 
   const { t } = useTranslation();
 
@@ -185,6 +197,8 @@ const Decks = () => {
   return (
     <div>
       {/* Modal delete deck */}
+
+      <ShareModal idDeckShare={idDeckShare} isOpen={isOpenShareDeck} onClose={onCloseShareDeck}/>
       <Modal
         isOpen={isOpenDeleteDeck}
         onRequestClose={onCloseDeleteDeck}

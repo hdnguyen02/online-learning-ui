@@ -8,7 +8,7 @@ import {
   customFormatDistanceToNow,
   notification
 } from "../../global";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import Empty from "component/Empty";
 import deckService from "service/deck.service"; 
@@ -166,8 +166,12 @@ export default function CommonDecksComponent() {
 
   const onCloseDetailCommonDeck = () => {
     setIsOpenDetailCommonDeck(false);
-  }
+  }   
 
+  const navigate = useNavigate(); 
+  const onOpenLearnCommonDeck = (id) => { 
+    navigate( `/groups/common-decks/${id}/learn-cards`);
+  }
   return (
     <div>
 
@@ -261,7 +265,7 @@ export default function CommonDecksComponent() {
 
 
       {commonDecks ? (
-        <div className="mt-8 grid grid-cols-2 gap-8">
+        <div className="my-8 grid grid-cols-1 gap-8">
           {commonDecks.map((commonDeck, index) => (
             <div key={index} className="flex justify-between gap-x-6 p-5 border rounded-lg bg-white dark:bg-[#2E3856] dark:border-none">
               <div className="flex min-w-0 gap-x-4">
@@ -271,7 +275,7 @@ export default function CommonDecksComponent() {
                   alt=""
                 />
                 <div className="min-w-0 flex-auto">
-                  <p className="text-sm font-semibold leading-6 text-gray-900 dark:text-white">
+                  <p className="text-sm font-semibold leading-6 text-gray-900 dark:text-white truncate">
                     {commonDeck.name}
                   </p>
                  
@@ -300,6 +304,10 @@ export default function CommonDecksComponent() {
                   className="text-sm leading-6 text-gray-900 dark:text-white"
                 >
                   <span className="underline">Detail</span>
+                </button>
+
+                <button onClick={() => onOpenLearnCommonDeck(commonDeck.id)} className="text-sm leading-6 text-gray-900">
+                  <span className="underline dark:text-white">Ôn tập</span>
                 </button>
               </div>
             </div>

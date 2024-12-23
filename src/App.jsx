@@ -50,12 +50,18 @@ import TestCardComponent from "feature/card/test-card.component.jsx";
 import PassWordUserComponent from "feature/setting/password-user.component.jsx";
 import FlipCardComponent from "feature/card/flip-card.component.jsx";
 
+import PrepareCommonCardComponent from "feature/common-card/prepare-common-card.component.jsx"; 
+import JoinCommonCardComponent from "feature/common-card/join-common-card.component.jsx"; 
+import TestCommonCardComponent from "feature/common-card/test-common-card.component.jsx"; 
 function App() {
   return (
     <Router>
       <Navbar />
       <Routes>
         <Route element={<PrivateRoutes />}>
+
+
+
           <Route path="/admin" element={<Admin />}>
             <Route path="" element={<UsersTest />}/>
             <Route path="users" element={<UsersTest/>}/>
@@ -85,7 +91,16 @@ function App() {
           </Route>
 
           {/* classes */}
+          <Route path="/groups/common-decks/:id/learn-cards/join" element={<JoinCommonCardComponent />} />
+          <Route path="/groups/common-decks/:id/learn-cards/test" element={<TestCommonCardComponent />} />
           <Route path="/groups" element={<ClassUser />}>
+
+
+          
+          <Route
+            path="common-decks/:id/learn-cards"
+            element={<PrepareCommonCardComponent />}
+          />
             <Route path="" element={<Classes />}>
               <Route path="owner" element={<OwnerClasses />}></Route>
               <Route path="attendance" element={<AttendanceClasses />}></Route>
@@ -113,12 +128,6 @@ function App() {
               element={<DetailClass></DetailClass>}
             ></Route>
           </Route>
-
-          <Route
-            path="/common-decks/:id/learn-cards"
-            element={<LearnCommonDeck />}
-          />
-
 
           <Route path="/my-decks" element={<Deck />}>
             <Route path="" element={<Decks />} />

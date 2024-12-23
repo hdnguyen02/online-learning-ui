@@ -32,33 +32,8 @@ export default function DetailClass() {
       <div>
 
         <h3 className="font-bold text-2xl">{detailClass.name}</h3>
-        <p className="mt-4 text-sm">Create by {detailClass.owner.email}</p>
+        <p className="mt-4 text-sm">Tạo bởi {detailClass.owner.email}</p>
         <p className="mt-4 text-sm text-gray-600 dark:text-gray-300">Mô tả: {detailClass.description}</p> 
-        {/* <div className="flex items-center gap-x-3 mt-2">
-          <div onClick={() => setShowProfile(!showProfile)} className='h-10 w-10 rounded-full overflow-hidden cursor-pointer'>
-            <img src={detailClass.owner.avatar ? detailClass.owner.avatar : '/user.png'} loading="lazy" className='w-full h-full' alt='' />
-          </div>
-          <div>
-            <span className="text-gray-400 text-xs font-light">Created by</span>
-            <div className="flex gap-x-2 items-center">
-              <span className="font-medium">{detailClass.owner.firstName + " " + detailClass.owner.lastName}</span>
-  
-              {
-                detailClass.owner.roles.map((role, index) => {
-                  return <span key={index}>
-                    <span className="lowercase text-xs bg-gray-300 p-1 rounded-lg">{role}</span>
-                  </span>
-                })
-              }
-
-            </div>
-            <span className="text-gray-400 text-xs font-light">{customFormatDistanceToNow(detailClass.created)}</span>
-
-          </div>
-        </div> */}
-
-
-
         <div className="mt-8">
           <div className="flex gap-x-8">
             <div className={location.pathname.includes('members') ? "link-active" : ""}>

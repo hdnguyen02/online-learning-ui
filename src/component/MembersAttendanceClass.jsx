@@ -1,13 +1,56 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { fetchData, showToastError, customFormatDistanceToNow } from "../global";
+import { fetchData, showToastError, showToastMessage, customFormatDistanceToNow } from "../global";
 import { ToastContainer } from "react-toastify";
 import Empty from './Empty'; 
-
+import Modal from 'react-modal'
+import { useTranslation } from "react-i18next"
 export default function MembersOwnerClass() {
   const [userGroups, setUserGroups] = useState();
 
+  const styleModal = {
+    overlay: {
+      backgroundColor: "rgba(0, 0, 0, 0.6)",
+      zIndex: 1000
+    },
+    content: {
+      width: '600px',
+      height: '150px',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      padding: '20px 40px',
+      borderRadius: '8px',
+      backgroundColor: 'while',
+      border: '0px',
+      boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)'
+    },
+  }
 
+  const {t} = useTranslation(); 
+  const [emailInvite, setEmailInvite] = useState();
+  const [isOpenModalInviteUser, setIsOpenModalInviteUser] = useState(false);
+
+async function handleInviteUser(event) {
+    event.preventDefault();
+
+
+    const id = params.id; 
+    const email = document.getElementById('email').value;
+    const subUrl = `/groups/${id}/invite?email=${email}`;
+
+    try {
+      await fetchData(subUrl, 'POST');
+      showToastMessage('Invitation sent successfully');
+      setIsOpenModalInviteUser(false);
+    }
+    catch (error) {
+      showToastError(error.message)
+    }
+    finally {
+      setEmailInvite(null)
+    }
+  }
   const params = useParams();
 
   async function getMembers() {
@@ -29,7 +72,42 @@ export default function MembersOwnerClass() {
   return (
     userGroups && (
       <div>
+<div className="flex justify-end">
 
+<button onClick={() => setIsOpenModalInviteUser(true)} type="button" className="dark:border-white dark:text-white flex gap-x-2 items-center text-blue-700 border border-blue-700 focus:outline-none font-medium rounded-lg text-sm px-5 py-2 text-center">
+  <i className="fa-solid fa-plus"></i>
+  <span>Mời tham gia</span>
+</button> 
+
+</div>
+
+<Modal
+          isOpen={isOpenModalInviteUser}
+          onRequestClose={() => setIsOpenModalInviteUser(false)}
+          contentLabel='Custom Modal'
+          style={styleModal}
+        >
+          <form onSubmit={handleInviteUser} className=''>
+            <div className='flex justify-between items-center'>
+              <span className='text-gray-800 text-lg font-medium'>Mời tham gia</span>
+              <button onClick={() => setIsOpenModalInviteUser(false)} type='button'>
+                <img src='/close.png' className='w-5 h-5' alt='' />
+              </button>
+            </div>
+
+            {/* <hr className='my-4' /> */}
+
+            <div className='mt-6'>
+              <div className='flex w-full gap-x-4'>
+                <input id='email' type="text" name="first-name" placeholder="Type email" autocomplete="given-name" class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+              </div>
+              </div>
+              <div className='mt-4 flex justify-end items-center'>
+
+               
+            </div>
+          </form>
+        </Modal>
 
         {userGroups.length != 0 ? (
                   <div className="mb-8 grid grid-cols-2 gap-8">

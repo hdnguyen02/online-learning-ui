@@ -8,6 +8,9 @@ import Empty from './Empty';
 import { useTranslation } from 'react-i18next';
 import groupService from 'service/group.service';
 import React from "react";
+import { roles } from '../enum/role.enum';
+import PreparePaymentComponent from '../feature/group/prepare-payment.component';
+import PreparePaymentV2Component from '../feature/group/prepare-payment-v2.component';
 
 export default function OwnerClasses() {
 
@@ -160,31 +163,15 @@ export default function OwnerClasses() {
         setGroupEdit(group);
         setIsOpenEditGroup(true);
     }
-
-
     useEffect(() => {
-        if (auth.roles.includes('TEACHER')) {
+        if (auth.roles.includes(roles.groupActivitiesAccess)) {
             getOwnerGroup();
         }
     }, [])
 
 
-    function renderUnlockedUser() {
-        return <div className='flex items-center justify-center flex-col gap-y-3'>
-            <h1 className='text-3xl font-bold text-center text-gray-900'>Online learning - For teachers</h1>
-            <div className='flex justify-center'>
-                <button onClick={handlePayment} className='gap-x-2 flex items-center h-10 px-8 text-sm text-center rounded-md font-bold bg-yellow-400 sm:w-fit hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-yellow-200'>
-
-                    <span className='text-sm text-gray-900'>Buy</span>
-                    <i className='fa-solid fa-unlock text-gray-900'></i>
-                </button>
-            </div>
-
-        </div>
-    }
-
-    if (auth.roles.includes('TEACHER')) {
-        return ownerClasses && <div className='mb-8'>
+    if (auth.roles.includes(roles.groupActivitiesAccess)) {
+        return ownerClasses && <div className=''>
             {ownerClasses?.length !== 0 ? (
                 <div className="mb-8 grid grid-cols-2 gap-8">
                     {ownerClasses.map((ownerClass, index) => (
@@ -225,14 +212,17 @@ export default function OwnerClasses() {
                 </div>
             ) : (
                 <Empty />
+
             )}
 
-
-
+            <div className='flex justify-end'>
             <button onClick={onOpenCreateGroup} type="button" className="dark:border-white dark:text-white dark:hover:bg-transparent flex gap-x-2 items-center text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-lg text-sm px-5 py-2 text-center">
                 <i className="fa-solid fa-plus"></i>
                 <span>{t('ACTION.CREATE')}</span>
             </button>
+            </div>
+
+          
             <Modal
                 isOpen={isOpenCreateClass}
                 onRequestClose={() => setIsOpenCreateClass(false)}
@@ -424,5 +414,8 @@ export default function OwnerClasses() {
         </div>
 
         }
-        else return renderUnlockedUser(); 
+        return <div>
+            <PreparePaymentV2Component/>
+            <ToastContainer />  
+        </div>
     }

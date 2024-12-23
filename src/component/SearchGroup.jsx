@@ -29,7 +29,7 @@ function SearchClass() {
       return
     }
 
-    const subUrl = '/global/groups?searchTerm=' + searchTerm
+    const subUrl = '/groups/global?searchTerm=' + searchTerm
     const { data } = await fetchData(subUrl, 'GET')
     setGroups(data)
 

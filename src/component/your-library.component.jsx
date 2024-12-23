@@ -9,8 +9,7 @@ export default function YourLibrary() {
     const navigate = useNavigate();
     const { t } = useTranslation();
 
-    return auth &&  <div className="group relative cursor-pointer">
-
+    return auth &&  <div className="group relative cursor-pointer"> 
         <div className="flex items-center justify-between space-x-2 bg-transparent">
             <span className="menu-hover font-bold uppercase text-xs">
                 {t('NAVBAR.YOUR_LIBRARY')}
@@ -25,9 +24,6 @@ export default function YourLibrary() {
 
         <div
             className="invisible absolute z-50 flex w-[200px] flex-col bg-white py-1 px-4 text-gray-800 shadow-xl group-hover:visible">
-
-        
-
             <a onClick={() => {navigate('/my-decks')}} className="h-10 flex items-center gap-x-3 border-b border-gray-100 font-semibold hover:text-black">
                 <i className="fa-solid fa-layer-group"></i>
                 {t('NAVBAR.CARD_SET')}
