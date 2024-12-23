@@ -98,10 +98,19 @@ const Decks = () => {
 
           <AiOutlineDelete size={18} /> 
           </button>
-          <button 
-          onClick={() => handleLearn(row.original.id)}
-          disabled={row.original.quantityCards === 0}
-          type="button" class="text-xs focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-md px-3 py-1 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">Ôn tập</button>
+          <button
+    onClick={() => handleLearn(row.original.id)}
+    disabled={row.original.quantityCards === 0}
+    type="button"
+    className={`text-xs focus:outline-none font-medium rounded-md px-3 py-1 ${
+        row.original.quantityCards === 0
+            ? "text-gray-400 bg-gray-200 cursor-not-allowed"
+            : "text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900"
+    }`}
+>
+    Ôn tập
+</button>
+
         </div>
       ),
     },

@@ -97,7 +97,7 @@ const Classes = () => {
                 ? 'bg-blue-600 text-white inline-flex items-center px-4 py-3 rounded-lg w-full'
                 : 'bg-gray-200 inline-flex items-center px-4 py-3 rounded-lg hover:text-gray-900 hover:bg-gray-100 w-full'
             }>
-              Nhóm học tập của bạn
+              Nhóm của bạn
             </Link>
           </li>
           <li>
@@ -106,7 +106,7 @@ const Classes = () => {
                 ? 'bg-blue-600 text-white inline-flex items-center px-4 py-3 rounded-lg w-full'
                 : 'bg-gray-200 inline-flex items-center px-4 py-3 rounded-lg hover:text-gray-900 hover:bg-gray-100 w-full'
             }>
-              Nhóm học tập bạn tham gia
+              Nhóm bạn tham gia
             </Link>
           </li>
         </ul>

@@ -45,7 +45,7 @@ export default function DetailClass() {
                   className="font-medium flex gap-x-2"
                 >
                   <i className="fa-solid fa-users flex items-center"></i>
-                  <span>Member</span>
+                  <span>Thành viên</span>
                 </Link>
               ) : (
                 <Link
@@ -53,7 +53,7 @@ export default function DetailClass() {
                   className="font-medium flex gap-x-2"
                 >
                   <i className="fa-solid fa-users flex items-center"></i>
-                  <span>Member</span>
+                  <span>Thành viên</span>
                 </Link>
               )}
             </div>
@@ -67,7 +67,7 @@ export default function DetailClass() {
                   className="font-medium flex gap-x-2"
                 >
                   <i className="fa-regular fa-folder flex items-center"></i>
-                  <span>Card set</span>
+                  <span>Bộ thẻ học tập</span>
                 </Link>
               ) : (
                 <Link
@@ -75,7 +75,7 @@ export default function DetailClass() {
                   className="font-medium flex gap-x-2"
                 >
                   <i className="fa-regular fa-folder flex items-center"></i>
-                  <span>Card set</span>
+                  <span>Bộ thẻ học tập</span>
                 </Link>
               )}
             </div>
@@ -111,7 +111,7 @@ export default function DetailClass() {
                   className="font-medium flex gap-x-2 "
                 >
                   <i className="fa-regular fa-comment flex items-center"></i>
-                  <span>Comment</span>
+                  <span>Thảo luận</span>
                 </Link>
               ) : (
                 <Link
@@ -119,7 +119,7 @@ export default function DetailClass() {
                   className="font-medium flex gap-x-2"
                 >
                   <i className="fa-regular fa-comment flex items-center"></i>
-                  <span>Comment</span>
+                  <span>Thảo luận</span>
                 </Link>
               )}
             </div>

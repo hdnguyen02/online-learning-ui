@@ -244,7 +244,7 @@ export default function GlobalGroups() {
                             {group.memberCount}
                             <i className="fa-solid fa-user"></i>
                           </div>
-                          <div onClick={() => onDetailGroup(group.id, group.emailOwner)} className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-md text-sm  w-24 flex justify-center py-1.5 me-2 cursor-pointer">
+                          <div onClick={() => handleJoinGroup(group.id)} className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-md text-sm  w-24 flex justify-center py-1.5 me-2 cursor-pointer">
                             Tham gia
                           </div>
                         </div>

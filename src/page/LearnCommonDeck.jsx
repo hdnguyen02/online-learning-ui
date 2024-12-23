@@ -11,7 +11,7 @@ export default function LearnCommonDeck() {
 
     const params = useParams()
 
-    const [cards, setCards] = useState()
+    const [cards, setCards] = useState([])
     const [deck, setDeck] = useState()
     const [index, setIndex] = useState(0)
     // const accessToken = localStorage.getItem('accessToken')
@@ -20,10 +20,15 @@ export default function LearnCommonDeck() {
     async function getCommonDeck() {
         const subUrl = `/common-decks/${params.id}`
         try { 
-            const response = await fetchData(subUrl, 'GET')
-            console.log(response)
-            setCards(response.data.cards)
-            setDeck(response.data)
+            const {data} = await fetchData(subUrl, 'GET');
+
+            setDeck({
+                name: data.name, 
+                description: data.description, 
+                
+            }); 
+            setCards(data.cards); 
+    
 
         }
         catch(error) { 
@@ -82,23 +87,26 @@ export default function LearnCommonDeck() {
     }
    
 
+    function handleAudio(audioUrl) {
+        
+        const audioPlayer = document.getElementById('audioPlayer');
+        audioPlayer.src = audioUrl;
+        audioPlayer?.play();
+    }
+
 
     function action() {
         return (
             <div className='absolute top-4 right-8 flex items-center gap-x-3'>
-                <button
-                    onClick={event => {
+                {
+                    cards[index].audio && <button onClick={event => {
                         event.stopPropagation()
-                        // favouriteCard()
-                    }}
-                >
-                    { 
-                        cards[index].isFavourite ? (<i className="fa-regular fa-heart text-xl font-light text-red-500"></i>) 
-                        : (<i className="fa-regular fa-heart text-xl font-light"></i>)
-                    }
-                    
-                </button>
-                <button><i className="fa-regular fa-star text-xl font-light"></i></button>
+                        handleAudio(cards[index].audio)
+                    }}>
+                      <i className="fa-solid fa-headphones text-xl"></i>
+                        
+                    </button>
+                }
             </div>
         )
     }
@@ -107,7 +115,8 @@ export default function LearnCommonDeck() {
         event.currentTarget.classList.toggle('is-flipped')
     }
 
-    return cards && <div className='mx-4 md:mx-24 mt-28'>
+    return cards?.length != 0 && <div className='mx-4 md:mx-24 mt-28'>
+        <audio className='hidden' id="audioPlayer" controls></audio>
         <div className='flex justify-center'>
             <div className="card-container">
                 {
@@ -128,7 +137,7 @@ export default function LearnCommonDeck() {
                 </div>
             </div>
         </div>
-    )
+    
     </div>
     
     

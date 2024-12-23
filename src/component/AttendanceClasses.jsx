@@ -7,6 +7,7 @@ import { ToastContainer } from "react-toastify";
 import PreparePaymentV2Component from "../feature/group/prepare-payment-v2.component";
 import useAuth from "../context/AuthContext";
 import { roles } from "../enum/role.enum";
+import Modal from 'react-modal';
 
 export default function AttendanceClass() {
     const [attendanceClasses, setAttendanceClasses] = useState();
@@ -27,11 +28,31 @@ export default function AttendanceClass() {
 
 
     useEffect(() => {
-        getAttendanceClass()
+        if (auth.roles.includes(roles.groupActivitiesAccess)) { 
+            getAttendanceClass();
+        }
     }, []);
 
-    const onOutGroup = async (id) => {
-        const subUrl = `/groups/${id}/out`;
+    const [idOutGroup, setIdOutGroup] = useState(null); 
+    
+
+    const [isOpenConfirmOutGroup, setIsOpenConfirmOutGroup] = useState(false); 
+
+    const onOPenConfirmOutGroup = (id) => {
+        setIdOutGroup(id);  
+        setIsOpenConfirmOutGroup(true); 
+    }
+
+    const onCloseConfirmOutGroup = () => { 
+        setIsOpenConfirmOutGroup(false); 
+    }
+
+    const onOutGroup = async () => {
+
+
+
+
+        const subUrl = `/groups/${idOutGroup}/out`;
         try {
             await fetchData(subUrl, 'POST');
             await getAttendanceClass();
@@ -41,6 +62,7 @@ export default function AttendanceClass() {
             const { message } = error;
             showToastError(message);
         }
+        onCloseConfirmOutGroup(); 
     }
 
     if (auth.roles.includes(roles.groupActivitiesAccess)) {
@@ -68,7 +90,7 @@ export default function AttendanceClass() {
 
 
 
-                                <button onClick={() => onOutGroup(attendanceClass.id)} type="button" className="dark:border-white  dark:text-white dark:hover:bg-transparent bg-transparent hover:bg-blue-500 text-blue-700 text-sm hover:text-white py-1 px-4 border border-blue-500  rounded">
+                                <button onClick={() => onOPenConfirmOutGroup(attendanceClass.id)} type="button" className="dark:border-white  dark:text-white dark:hover:bg-transparent bg-transparent hover:bg-blue-500 text-blue-700 text-sm hover:text-white py-1 px-4 border border-blue-500  rounded">
                                     Out
                                 </button>
 
@@ -87,6 +109,60 @@ export default function AttendanceClass() {
             ) : (
                 <Empty />
             )}
+
+             <Modal
+                            isOpen={isOpenConfirmOutGroup}
+                            onRequestClose={onCloseConfirmOutGroup}
+                            style={{
+                                overlay: {
+                                    backgroundColor: "rgba(0, 0, 0, 0.6)",
+                                    zIndex: 1000
+                                },
+                                content: {
+                                    position: "absolute",
+                                    top: "50%",
+                                    left: "50%",
+                                    transform: "translate(-50%, -50%)",
+                                    width: "540px",
+                                    height: "200px",
+                                    borderRadius: "8px",
+                                    boxShadow: "rgba(0, 0, 0, 0.4) 0px 30px 90px",
+                                    overflow: "visible",
+                                },
+                            }}
+                        >
+                           
+                            <div className="bg-white rounded-lg max-w-md mx-auto p-4 relative">
+                                {/* Header with icon */}
+                                <div className="flex items-center">
+                                    <div className="rounded-full border border-gray-300 flex items-center justify-center w-16 h-16 flex-shrink-0 mx-auto md:mx-0">
+                                        <img src="/src/assets/image/alert.png" alt="" />
+                                    </div>
+                                    <div className="mt-4 text-center md:text-left md:ml-6">
+                                        <p className="font-bold text-lg">Rời nhóm</p>
+                                        <p className="text-sm text-gray-700 mt-1">
+                                            Bạn có chắc chắn muốn rời khỏi nhóm này không?
+                                        </p>
+                                    </div>
+                                </div>
+            
+                                {/* Footer with action buttons */}
+                                <div className="text-center md:text-right mt-4 flex flex-col md:flex-row justify-end gap-2">
+                                    <button onClick={() => onCloseConfirmOutGroup()}
+            
+                                        className="px-4 py-2 bg-gray-200 rounded-lg font-semibold text-sm"
+                                    >
+                                        Hủy
+                                    </button>
+                                    <button onClick={() => onOutGroup()}
+            
+                                        className="px-4 py-2 bg-red-500 text-white rounded-lg font-semibold text-sm"
+                                    >
+                                        Rời nhóm
+                                    </button>
+                                </div>
+                            </div>
+                        </Modal>
         </div>
     }
     return <div>

@@ -446,7 +446,7 @@ export default function TestCardComponent() {
                             <div className="mt-10">
 
 
-                                <Link to={`/my-decks/${params.id}/learn-cards/study`} className="cursor-pointer bg-[#2E3856] shadow h-32 rounded-lg p-4 flex gap-x-3">
+                                <Link to={`/my-decks/${params.id}/learn-cards/flip`} className="cursor-pointer bg-[#2E3856] shadow h-32 rounded-lg p-4 flex gap-x-3">
                                     <div className="w-16 flex items-center">
                                         <img src="/src/assets/image/replay.png" alt="" />
                                     </div>

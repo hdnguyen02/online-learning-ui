@@ -18,14 +18,10 @@ import DetailClass from "./component/DetailClass.jsx";
 import AddMember from "./component/AddMember";
 import CommentClass from "./component/CommentClass.jsx";
 import Assignments from "./component/Assignments.jsx";
-import AssignmentTeacher from "./page/AssignmentTeacher.jsx";
-import DetailAssignment from "./component/DetailAssignment.jsx";
-import Submits from "./component/Submits.jsx";
 import MembersAttendanceClass from "./component/MembersAttendanceClass.jsx";
 import GlobalGroup from "./page/GlobalGroup.jsx";
 import DetailGlobalGroup from "./page/DetailGlobalGroup.jsx";
 import GlobalGroups from "./page/GlobalGroups.jsx";
-import LearnCommonDeck from "./page/LearnCommonDeck.jsx";
 import Admin from "./page/Admin.jsx";
 import Statistics from "./component/admin/Statistics.jsx";
 import Cards from "./component/cards/Cards";
@@ -53,14 +49,13 @@ import FlipCardComponent from "feature/card/flip-card.component.jsx";
 import PrepareCommonCardComponent from "feature/common-card/prepare-common-card.component.jsx"; 
 import JoinCommonCardComponent from "feature/common-card/join-common-card.component.jsx"; 
 import TestCommonCardComponent from "feature/common-card/test-common-card.component.jsx"; 
+import LearnCommonDeck from "./page/LearnCommonDeck.jsx";
 function App() {
   return (
     <Router>
       <Navbar />
       <Routes>
         <Route element={<PrivateRoutes />}>
-
-
 
           <Route path="/admin" element={<Admin />}>
             <Route path="" element={<UsersTest />}/>
@@ -77,22 +72,11 @@ function App() {
             <Route path=":id" element={<DetailGlobalGroup />}></Route>
           </Route>
 
-          <Route path="/teacher/groups/:idClass/assignments/:idAssignment" element={<AssignmentTeacher />}>
-            <Route path="" element={<DetailAssignment />}>
-              {" "}
-            </Route>
-            <Route path="submits" element={<Submits />}>
-              {" "}
-            </Route>
-          </Route>
-
-          <Route path="/student/groups/:idClass/assignments/:idAssignment" element={<AssignmentTeacher />}>
-            <Route path="" element={<DetailAssignment />}/>
-          </Route>
-
+      
           {/* classes */}
           <Route path="/groups/common-decks/:id/learn-cards/join" element={<JoinCommonCardComponent />} />
           <Route path="/groups/common-decks/:id/learn-cards/test" element={<TestCommonCardComponent />} />
+          <Route path="/groups/common-decks/:id/learn-cards/flip" element={<LearnCommonDeck />} />
           <Route path="/groups" element={<ClassUser />}>
 
 
@@ -132,12 +116,11 @@ function App() {
           <Route path="/my-decks" element={<Deck />}>
             <Route path="" element={<Decks />} />
             <Route path=":id/learn-cards" element={<PrepareCardComponent />} />
-            {/* <Route path=":id/learn-cards/join" element={<JoinCardComponent />} /> */}
           </Route>
 
           <Route path="/my-decks/:id/learn-cards/join" element={<JoinCardComponent />} />
           <Route path="/my-decks/:id/learn-cards/test" element={<TestCardComponent />} />
-          <Route path="/my-decks/:id/learn-cards/study" element={<FlipCardComponent />} />
+          <Route path="/my-decks/:id/learn-cards/flip" element={<FlipCardComponent />} />
           <Route path="/my-cards" element={<Card />}>
             <Route path="" element={<Cards />} />
           </Route>

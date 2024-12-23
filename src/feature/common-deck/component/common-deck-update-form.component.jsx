@@ -9,7 +9,7 @@ import Slider from 'react-slick';
 import { useEffect } from "react";
 import { v4 as uuidv4 } from 'uuid'; // Import v4 từ thư viện uuid
 import { ToastContainer } from "react-toastify";
-import { handleActionResult, notification, showToastError, showToastMessage } from "../../../global";
+import { notification, showToastError, showToastMessage } from "../../../global";
 import Empty from "component/Empty";
 import commonDeckService from "service/common-deck.service";
 import { useLocation } from "react-router-dom";
@@ -567,7 +567,7 @@ const CommonDeckUpdateFormComponent = ({ getCommonDecks, isOPenUpdateCommonDeck,
                             </div>
 
                             <div className="my-6 flex justify-end mr-4">
-                                <button onClick={onAddCard} type="button" className="w-full flex gap-x-2 items-center justify-center hover:text-white border border-blue-700 hover:bg-blue-600 focus:outline-none font-medium rounded text-xs uppercase px-5 py-4 text-center">
+                                <button onClick={onAddCard} type="button" className="dark:border-white w-full flex gap-x-2 items-center justify-center hover:text-white border border-blue-700 dark:hover:border-none hover:bg-blue-600 focus:outline-none font-medium rounded text-xs uppercase px-5 py-3 text-center">
 
                                     <span>{t('ACTION.CREATE')}</span>
                                 </button>
@@ -688,7 +688,7 @@ const CommonDeckUpdateFormComponent = ({ getCommonDecks, isOPenUpdateCommonDeck,
                     },
                 }}
             >
-                <div className="flex gap-x-8 p-4 items-center">
+                <div className="flex gap-x-8 p-4 items-start">
                     <input
                         onKeyDown={onKeyDownTransferAudio}
                         value={queryTransferAudio}
@@ -699,7 +699,7 @@ const CommonDeckUpdateFormComponent = ({ getCommonDecks, isOPenUpdateCommonDeck,
                         <span>Hoặc tải lên audio của riêng bạn</span>
                     </button>
 
-                    <button onClick={onPlayAudio}>
+                    <button onClick={onPlayAudio} className="mt-2">
                         <img src="/src/assets/image/volume.png" alt="" />
                     </button>
                 </div>

@@ -115,7 +115,7 @@ const ShareModal = ({ idDeckShare, isOpen, onClose }) => {
                   onChange={handleSelectAllOwned}
                   className="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
                 />
-                <span className="ml-2 text-lg font-medium text-gray-700">Nhóm học tập của bạn</span>
+                <span className="ml-2 text-lg font-medium text-gray-700">Nhóm của bạn</span>
               </div>
 
               <div className="space-y-3">
@@ -147,7 +147,7 @@ const ShareModal = ({ idDeckShare, isOpen, onClose }) => {
                   onChange={handleSelectAllParticipated}
                   className="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
                 />
-                <span className="ml-2 text-lg font-medium text-gray-700">Nhóm học tập bạn tham gia</span>
+                <span className="ml-2 text-lg font-medium text-gray-700">Nhóm tham gia</span>
               </div>
 
               <div className="space-y-3">

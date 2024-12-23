@@ -63,7 +63,7 @@ export default function PrepareCardComponent() {
                     <i className="fa-brands fa-elementor  text-[#4255FF] text-3xl"></i>
                         <span className="text-gray-800 font-medium">Kiểm tra</span>
                     </Link>
-                    <Link to={`/my-decks/${params.id}/learn-cards/study`} className="bg-[#F6F7FB] dark:bg-[#2E3856] py-6 px-16 flex items-center flex-col gap-y-2 rounded-lg cursor-pointer">
+                    <Link to={`/my-decks/${params.id}/learn-cards/flip`} className="bg-[#F6F7FB] dark:bg-[#2E3856] py-6 px-16 flex items-center flex-col gap-y-2 rounded-lg cursor-pointer">
                     <i className="fa-solid fa-file-import text-[#4255FF] text-3xl"></i>
                         <span className="text-gray-800 font-medium">Thẻ ghi nhớ</span>
                     </Link>

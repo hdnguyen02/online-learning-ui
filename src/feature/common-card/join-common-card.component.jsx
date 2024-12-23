@@ -253,7 +253,7 @@ export default function JoinCommonCardComponent() {
                     onClick={onOpenSetting}
                     className={`border py-2 px-3 rounded-lg ${isStart ? "cursor-not-allowed opacity-50 text-white" : "text-white"}`}
                 >Tùy chọn</button>
-                <Link to={`/my-decks/${params.id}/learn-cards`} className="border py-2 rounded-lg px-4"><i className="fa-solid fa-xmark text-white"></i></Link>
+                <Link to={`/groups/common-decks/${params.id}/learn-cards`} className="border py-2 rounded-lg px-4"><i className="fa-solid fa-xmark text-white"></i></Link>
             </div>
 
         </div>

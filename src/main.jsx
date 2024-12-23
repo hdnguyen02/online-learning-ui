@@ -10,10 +10,8 @@ import './i18n'; // import file i18n.js
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <AuthProvider>
-    <YourLiblaryProvider>
-      <DeckProvider>
+
         <App />
-      </DeckProvider>
-    </YourLiblaryProvider>
+
   </AuthProvider>
 )

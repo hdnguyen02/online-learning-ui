@@ -35,12 +35,13 @@ export default function MembersOwnerClass() {
 
 
 
-  const onDeleteUserGroup = async (id) => { 
-    const subUrl = `/user-groups/${id}`;
+  const onDeleteUserGroup = async () => { 
+    const subUrl = `/user-groups/${idMemberDelete}`;
     try {
       const { message } = await fetchData(subUrl, 'DELETE');
       await getMembers();
       showToastMessage(message);
+      onCloseConfirmMemberDelete(); 
     }
     catch ({ message }) {
       showToastError(message);
@@ -90,10 +91,24 @@ export default function MembersOwnerClass() {
     getMembers()
   }, []);
 
+
+  const [idMemberDelete, setIdMemberDelete] = useState();
+  const [isOpenConfirmMemberDelete, setIsOpenConfirmMemberDelete] = useState(false); 
+
+  const onOpenConfirmMemberDelete = (id) => { 
+    setIdMemberDelete(id); 
+    setIsOpenConfirmMemberDelete(true); 
+  }
+
+  const onCloseConfirmMemberDelete = () => { 
+    setIsOpenConfirmMemberDelete(false); 
+  }
+
   return (
 
-    userGroups && (
+    userGroups && ( 
       <div>
+        
         <div className="flex justify-end">
 
             <button onClick={() => setIsOpenModalInviteUser(true)} type="button" className="dark:border-white dark:text-white flex gap-x-2 items-center text-blue-700 border border-blue-700 focus:outline-none font-medium rounded-lg text-sm px-5 py-2 text-center">
@@ -132,6 +147,61 @@ export default function MembersOwnerClass() {
           </form>
         </Modal>
 
+
+        <Modal
+                                    isOpen={isOpenConfirmMemberDelete}
+                                    onRequestClose={onCloseConfirmMemberDelete}
+                                    style={{
+                                        overlay: {
+                                            backgroundColor: "rgba(0, 0, 0, 0.6)",
+                                            zIndex: 1000
+                                        },
+                                        content: {
+                                            position: "absolute",
+                                            top: "50%",
+                                            left: "50%",
+                                            transform: "translate(-50%, -50%)",
+                                            width: "540px",
+                                            height: "240px",
+                                            borderRadius: "8px",
+                                            boxShadow: "rgba(0, 0, 0, 0.4) 0px 30px 90px",
+                                            overflow: "visible",
+                                        },
+                                    }}
+                                >
+                                   
+                                    <div className="bg-white rounded-lg max-w-md mx-auto p-4 relative">
+                                        {/* Header with icon */}
+                                        <div className="flex items-center">
+                                            <div className="rounded-full border border-gray-300 flex items-center justify-center w-16 h-16 flex-shrink-0 mx-auto md:mx-0">
+                                                <img src="/src/assets/image/alert.png" alt="" />
+                                            </div>
+                                            <div className="mt-4 text-center md:text-left md:ml-6">
+                                                <p className="font-bold text-lg">Xóa thành viên</p>
+                                                <p className="text-sm text-gray-700 mt-1">
+                                                Bạn có chắc chắn muốn xóa thành viên này khỏi nhóm học tập không? Họ sẽ mất quyền truy cập vào tất cả nội dung và tài nguyên của nhóm học tập
+                                                </p>
+                                            </div>
+                                        </div>
+                    
+                                        {/* Footer with action buttons */}
+                                        <div className="text-center md:text-right mt-4 flex flex-col md:flex-row justify-end gap-2">
+                                            <button onClick={() => onCloseConfirmMemberDelete()}
+                    
+                                                className="px-4 py-2 bg-gray-200 rounded-lg font-semibold text-sm"
+                                            >
+                                                Hủy
+                                            </button>
+                                            <button onClick={() => onDeleteUserGroup()}
+                    
+                                                className="px-4 py-2 bg-red-500 text-white rounded-lg font-semibold text-sm"
+                                            >
+                                                Xóa thành viên
+                                            </button>
+                                        </div>
+                                    </div>
+                                </Modal>
+
         {userGroups.length != 0 ? (
           <div className="mb-8 grid grid-cols-2 gap-8">
             {userGroups.map((userGroup, index) => (
@@ -152,7 +222,7 @@ export default function MembersOwnerClass() {
                   </div>
                 </div>
                 <div className="flex gap-x-2 items-center">
-                  <button onClick={() => onDeleteUserGroup(userGroup.id)}>
+                  <button onClick={() => onOpenConfirmMemberDelete(userGroup.id)}>
                     <img
                       src="/src/assets/image/delete.png"
                       className="w-4 h-4"

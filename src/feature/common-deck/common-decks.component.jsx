@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import Modal from "react-modal";
 import {
   fetchData,
@@ -169,12 +169,30 @@ export default function CommonDecksComponent() {
   }   
 
   const navigate = useNavigate(); 
-  const onOpenLearnCommonDeck = (id) => { 
-    navigate( `/groups/common-decks/${id}/learn-cards`);
+  const onOpenLearnCommonDeck = (id, quantityCard) => { 
+
+    if (quantityCard == 0) { 
+      toast.info('Không có thẻ nào trong bộ thẻ!', {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
+      // Hiển thị thông báo lên. 
+    }
+    else { 
+      navigate( `/groups/common-decks/${id}/learn-cards`);
+    }
+    
+    
   }
   return (
     <div>
-
 <Modal
         isOpen={isOpenDeleteCommonDeck}
         onRequestClose={onCloseDeleteCommonDeck}
@@ -196,7 +214,7 @@ export default function CommonDecksComponent() {
       >
        
         <div className="bg-white rounded-lg max-w-md mx-auto p-4 relative">
-   
+
           <div className="flex items-center">
             <div className="rounded-full border border-gray-300 flex items-center justify-center w-16 h-16 flex-shrink-0 mx-auto md:mx-0">
               <img src="/src/assets/image/alert.png" alt="" />
@@ -245,7 +263,7 @@ export default function CommonDecksComponent() {
         isOPenUpdateCommonDeck={isOPenUpdateCommonDeck}
       />
 
-      {location.pathname.includes("owner") && (
+    
         <div className="flex justify-end">
           {/* <button className="mb-4">
             <img
@@ -261,7 +279,6 @@ export default function CommonDecksComponent() {
             <span>{t('ACTION.CREATE')}</span>
           </button> 
         </div>
-      )}
 
 
       {commonDecks ? (
@@ -306,7 +323,7 @@ export default function CommonDecksComponent() {
                   <span className="underline">Detail</span>
                 </button>
 
-                <button onClick={() => onOpenLearnCommonDeck(commonDeck.id)} className="text-sm leading-6 text-gray-900">
+                <button onClick={() => onOpenLearnCommonDeck(commonDeck.id, commonDeck.quantityCards)} className="text-sm leading-6 text-gray-900">
                   <span className="underline dark:text-white">Ôn tập</span>
                 </button>
               </div>
